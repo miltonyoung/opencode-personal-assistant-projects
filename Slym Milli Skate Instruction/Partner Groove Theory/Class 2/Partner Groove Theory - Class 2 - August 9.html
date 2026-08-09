@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛼 Partner Groove Theory — Class 2 - August 9</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+        :root {
+            --pink: #FF6B9D;
+            --purple: #9B59B6;
+            --blue: #3498DB;
+            --teal: #1ABC9C;
+            --orange: #FF9F43;
+            --yellow: #F1C40F;
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            max-width: 220mm;
+            margin: 0 auto;
+            padding: 15mm;
+            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 50%, #FAD0C4 100%);
+            min-height: 100vh;
+        }
+
+        .page {
+            background: white;
+            border-radius: 24px;
+            padding: 30px 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: var(--purple);
+            font-size: 2.4em;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0px rgba(155,89,182,0.15);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--pink);
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: white;
+            background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%);
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(155,89,182,0.3);
+        }
+
+        h3 {
+            color: var(--purple);
+            font-size: 1.15em;
+            margin-top: 22px;
+            padding-bottom: 6px;
+            border-bottom: 3px dotted var(--pink);
+        }
+
+        h4 { color: var(--blue); font-size: 1em; margin-top: 18px; }
+
+        ul, ol { padding-left: 28px; }
+        li { margin-bottom: 8px; }
+        ul li::marker { color: var(--pink); font-size: 1.1em; }
+        ol li::marker { color: var(--purple); font-weight: 700; font-size: 1.1em; }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 14px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        th, td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid #eee; }
+        th {
+            background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+            color: white;
+            font-weight: 700;
+        }
+        tr:nth-child(even) { background-color: #FCF4FF; }
+        tr:last-child td { border-bottom: none; }
+
+        .info-card {
+            background: linear-gradient(135deg, #FFF5F8 0%, #F0E6FF 100%);
+            border-left: 5px solid var(--pink);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 22px;
+        }
+        .info-card ul { margin: 0; padding-left: 22px; }
+
+        .note-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFECD1 100%);
+            border-left: 5px solid var(--orange);
+            border-radius: 14px;
+            padding: 16px 22px;
+            margin: 20px 0;
+        }
+        .note-box ul { margin: 0; padding-left: 22px; }
+
+        .part-box {
+            background: #FAFAFF;
+            border: 2px solid #E8E0FF;
+            border-radius: 16px;
+            padding: 22px;
+            margin: 18px 0;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #FFE5F0 0%, #FFE5F0 100%);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .time-tag {
+            display: inline-block;
+            background: var(--teal);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .purpose {
+            background: linear-gradient(135deg, #E8F8F5 0%, #D5F4E6 100%);
+            border-left: 5px solid var(--teal);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin: 14px 0;
+        }
+
+        blockquote {
+            background: linear-gradient(135deg, #FFF4E6 0%, #FFE8CC 100%);
+            border-left: 5px solid var(--orange);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin: 14px 0;
+            font-style: italic;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 3px dotted var(--pink);
+            color: var(--purple);
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        @media screen and (min-width: 1024px) {
+            body { padding: 18mm; }
+            .page { padding: 40px 45px; }
+            h1 { font-size: 2.8em; }
+            h2 { font-size: 1.5em; }
+            table { font-size: 15px; }
+        }
+
+        @media screen and (max-width: 768px) {
+            body { padding: 10mm; }
+            .page { padding: 22px 24px; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.15em; padding: 10px 14px; }
+            .time-tag { display: inline-block; margin-top: 6px; margin-left: 0; }
+            table { font-size: 13px; }
+            th, td { padding: 8px 10px; }
+        }
+
+        @media screen and (max-width: 480px) {
+            body { padding: 0; background: white; }
+            .page { border-radius: 0; padding: 18px 16px; box-shadow: none; }
+            h1 { font-size: 1.7em; }
+            .subtitle { font-size: 1em; }
+            h2 { font-size: 1.05em; padding: 10px 12px; border-radius: 10px; }
+            h3 { font-size: 1em; }
+            h4 { font-size: 0.95em; }
+            ul, ol { padding-left: 20px; }
+            li { margin-bottom: 6px; font-size: 0.95em; }
+            .time-tag { font-size: 0.75em; padding: 2px 8px; }
+            .part-box { padding: 14px; border-radius: 12px; }
+            table { font-size: 12px; }
+            th, td { padding: 6px 8px; }
+            .footer { font-size: 1em; }
+        }
+
+        @media print {
+            body { background: white; padding: 8mm; }
+            .page { box-shadow: none; border-radius: 0; padding: 0; }
+            h2 { page-break-after: avoid; }
+            .part-box, table { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h1>🛼 Partner Groove Theory 🛼</h1>
+        <p class="subtitle">August 9 Class Plan — Connection, Travel &amp; STL Backward ✨</p>
+
+        <div class="info-card">
+            <h2 style="margin-top: 0;">📋 Class Info</h2>
+            <ul>
+                <li><strong>📅 Date:</strong> August 9</li>
+                <li><strong>⏰ Time:</strong> 4:00pm – 5:30pm (5:40pm if optional backward skating is used)</li>
+                <li><strong>📍 Location:</strong> Arizona Circus Center</li>
+                <li><strong>🎯 Level:</strong> Intermediate</li>
+                <li><strong>💡 Focus:</strong> Non-stationary partner movement</li>
+                <li><strong>🎓 Theme:</strong> Connection, frame, forward gliding, traveling turns, and STL backward skating</li>
+            </ul>
+        </div>
+
+        <h2>🗺️ Class Flow Summary</h2>
+        <table>
+            <tr><th>Section</th><th>Time</th><th>Duration</th></tr>
+            <tr><td>---</td><td>---</td><td>---</td></tr>
+            <tr><td>Active Sock-Skating Warm-Up</td><td>4:00 – 4:05</td><td>5 min</td></tr>
+            <tr><td>Introductions</td><td>4:05 – 4:08</td><td>3 min</td></tr>
+            <tr><td>Static Stretching</td><td>4:08 – 4:18</td><td>10 min</td></tr>
+            <tr><td>Skate Up + Roll Around the Floor</td><td>4:18 – 4:23</td><td>5 min</td></tr>
+            <tr><td>Class 1 Review: Push-Pull + Stationary Turns + STL Ballroom</td><td>4:23 – 4:33</td><td>10 min</td></tr>
+            <tr><td>Intro to Forward Gliding</td><td>4:33 – 4:43</td><td>10 min</td></tr>
+            <tr><td>Skating Forward Together in Partner Position Around a Large Circle</td><td>4:43 – 5:03</td><td>20 min</td></tr>
+            <tr><td>Traveling Turns / Moving Around the Circle</td><td>5:03 – 5:13</td><td>10 min</td></tr>
+            <tr><td>Static Cool-Down Stretch</td><td>5:13 – 5:18</td><td>5 min</td></tr>
+            <tr><td>Open Practice + Short Rotating Feedback</td><td>5:18 – 5:25</td><td>7 min</td></tr>
+            <tr><td>Cleanup</td><td>5:25 – 5:30</td><td>5 min</td></tr>
+            <tr><td>STL Style Backward Skating (optional, if time permits)</td><td>5:30 – 5:40</td><td>10 min</td></tr>
+        </table>
+        <p style="text-align: center; font-size: 1.1em; color: var(--purple);"><strong>⏱️ Total: 90 minutes (100 minutes with optional backward skating)</strong></p>
+
+        <div class="note-box">
+            <h3 style="margin-top: 0; border: none;">⚠️ Instructor Reminders</h3>
+            <ul>
+                <li>Keep talking segments under 60 seconds.</li>
+                <li>Use song changes as transition cues.</li>
+                <li>Demonstrate 3 levels of every pattern.</li>
+                <li>Pull newest skaters aside during advanced progressions.</li>
+                <li>Apply one student's correction to the whole class when relevant.</li>
+                <li>Call partner switches explicitly and often.</li>
+                <li>Finish the base class exactly at 5:30 PM with cleanup.</li>
+                <li>If using optional backward skating, finish at 5:40 PM.</li>
+            </ul>
+        </div>
+
+        <h2> Pre-Class Notes <span class="time-tag"></span></h2>
+        <div class="part-box">
+<ul>
+<li>Keep talking segments under 60 seconds; students should be moving while listening whenever possible.</li>
+<li>Use song changes as transition cues.</li>
+<li>Demonstrate 3 levels of every pattern and let students self-select.</li>
+<li>During advanced work, pull newest skaters aside for foundational/simplified variations.</li>
+<li>When one correction applies to many, have the whole class practice it together.</li>
+<li>Partner switching is woven throughout — never leave students in one partnership too long.</li>
+<li>Move first, explain mechanics second.</li>
+</ul>
+        </div>
+        <h2>🧦 Active Sock-Skating Warm-Up <span class="time-tag">4:00 – 4:05 (5 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Warm up legs actively before static stretching. Reinforce skating fundamentals, balance transitions, and pushing through the feet.</div>
+<ol>
+<li><strong>Sock skate down and back</strong> — continuous mindful skating walk.<br>Push diagonally to the side. · Close the gap. · Transfer weight fully onto the opening foot. · Call direction changes every 30–60 seconds.</li>
+</ol>
+<ol>
+<li><strong>Lateral sliding down and back</strong> — open one leg by sliding it out to the side, then slide the other leg closed.<br>Keep knees soft and core engaged. · Focus on lateral hip mobility and controlled weight transfer.</li>
+</ol>
+<ol>
+<li><strong>Move backward down and back</strong> — one foot at a time.<br>Shift weight deliberately. · Keep knees soft and core engaged.</li>
+</ol>
+<ol>
+<li><strong>Sock-skate pivots</strong> — light toe-heel pivots on the floor.<br>Small range of motion. · Focus on warming ankles, knees, and hips.</li>
+</ol>
+        </div>
+        <h2>👋 Introductions <span class="time-tag">4:05 – 4:08 (3 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Welcome everyone, set the tone, and briefly preview the class focus.</div>
+<ol>
+<li>Welcome students by name if possible.</li>
+<li>Quick round-robin: name, favorite part of Class 1, one goal for today.</li>
+<li>Preview: today we move. Less talking, more skating.</li>
+<li>Remind students to switch partners whenever instructor calls it.</li>
+</ol>
+        </div>
+        <h2>🧘 Static Stretching <span class="time-tag">4:08 – 4:18 (10 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Stretch warm muscles safely before putting on skates. Keep it focused and moving.</div>
+<div class="purpose"><strong>📱 Note:</strong> These stretches are tracked in the <strong>Bend</strong> app; the list below is also documented here for class reference.</div>
+<ol>
+<li>Ankle circles.</li>
+<li>Knee circles.</li>
+<li>Hip circles.</li>
+<li>Shoulder rolls.</li>
+<li>Neck roll.</li>
+<li>Heel-to-toe rocks.</li>
+<li>Hamstring scoops.</li>
+<li>Lunge.</li>
+<li>Side lunge.</li>
+<li>Arm swings.</li>
+<li>Three deep breaths, raising arms on the inhale and lowering on the exhale.</li>
+</ol>
+        </div>
+        <h2>🛼 Skate Up + Roll Around the Floor <span class="time-tag">4:18 – 4:23 (5 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Give students time to put on skates and transition into movement immediately.</div>
+<ul>
+<li>Students put on skates at their own pace.</li>
+<li>As soon as skated, begin rolling around the floor.</li>
+<li>Instructor circulates and gives light reminders about stride fundamentals.</li>
+<li>No formal instruction yet — just movement and reset into the skating body.</li>
+</ul>
+        </div>
+        <h2>🔄 Class 1 Review: Push-Pull + Stationary Turns + STL Ballroom <span class="time-tag">4:23 – 4:33 (10 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Revisit Class 1 fundamentals quickly, keep students switching partners, and end with a full STL ballroom demo/attempt.</div>
+<ol>
+<li><strong>Push-Pull demo</strong> — 30 sec<br>Lead offers gentle pressure forward; follow matches it. · Reverse: lead pulls back; follow yields without collapsing frame.</li>
+</ol>
+<ol>
+<li><strong>Push-Pull practice</strong> — 1.5 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch + Push-Pull practice</strong> — 1.5 min</li>
+</ol>
+<ol>
+<li><strong>Turn 1: Pull-Through demo</strong> — 30 sec<br>Lead pulls follow through a simple stationary turn. · Maintain connection through the hand/arm frame.</li>
+</ol>
+<ol>
+<li><strong>Turn 1 practice</strong> — 1.5 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch + Turn 1 practice</strong> — 1.5 min</li>
+</ol>
+<ol>
+<li><strong>Turn 2: Pull-Through + Reverse Catch demo</strong> — 30 sec<br>Lead pulls follow through; follow turns back the other way and lead catches.</li>
+</ol>
+<ol>
+<li><strong>Turn 2 practice (30 sec per partner)</strong> — 1 min</li>
+</ol>
+<ol>
+<li><strong>Turn 3: Pull-Through Behind the Back demo</strong> — 30 sec<br>Lead passes the follow’s hand behind their own back; follow turns underneath.</li>
+</ol>
+<ol>
+<li><strong>Turn 3 practice (30 sec per partner)</strong> — 1 min<br>Beginners may spend extra time here on simplified versions.</li>
+</ol>
+<ol>
+<li><strong>STL Ballroom full demo + attempt + Q&A</strong> — 1.5 min<br>Demo the full STL ballroom look/feel at real speed. · Students attempt with current partner. · One key takeaway, then transition.</li>
+</ol>
+        </div>
+        <h2>➡️ Intro to Forward Gliding <span class="time-tag">4:33 – 4:43 (10 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Build the foundation for non-stationary partner movement by teaching smooth, controlled solo forward gliding.</div>
+<h4>Setup</h4>
+<ul>
+<li>All work is solo today. Partner connection will come in the next section.</li>
+<li>Find Level 3–4 stance (athletic but relaxed).</li>
+<li>Weight shifts 0–100% from foot to foot.</li>
+</ul>
+<h4>Drill Progression</h4>
+<ol>
+<li><strong>Solo glide down and back</strong> — push, hold the glide, close.<br>2.5 min</li>
+</ol>
+<ol>
+<li><strong>Add a slight sway/rock</strong> — let the upper body float over the legs.<br>2.5 min</li>
+</ol>
+<ol>
+<li><strong>Longer solo glide with tempo changes</strong> — speed up and slow down while staying balanced.<br>2.5 min</li>
+</ol>
+<ol>
+<li><strong>Solo glide with direction changes</strong> — gentle turns and curves while gliding.<br>2.5 min</li>
+</ol>
+<h4>Three Levels</h4>
+<ul>
+<li><strong>Level 1 (Beginner):</strong> Small pushes, frequent ground contact, use a wall lightly for stability.</li>
+<li><strong>Level 2 (Intermediate):</strong> Longer glides, relaxed upper body, consistent tempo.</li>
+<li><strong>Level 3 (Advanced):</strong> Add a small manual, edge roll, or direction change while gliding.</li>
+</ul>
+        </div>
+        <h2>🌀 Skating Forward Together in Partner Position Around a Large Circle <span class="time-tag">4:43 – 5:03 (20 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Develop partner awareness, pacing, and body control while moving together around a large circle.</div>
+<h4>Setup</h4>
+<ul>
+<li>Form pairs on the inside edge of a large circle.</li>
+<li>Partners face the same direction, side by side.</li>
+<li>Start with no contact and build connection gradually.</li>
+</ul>
+<h4>Drill Progression</h4>
+<ol>
+<li><strong>Walk it first</strong> — slow, deliberate steps around the circle.<br>1 min</li>
+</ol>
+<ol>
+<li><strong>Step 1: Side by side, no touching</strong><br>Match each other’s pace. · Try to hit the ground at the same time with each foot. · 3 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch</strong><br>1 min</li>
+</ol>
+<ol>
+<li><strong>Step 2: Hold hands</strong><br>Same pacing and foot-timing goal, now with a light hand connection. · 3 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch</strong><br>1 min</li>
+</ol>
+<ol>
+<li><strong>Step 3: Glide together</strong><br>Hold the glide side by side; match tempo and spacing. · 3 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch</strong><br>1 min</li>
+</ol>
+<ol>
+<li><strong>Step 4: Hold each other’s waist</strong><br>Maintain close but relaxed frame; keep feet and glide synchronized. · 3 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch</strong><br>1 min</li>
+</ol>
+<ol>
+<li><strong>Step 5: Put a leg in front of partner and sway back and forth</strong><br>One partner places a leg in front of the other; both sway together in rhythm. · Switch roles halfway through if comfortable. · 3 min</li>
+</ol>
+<ol>
+<li><strong>Final partner switch + common correction</strong><br>1 min</li>
+</ol>
+        </div>
+        <h2>🔄 Traveling Turns / Moving Around the Circle <span class="time-tag">5:03 – 5:13 (10 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Transfer stationary turn mechanics into moving, non-stationary partner turns around the floor.</div>
+<h4>Setup</h4>
+<ul>
+<li>Same large circle as previous section.</li>
+<li>Partners move forward together around the circle.</li>
+</ul>
+<h4>Drill Progression</h4>
+<ol>
+<li><strong>Traveling stepover turn</strong> — step the outside foot over the inside foot while rolling; switch weight cleanly.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Traveling pull-through turn</strong> — lead initiates a gentle pull; follow turns under the arm while both keep rolling.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch + repeat</strong> — 1.5 min</li>
+</ol>
+<ol>
+<li><strong>Traveling behind-the-back pull-through</strong> — slower tempo, smaller circle.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch + repeat</strong> — 1.5 min</li>
+</ol>
+<ol>
+<li><strong>Open travel practice with instructor float</strong> — students mix turns freely while instructor circulates.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Common correction + whole-class reset</strong> — 1 min</li>
+</ol>
+<h4>Three Levels</h4>
+<ul>
+<li><strong>Level 1 (Beginner):</strong> Stick to simple stepover turns; keep both hands available for balance.</li>
+<li><strong>Level 2 (Intermediate):</strong> Add the pull-through with one-hand connection.</li>
+<li><strong>Level 3 (Advanced):</strong> Add the behind-the-back variation and speed changes.</li>
+</ul>
+        </div>
+        <h2>⬅️ STL Style Backward Skating (Optional) <span class="time-tag">5:13 – 5:23 (10 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Introduce the backward skating element of the STL ballroom style in a controlled, progressive way.</div>
+<div class="purpose"><strong>📱 Note:</strong> <strong>Note:</strong> This section is optional. Use only if the partner forward work and traveling turns finish on time and the class is ready for more.</div>
+<h4>Setup</h4>
+<ul>
+<li>Use a wall or partner for stability at first.</li>
+<li>🦵 Knees bent, weight over the balls of the feet.</li>
+<li>Small, deliberate backward pushes.</li>
+</ul>
+<h4>Drill Progression</h4>
+<ol>
+<li><strong>Solo backward walk along the wall</strong> — short steps, feel edges.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Solo backward glide off the wall</strong> — push, glide, close.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Partner backward-to-backward facing drill</strong> — partners face each other, hold hands, one skates backward while the other skates forward; switch roles.<br>2 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch + repeat</strong> — 2 min</li>
+</ol>
+<ol>
+<li><strong>Add a backward pivot / half-turn</strong> — roll backward, pivot 180° to forward, roll forward; repeat.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Try a short STL sequence: forward travel → backward travel → turn</strong> — low pressure, instructor demos first.<br>1.5 min</li>
+</ol>
+<h4>Three Levels</h4>
+<ul>
+<li><strong>Level 1 (Beginner):</strong> Stay at the wall or hold both partner hands; prioritize balance and control.</li>
+<li><strong>Level 2 (Intermediate):</strong> Skate backward with one-hand or no-hand connection.</li>
+<li><strong>Level 3 (Advanced):</strong> Add backward glides with transitions and connection changes.</li>
+</ul>
+        </div>
+        <h2>🌙 Static Cool-Down Stretch <span class="time-tag">5:13 – 5:18 (5 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Structured recovery and muscle safety at the end of class.</div>
+<ol>
+<li>Calf stretches.</li>
+<li>Hip flexor stretches.</li>
+<li>Hamstring stretch.</li>
+<li>Quad stretch.</li>
+<li>Ankle circles.</li>
+<li>Deep breath and class close.</li>
+</ol>
+        </div>
+        <h2>🎬 Open Practice + Short Rotating Feedback <span class="time-tag">5:18 – 5:25 (7 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Keep students moving after cool-down and give everyone at least one quick coaching touch.</div>
+<ol>
+<li>Students free-skate, practicing forward glides, circle travel, turns, and backward work.</li>
+<li>Instructor pulls students/pairs aside one at a time for 30–45 seconds of targeted feedback.</li>
+<li>When a common correction appears, pause the whole group, demonstrate, and have everyone practice it together for 60 seconds.</li>
+<li>Song change signals the last 60 seconds of open practice.</li>
+</ol>
+        </div>
+        <h2>🧹 Cleanup <span class="time-tag">5:25 – 5:30 (5 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Transition out of class mode and leave the floor tidy.</div>
+<ol>
+<li>Ask students to start removing skates and gathering personal items.</li>
+<li>Quick floor check: cones, markers, water bottles, trash.</li>
+<li>Brief thank-you and reminder about upcoming classes or events.</li>
+<li>Instructor available for quick questions while packing up.</li>
+</ol>
+        </div>
+        <h2>⬅️ STL Style Backward Skating (Optional) <span class="time-tag">5:30 – 5:40 (10 min)</span></h2>
+        <div class="part-box">
+<div class="purpose"><strong>🎯 Purpose:</strong>  Introduce the backward skating element of the STL ballroom style in a controlled, progressive way.</div>
+<div class="purpose"><strong>📱 Note:</strong> <strong>Note:</strong> This section is optional. Use only if the base class finishes on time and the group is ready for more.</div>
+<h4>Setup</h4>
+<ul>
+<li>Use a wall or partner for stability at first.</li>
+<li>🦵 Knees bent, weight over the balls of the feet.</li>
+<li>Small, deliberate backward pushes.</li>
+</ul>
+<h4>Drill Progression</h4>
+<ol>
+<li><strong>Solo backward walk along the wall</strong> — short steps, feel edges.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Solo backward glide off the wall</strong> — push, glide, close.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Partner backward-to-backward facing drill</strong> — partners face each other, hold hands, one skates backward while the other skates forward; switch roles.<br>2 min</li>
+</ol>
+<ol>
+<li><strong>Partner switch + repeat</strong> — 2 min</li>
+</ol>
+<ol>
+<li><strong>Add a backward pivot / half-turn</strong> — roll backward, pivot 180° to forward, roll forward; repeat.<br>1.5 min</li>
+</ol>
+<ol>
+<li><strong>Try a short STL sequence: forward travel → backward travel → turn</strong> — low pressure, instructor demos first.<br>1.5 min</li>
+</ol>
+<h4>Three Levels</h4>
+<ul>
+<li><strong>Level 1 (Beginner):</strong> Stay at the wall or hold both partner hands; prioritize balance and control.</li>
+<li><strong>Level 2 (Intermediate):</strong> Skate backward with one-hand or no-hand connection.</li>
+<li><strong>Level 3 (Advanced):</strong> Add backward glides with transitions and connection changes.</li>
+</ul>
+        </div>
+        <h2> Instructor Reminders <span class="time-tag"></span></h2>
+        <div class="part-box">
+<ul>
+<li>Move first, explain mechanics second.</li>
+<li>Never let students stand still for more than 60 seconds.</li>
+<li>Use song changes as cues.</li>
+<li>When correcting one pair, apply the fix to the whole class if relevant.</li>
+<li>Pull newest skaters aside during advanced progressions.</li>
+<li>Call partner switches explicitly and often.</li>
+<li>Finish the base class exactly at 5:30 PM with cleanup.</li>
+<li>If using optional backward skating, finish at 5:40 PM.</li>
+</ul>
+        </div>
+
+        <div class="footer">
+            🛼 Move first, explain second — keep them rolling! 🛼
+        </div>
+    </div>
+</body>
+</html>
