@@ -1,21 +1,24 @@
 # GenIdem Project Context
 
-This file provides always-on context for any OpenCode session inside the `GenIdem Business Plan` directory or when the user mentions GenIdem.
+The canonical continuation instructions for GenIdem now live in the Jarvis skill at:
+
+`/home/milton/Documents/opencode-personal-assistant/.opencode/skills/genidem/SKILL.md`
+
+This file remains as lightweight context for non-Jarvis agents or OpenCode sessions started directly inside this folder.
+
+## Project Directory
+
+The GenIdem business plan documents are located at:
+
+`/home/milton/Documents/opencode-personal-assistant-projects/GenIdem Business Plan/`
 
 ## Auto-Load Trigger
 
-When the user says anything like the following, the assistant should treat it as a request to continue working on the GenIdem business plan:
-
-- "continue working on GenIdem"
-- "let's work on GenIdem"
-- "GenIdem business plan"
-- "GenIdem"
-- "photo booth business"
-- "Milton and Idara business"
+When the user mentions GenIdem, the photo booth business, or Milton and Idara's partnership, load the Jarvis GenIdem skill above. If Jarvis is not the active agent, use the rules below as a fallback.
 
 ## First Action on Trigger
 
-1. Read `/Users/milton/Documents/GenIdem Business Plan/00-start-here.md`.
+1. Read `/home/milton/Documents/opencode-personal-assistant-projects/GenIdem Business Plan/00-start-here.md`.
 2. Ask the user what they want to work on next.
 3. Do not make assumptions about Idara Ekpoh's preferences or decisions without confirming.
 
