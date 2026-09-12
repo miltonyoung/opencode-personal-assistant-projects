@@ -18,59 +18,97 @@
     body {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       color: #1a1a1a;
-      background: #f7f7f7;
+      background: #ffffff;
       line-height: 1.35;
     }
 
     .page {
       width: 8.5in;
       height: 11in;
-      padding: 0.48in 0.55in 0.85in 0.55in;
+      padding: 0;
       background: #ffffff;
-      position: relative;
       overflow: hidden;
-    }
-
-    .accent {
-      color: #d92b4b;
-    }
-
-    .brand-bar {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      border-bottom: 4px solid #d92b4b;
-      padding-bottom: 0.14in;
-      margin-bottom: 0.22in;
+      flex-direction: column;
+    }
+
+    .hero {
+      background: #1a1a1a;
+      color: #ffffff;
+      padding: 0.5in 0.6in 0.42in;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -14px;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: #d92b4b;
+      transform: skewY(-1.2deg);
     }
 
     .brand-name {
-      font-size: 38pt;
+      font-size: 36pt;
       font-weight: 900;
-      letter-spacing: -0.5px;
-      line-height: 1;
+      letter-spacing: -0.8px;
+      line-height: 0.95;
+      color: #ff5a75;
+      margin-bottom: 0.06in;
     }
 
     .brand-tagline {
-      font-size: 12pt;
-      font-weight: 600;
+      font-size: 13pt;
+      font-weight: 700;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #444;
+      color: #ffccd5;
     }
 
     .intro {
-      font-size: 15.5pt;
+      font-size: 14.5pt;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-top: 0.28in;
+      max-width: 6.8in;
+    }
+
+    .content {
+      flex: 1;
+      padding: 0.45in 0.6in 0.35in;
+      display: flex;
+      flex-direction: column;
+      gap: 0.28in;
+    }
+
+    .mission-box {
+      background: linear-gradient(135deg, #fff0f2 0%, #ffe4e8 100%);
+      border-left: 6px solid #d92b4b;
+      padding: 0.22in 0.28in;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .mission-label {
+      font-size: 9.5pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #d92b4b;
+      margin-bottom: 0.05in;
+    }
+
+    .mission-text {
+      font-size: 13pt;
       font-weight: 700;
-      line-height: 1.32;
-      margin-bottom: 0.22in;
-      color: #111;
+      line-height: 1.35;
+      color: #1a1a1a;
     }
 
     .columns {
       display: flex;
-      gap: 0.22in;
-      margin-bottom: 0.22in;
+      gap: 0.35in;
     }
 
     .column {
@@ -78,95 +116,74 @@
     }
 
     .section-title {
-      font-size: 11.5pt;
+      font-size: 11pt;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       color: #d92b4b;
-      margin-bottom: 0.06in;
-    }
-
-    .section p {
-      font-size: 10pt;
       margin-bottom: 0.08in;
     }
 
-    .mission-box {
-      background: #1a1a1a;
-      color: #fff;
-      padding: 0.22in 0.28in;
-      border-radius: 8px;
-      margin-bottom: 0.22in;
+    .column p {
+      font-size: 10pt;
+      margin-bottom: 0.09in;
+      color: #2a2a2a;
     }
 
-    .mission-box .section-title {
-      color: #ff5a75;
-    }
-
-    .mission-box p {
-      font-size: 12pt;
-      font-weight: 500;
-      line-height: 1.35;
+    .ways-title {
+      font-size: 14pt;
+      font-weight: 900;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 0.16in;
     }
 
     .ways-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.12in 0.16in;
-      margin-bottom: 0.22in;
+      gap: 0.12in 0.14in;
     }
 
     .way {
-      background: #fff0f2;
-      border-left: 4px solid #d92b4b;
-      padding: 0.1in 0.12in;
-      border-radius: 0 6px 6px 0;
+      background: #f8f8f8;
+      border-top: 4px solid #d92b4b;
+      padding: 0.12in 0.14in 0.14in;
+      border-radius: 0 0 8px 8px;
     }
 
     .way-title {
-      font-size: 11pt;
+      font-size: 12pt;
       font-weight: 800;
-      color: #111;
-      margin-bottom: 0.03in;
+      color: #1a1a1a;
+      margin-bottom: 0.04in;
     }
 
     .way p {
       font-size: 9.5pt;
-      color: #333;
-      line-height: 1.3;
+      color: #3a3a3a;
+      line-height: 1.32;
     }
 
     .footer {
-      position: absolute;
-      bottom: 0.48in;
-      left: 0.55in;
-      right: 0.55in;
+      background: #1a1a1a;
+      color: #ffffff;
+      padding: 0.35in 0.6in 0.45in;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.22in;
-      padding-top: 0.18in;
-      border-top: 2px solid #eee;
+      gap: 0.35in;
+      position: relative;
     }
 
-    .qr-block {
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .qr-block img {
-      width: 1.4in;
-      height: 1.4in;
-      display: block;
-      margin: 0 auto 0.06in;
-    }
-
-    .qr-label {
-      font-size: 8.5pt;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #555;
+    .footer::before {
+      content: "";
+      position: absolute;
+      top: -14px;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: #d92b4b;
+      transform: skewY(1.2deg);
     }
 
     .cta {
@@ -174,117 +191,145 @@
     }
 
     .cta-title {
-      font-size: 18pt;
+      font-size: 20pt;
       font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 0.07in;
+      line-height: 1.05;
+      margin-bottom: 0.1in;
+      color: #ff5a75;
     }
 
     .cta p {
-      font-size: 10.5pt;
-      color: #333;
+      font-size: 11pt;
+      color: #e8e8e8;
+      margin-bottom: 0.12in;
     }
 
     .mantra {
-      font-size: 11pt;
+      font-size: 13pt;
       font-weight: 800;
-      color: #d92b4b;
-      margin-top: 0.08in;
+      color: #ffffff;
+      letter-spacing: 0.5px;
     }
 
     .url-note {
       font-size: 8pt;
-      color: #777;
-      margin-top: 0.05in;
+      color: #999;
+      margin-top: 0.06in;
       word-break: break-all;
+    }
+
+    .qr-block {
+      text-align: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .qr-block img {
+      width: 1.55in;
+      height: 1.55in;
+      display: block;
+      margin: 0 auto 0.08in;
+      border: 6px solid #ffffff;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .qr-label {
+      font-size: 9pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #ffccd5;
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <header class="brand-bar">
-      <div class="brand-name accent">Roller Skate Stories</div>
+    <header class="hero">
+      <div class="brand-name">Roller Skate Stories</div>
       <div class="brand-tagline">Go do something you love.</div>
+      <p class="intro">
+        Like the Boys &amp; Girls Club for the roller skating community — a place where skaters of every age find belonging, family, security, and something to look forward to, just by showing up with their skates on.
+      </p>
     </header>
 
-    <p class="intro">
-      Roller Skate Stories is like the Boys &amp; Girls Club for the roller skating community — a place where skaters of every age find belonging, family, security, and something to look forward to, just by showing up with their skates on.
-    </p>
+    <main class="content">
+      <div class="mission-box">
+        <div class="mission-label">Our Mission</div>
+        <div class="mission-text">
+          Roller Skate Stories is about preserving the heart of the culture: the people, the sessions, the struggles, and the joy — and giving skaters a home where their stories matter.
+        </div>
+      </div>
 
-    <div class="mission-box">
-      <div class="section-title">Our Mission</div>
-      <p>
-        Roller Skate Stories is about preserving the heart of the culture: the people, the sessions, the struggles, and the joy — and giving skaters a home where their stories matter.
-      </p>
-    </div>
+      <div class="columns">
+        <div class="column">
+          <div class="section-title">Why We Exist</div>
+          <p>
+            Most skaters leave the rink with nothing but the memory. No photo. No video. No name of the person who shouted them on.
+          </p>
+          <p>
+            RSS closes that gap — so every skater, from day one to year thirty, has proof they were there, that they mattered, and that they belong to something bigger than the session they just had.
+          </p>
+        </div>
+        <div class="column">
+          <div class="section-title">Who It’s For</div>
+          <p>
+            <strong>Everybody.</strong> You don’t need a home rink, influencer status, elite skill, or a social media platform.
+          </p>
+          <p>
+            If you are taking on the challenge of skating and want community while you do it, this is for you. And whether you ask for it or not, once you skate, you are part of it.
+          </p>
+        </div>
+        <div class="column">
+          <div class="section-title">What You Get</div>
+          <p>
+            <strong>Belonging.</strong> A community that sees you, not your follower count.
+          </p>
+          <p>
+            <strong>Perspective.</strong> See yourself and the culture from angles you never asked for.
+          </p>
+          <p>
+            <strong>Proof.</strong> Your story becomes part of the living history of skating.
+          </p>
+        </div>
+      </div>
 
-    <div class="columns">
-      <div class="column section">
-        <div class="section-title">Why We Exist</div>
-        <p>
-          Most skaters leave the rink with nothing but the memory. No photo. No video. No name of the person who shouted them on.
-        </p>
-        <p>
-          RSS exists to close that gap — so every skater, from day one to year thirty, has proof they were there, that they mattered, and that they belong to something bigger than the session they just had.
-        </p>
+      <div>
+        <div class="ways-title">Ways to Get Involved</div>
+        <div class="ways-grid">
+          <div class="way">
+            <div class="way-title">Movement</div>
+            <p>Get out and skate. Move your body. Move the culture forward.</p>
+          </div>
+          <div class="way">
+            <div class="way-title">Media</div>
+            <p>Capture sessions, stories, and skaters so the history does not die.</p>
+          </div>
+          <div class="way">
+            <div class="way-title">Merch</div>
+            <p>Rep the brand and make the story visible wherever you roll.</p>
+          </div>
+          <div class="way">
+            <div class="way-title">Music</div>
+            <p>Help shape the sound and vibe that moves the culture.</p>
+          </div>
+          <div class="way">
+            <div class="way-title">Events</div>
+            <p>Plan or support skate meetups and gatherings for your community.</p>
+          </div>
+          <div class="way">
+            <div class="way-title">Positivity</div>
+            <p>Be receptive. Show up for other skaters. Impact someone positively.</p>
+          </div>
+        </div>
       </div>
-      <div class="column section">
-        <div class="section-title">Who It’s For</div>
-        <p>
-          <strong>Everybody.</strong> You don’t need a home rink. You don’t need to be an influencer, an elite skater, or a content creator.
-        </p>
-        <p>
-          If you are taking on the challenge of skating and want community while you do it, this is for you. And whether you ask for it or not, once you skate, you are part of it.
-        </p>
-      </div>
-      <div class="column section">
-        <div class="section-title">What You Get</div>
-        <p>
-          <strong>Belonging.</strong> A community that sees you, not your follower count.
-        </p>
-        <p>
-          <strong>Perspective.</strong> See yourself and the culture from angles you never asked for.
-        </p>
-        <p>
-          <strong>Proof.</strong> Your story becomes part of the living history of skating.
-        </p>
-      </div>
-    </div>
-
-    <div class="section-title">Ways to Get Involved</div>
-    <div class="ways-grid">
-      <div class="way">
-        <div class="way-title">Movement</div>
-        <p>Get out and skate. Move your body. Move the culture forward.</p>
-      </div>
-      <div class="way">
-        <div class="way-title">Media</div>
-        <p>Capture sessions, stories, and skaters so the history does not die.</p>
-      </div>
-      <div class="way">
-        <div class="way-title">Merch</div>
-        <p>Rep the brand and make the story visible wherever you roll.</p>
-      </div>
-      <div class="way">
-        <div class="way-title">Music</div>
-        <p>Help shape the sound and vibe that moves the culture.</p>
-      </div>
-      <div class="way">
-        <div class="way-title">Events</div>
-        <p>Plan or support skate meetups and gatherings for your community.</p>
-      </div>
-      <div class="way">
-        <div class="way-title">Positivity</div>
-        <p>Be receptive. Show up for other skaters. Impact someone positively.</p>
-      </div>
-    </div>
+    </main>
 
     <footer class="footer">
       <div class="cta">
         <div class="cta-title">Be Part of the Story</div>
-        <p>
-          Scan the code or visit the link to tell us how you want to get involved with Roller Skate Stories.
-        </p>
+        <p>Scan the code or visit the link to tell us how you want to get involved with Roller Skate Stories.</p>
         <div class="mantra">Go do something you love.</div>
         <div class="url-note">https://docs.google.com/forms/d/1d97Fuu4FxabhxUa3tzvpShzOi8eMnOmcfI3v9EKwg1g/edit</div>
       </div>
