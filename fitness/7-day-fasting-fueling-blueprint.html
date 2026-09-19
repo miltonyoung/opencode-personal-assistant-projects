@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Day Intermittent Fasting & Fueling Blueprint</title>
+    <style>
+        :root {
+            --bg: #f6f7f9;
+            --card: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --accent: #2563eb;
+            --accent-light: #eff6ff;
+            --border: #e5e7eb;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --radius: 14px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -6px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin: 0 0 12px;
+            color: var(--text);
+            line-height: 1.25;
+        }
+
+        header .subtitle {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 620px;
+            margin: 0 auto 24px;
+        }
+
+        .strategy-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .pill {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .target-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+            margin-bottom: 36px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card .value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-card .label {
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 42px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .day-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .day-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .day-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .day-schedule {
+            font-size: 0.95rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .day-header.core {
+            background: var(--accent-light);
+        }
+
+        .day-header.rest {
+            background: var(--success-bg);
+        }
+
+        .day-header.double {
+            background: var(--warning-bg);
+        }
+
+        .day-totals {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.02);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .day-totals span {
+            color: var(--text);
+        }
+
+        .day-totals .muted {
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .meals {
+            padding: 16px 24px;
+        }
+
+        .meal {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .meal:last-child {
+            border-bottom: none;
+        }
+
+        .meal-time {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .meal-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 6px;
+        }
+
+        .meal-content {
+            color: var(--text);
+            margin: 0 0 8px;
+        }
+
+        .meal-yield {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .meal-explanation {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .note-box {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning);
+            padding: 18px 22px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin-top: 30px;
+        }
+
+        .note-box h3 {
+            margin: 0 0 8px;
+            font-size: 1.05rem;
+            color: var(--warning);
+        }
+
+        .note-box p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .category {
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .final-note {
+            background: var(--danger-bg);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: var(--radius);
+            padding: 22px 26px;
+            margin-top: 36px;
+            box-shadow: var(--shadow);
+        }
+
+        .final-note h3 {
+            margin: 0 0 12px;
+            color: var(--danger);
+            font-size: 1.1rem;
+        }
+
+        .final-note p {
+            margin: 0;
+            font-size: 0.96rem;
+            color: var(--text);
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .day-card, .stat-card, table, .final-note, .note-box {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .meals {
+                padding: 12px 18px;
+            }
+
+            th, td {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>7-Day Intermittent Fasting &amp; Fueling Blueprint</h1>
+            <p class="subtitle">
+                Maximum fat loss while fueling extreme athletic output and preserving muscle mass.
+            </p>
+            <div class="strategy-pills">
+                <span class="pill">16:8 Intermittent Fasting</span>
+                <span class="pill">12:00 PM &ndash; 8:00 PM Feeding Window</span>
+                <span class="pill">~2,240 Avg Daily Calories</span>
+                <span class="pill">~230g Protein Daily</span>
+            </div>
+        </header>
+
+        <section class="target-stats">
+            <div class="stat-card">
+                <span class="value">~230g</span>
+                <span class="label">Daily Protein</span>
+            </div>
+            <div class="stat-card">
+                <span class="value">1,500+</span>
+                <span class="label">Calorie Deficit</span>
+            </div>
+            <div class="stat-card">
+                <span class="value">128g</span>
+                <span class="label">Avg Carbs</span>
+            </div>
+            <div class="stat-card">
+                <span class="value">86g</span>
+                <span class="label">Avg Fats</span>
+            </div>
+        </section>
+
+        <h2>Section 1: The Core Weekdays (Monday &ndash; Friday)</h2>
+
+        <div class="day-card">
+            <div class="day-header core">
+                <h3 class="day-title">Monday &ndash; Friday</h3>
+                <span class="day-schedule">4:00 PM Lift or HIIT Class Daily</span>
+            </div>
+            <div class="day-totals">
+                <span><span class="muted">Calories:</span> 2,240</span>
+                <span><span class="muted">Protein:</span> 232g</span>
+                <span><span class="muted">Carbs:</span> 128g</span>
+                <span><span class="muted">Fats:</span> 86g</span>
+            </div>
+            <div class="meals">
+                <div class="meal">
+                    <div class="meal-time">12:00 PM &mdash; Fast Breaker</div>
+                    <div class="meal-name">The Supercharged Parfait</div>
+                    <p class="meal-content">1.5 cups Kroger Carbmaster yogurt + 2 scoops whey protein isolate + 1 cup frozen berries.</p>
+                    <span class="meal-yield">470 Calories | 83g Protein</span>
+                    <p class="meal-explanation">Breaks your 16-hour fast with an enormous protein payload that is semi-liquid. It digests quickly, ensuring your stomach is completely empty and comfortable by your 4:00 PM workout.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">3:00 PM &mdash; Pre-Workout</div>
+                    <div class="meal-name">The Liquid Primer</div>
+                    <p class="meal-content">1 scoop whey protein isolate mixed with pure water.</p>
+                    <span class="meal-yield">110 Calories | 25g Protein</span>
+                    <p class="meal-explanation">Floods your bloodstream with fast-acting amino acids to protect your muscle tissue during heavy lifting and high-intensity intervals without adding physical volume to your stomach.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">4:00 PM &ndash; 6:00 PM</div>
+                    <div class="meal-name">Gym Session</div>
+                    <p class="meal-content">Lift or HIIT class.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">6:15 PM &mdash; Recovery Dinner</div>
+                    <div class="meal-name">The Heavy Refuel</div>
+                    <p class="meal-content">20 oz (raw weight) 85/15 ground beef + 16 oz baked sweet potato (~1.5 potatoes).</p>
+                    <span class="meal-yield">1,600 Calories | 113g Protein</span>
+                    <p class="meal-explanation">Your body is primed to handle the heavier fats from the 85/15 beef for sustained recovery. The massive sweet potato aggressively restores the glycogen depleted during your workout.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">7:45 PM &mdash; Window Close</div>
+                    <div class="meal-name">The Top-Off</div>
+                    <p class="meal-content">1 cup Kroger Carbmaster milk.</p>
+                    <span class="meal-yield">60 Calories | 11g Protein</span>
+                    <p class="meal-explanation">A zero-prep, liquid top-off to confidently secure your 230g protein goal right before your fasting window begins at 8:00 PM.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>Section 2: The Rest Day (Saturday)</h2>
+
+        <div class="day-card">
+            <div class="day-header rest">
+                <h3 class="day-title">Saturday</h3>
+                <span class="day-schedule">No Gym | No Skating</span>
+            </div>
+            <div class="day-totals">
+                <span><span class="muted">Calories:</span> 1,910</span>
+                <span><span class="muted">Protein:</span> 228g</span>
+                <span><span class="muted">Carbs:</span> 48g</span>
+                <span><span class="muted">Fats:</span> 86g</span>
+            </div>
+            <div class="meals">
+                <div class="meal">
+                    <div class="meal-time">12:00 PM</div>
+                    <div class="meal-name">Parfait</div>
+                    <p class="meal-content">1.5 cups yogurt + 2 scoops whey + 1 cup berries.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">3:00 PM</div>
+                    <div class="meal-name">Skip This Completely</div>
+                    <p class="meal-content">No pre-workout primer today.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">6:15 PM</div>
+                    <div class="meal-name">Dinner</div>
+                    <p class="meal-content">20 oz 85/15 ground beef + 2 cups green beans.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">7:45 PM</div>
+                    <div class="meal-name">Window Close Top-Off</div>
+                    <p class="meal-content">1 cup Carbmaster milk + 1 scoop whey protein isolate.</p>
+                </div>
+            </div>
+            <div class="note-box">
+                <h3>Why Saturday is different</h3>
+                <p>Because your physical output is vastly lower today, all heavy carbohydrates (sweet potatoes) are removed to accelerate fat burning. Protein remains fully maximized to repair the muscle damage from Monday through Friday.</p>
+            </div>
+        </div>
+
+        <h2>Section 3: The Double-Day (Sunday)</h2>
+
+        <div class="day-card">
+            <div class="day-header double">
+                <h3 class="day-title">Sunday</h3>
+                <span class="day-schedule">No Gym | 8:00 PM &ndash; 11:00 PM Roller Skating</span>
+            </div>
+            <div class="day-totals">
+                <span><span class="muted">Calories:</span> 2,390</span>
+                <span><span class="muted">Protein:</span> 237g</span>
+                <span><span class="muted">Carbs:</span> 155g</span>
+                <span><span class="muted">Fats:</span> 88g</span>
+            </div>
+            <div class="meals">
+                <div class="meal">
+                    <div class="meal-time">12:00 PM</div>
+                    <div class="meal-name">Parfait + Oats</div>
+                    <p class="meal-content">1.5 cups yogurt + 2 scoops whey + 1 cup berries + 1/2 cup dry oats mixed in.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">3:00 PM</div>
+                    <div class="meal-name">Skip This Completely</div>
+                    <p class="meal-content">No pre-workout primer needed during the day.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">6:15 PM</div>
+                    <div class="meal-name">Dinner</div>
+                    <p class="meal-content">20 oz 85/15 ground beef + 16 oz baked sweet potato.</p>
+                </div>
+                <div class="meal">
+                    <div class="meal-time">7:45 PM &mdash; Pre-Skate Top-Off</div>
+                    <div class="meal-name">Window Close Top-Off</div>
+                    <p class="meal-content">1 cup Carbmaster milk + 1 scoop whey protein isolate.</p>
+                </div>
+            </div>
+            <div class="note-box">
+                <h3>Why Sunday is different</h3>
+                <p>The added oats at noon provide complex, slow-burning carbs that stay in your system. Shifting the liquid whey to 7:45 PM guarantees your muscles are flooded with amino acids right as you step onto the rink for three hours.</p>
+            </div>
+        </div>
+
+        <h2>Section 4: Your Weekly Fry's Grocery Order</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 35%;">Item</th>
+                    <th>Quantity / Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="category">
+                    <td colspan="2">Meat &amp; Dairy</td>
+                </tr>
+                <tr>
+                    <td>85/15 Ground Beef</td>
+                    <td><strong>9 lbs total.</strong> Provides 144 oz for the week; you need exactly 140 oz.</td>
+                </tr>
+                <tr>
+                    <td>Kroger Carbmaster Yogurt</td>
+                    <td>Three 32-oz tubs (Vanilla/Plain).</td>
+                </tr>
+                <tr>
+                    <td>Kroger Carbmaster Milk</td>
+                    <td>1 half-gallon carton (Non-fat/Low-fat).</td>
+                </tr>
+                <tr class="category">
+                    <td colspan="2">Produce</td>
+                </tr>
+                <tr>
+                    <td>Sweet Potatoes</td>
+                    <td>6.5 lbs (Approx. 9 medium-to-large potatoes).</td>
+                </tr>
+                <tr>
+                    <td>Frozen Mixed Berries</td>
+                    <td>Two 16-oz bags (or one 32-oz value bag).</td>
+                </tr>
+                <tr>
+                    <td>Green Beans</td>
+                    <td>1 standard bag (fresh or frozen, for Saturday).</td>
+                </tr>
+                <tr class="category">
+                    <td colspan="2">Pantry &amp; Supplements</td>
+                </tr>
+                <tr>
+                    <td>Whey Protein Isolate</td>
+                    <td>1 standard tub. You will use exactly 21 scoops this week.</td>
+                </tr>
+                <tr>
+                    <td>Rolled Oats</td>
+                    <td>1 standard canister.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="final-note">
+            <h3>A Final Note on Energy Levels</h3>
+            <p>
+                You are averaging a daily burn rate of <strong>3,500 to 4,000 calories</strong> and eating roughly <strong>2,240 calories</strong>. This creates an enormous deficit, allowing for rapid weight loss. If you experience severe exhaustion or a sudden drop in lifting strength mid-week, you have the safety buffer to easily add <strong>300&ndash;500 calories of pure carbohydrates</strong> (like extra oats or rice) without slowing down your progress.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
