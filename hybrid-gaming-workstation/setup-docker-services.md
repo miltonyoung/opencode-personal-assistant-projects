@@ -6,34 +6,41 @@ For the Resolve remote-render pipeline, the only required Docker service is **Po
 
 ## File location
 
-The `docker-compose.yml` lives in the project repo under `hybrid-gaming-workstation/docker/docker-compose.yml`. Copy it onto the Windows PC at:
+The `docker-compose.yml` lives in the project repo at:
 
 ```
-C:\hybrid-gaming-workstation\docker\docker-compose.yml
+hybrid-gaming-workstation/docker/docker-compose.yml
 ```
 
-## Step 1: Create the project directory on Windows
+Run Docker directly from that directory. Do not copy the file elsewhere.
 
-Open PowerShell as Administrator:
+## Step 1: Clone or pull the project repo on the Windows PC
+
+If you do not already have the repo on the PC:
 
 ```powershell
-New-Item -ItemType Directory -Path "C:\hybrid-gaming-workstation\docker" -Force
+git clone https://github.com/miltonyoung/opencode-personal-assistant-projects.git C:\git\opencode-personal-assistant-projects
 ```
 
-## Step 2: Copy `docker-compose.yml` to the PC
+If you already have it:
 
-Use File Explorer or PowerShell to copy the file from the repo to `C:\hybrid-gaming-workstation\docker\docker-compose.yml`.
+```powershell
+cd C:\git\opencode-personal-assistant-projects
+git pull
+```
 
-## Step 3: Launch the PostgreSQL container
+Use the actual path where you keep the repo. This guide uses `C:\git\opencode-personal-assistant-projects`.
+
+## Step 2: Launch the PostgreSQL container
 
 Open PowerShell (does not need Administrator) and run:
 
 ```powershell
-cd C:\hybrid-gaming-workstation\docker
+cd C:\git\opencode-personal-assistant-projects\hybrid-gaming-workstation\docker
 docker compose up -d
 ```
 
-## Step 4: Verify the container is running
+## Step 3: Verify the container is running
 
 ```powershell
 docker ps
@@ -41,7 +48,7 @@ docker ps
 
 Expected: a container named `resolve-postgres` with status `Up` and port `5432/tcp` mapped.
 
-## Step 5: Test the database connection from Windows
+## Step 4: Test the database connection from Windows
 
 Install the PostgreSQL command-line client or use a simple Python test.
 
@@ -69,7 +76,7 @@ If `psycopg2` is not installed, use:
 uv add psycopg2-binary
 ```
 
-## Step 6: Configure DaVinci Resolve to use the database
+## Step 5: Configure DaVinci Resolve to use the database
 
 1. Open **DaVinci Resolve Studio**.
 2. On the Project Manager, click the **Database** icon or right-click in the project library area.
@@ -84,13 +91,13 @@ uv add psycopg2-binary
 
 Resolve should now create or connect to the shared project library on PostgreSQL.
 
-## Step 7: Enable Remote Rendering in Resolve
+## Step 6: Enable Remote Rendering in Resolve
 
 1. In the Project Manager, right-click the shared PostgreSQL database.
 2. Select **Remote Rendering** → **Enable Remote Rendering**.
 3. Close Resolve.
 
-## Step 8: Launch Resolve headlessly for render node operation
+## Step 7: Launch Resolve headlessly for render node operation
 
 Open PowerShell and run:
 
@@ -100,7 +107,7 @@ Open PowerShell and run:
 
 Resolve will run without drawing a window but will remain in the user session.
 
-## Step 9: Record completion
+## Step 8: Record completion
 
 Once `docker ps` shows `resolve-postgres` running and Resolve connects to the database successfully, return here so we can mark Task #6 complete and move to Task #7 (Resolve remote rendering end-to-end test).
 
