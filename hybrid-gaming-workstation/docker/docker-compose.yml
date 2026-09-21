@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: resolve-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: DaVinci
+      POSTGRES_DB: resolve
+    ports:
+      - "5432:5432"
+    volumes:
+      - resolve-pg-data:/var/lib/postgresql/data
+      # Optional: expose the CreativeBridge share inside the container for DB dumps or imports
+      # - type: bind
+      #   source: "E:\\CreativeBridge"
+      #   target: /creativebridge
+
+volumes:
+  resolve-pg-data:
