@@ -19,24 +19,24 @@ Run Docker directly from that directory. Do not copy the file elsewhere.
 If you do not already have the repo on the PC:
 
 ```powershell
-git clone https://github.com/miltonyoung/opencode-personal-assistant-projects.git C:\git\opencode-personal-assistant-projects
+git clone https://github.com/miltonyoung/opencode-personal-assistant-projects.git C:\Users\milton\projects\opencode-personal-assistant-projects
 ```
 
 If you already have it:
 
 ```powershell
-cd C:\git\opencode-personal-assistant-projects
+cd C:\Users\milton\projects\opencode-personal-assistant-projects
 git pull
 ```
 
-Use the actual path where you keep the repo. This guide uses `C:\git\opencode-personal-assistant-projects`.
+The operational path used on this PC is `C:\Users\milton\projects\opencode-personal-assistant-projects`.
 
 ## Step 2: Launch the PostgreSQL container
 
 Open PowerShell (does not need Administrator) and run:
 
 ```powershell
-cd C:\git\opencode-personal-assistant-projects\hybrid-gaming-workstation\docker
+cd C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\docker
 docker compose up -d
 ```
 
