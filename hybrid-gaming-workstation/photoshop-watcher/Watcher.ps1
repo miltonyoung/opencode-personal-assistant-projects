@@ -8,8 +8,13 @@ $PollIntervalSeconds = 30
 $PhotoshopExe = "C:\Program Files\Adobe\Adobe Photoshop 2026\Photoshop.exe"
 $RunBatchTemplate = "C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\RunBatch.jsx.template"
 $TempJsxFolder = Join-Path $env:TEMP "photoshop-watcher"
+$FileSizeStableSeconds = 10
 
 New-Item -ItemType Directory -Path $TempJsxFolder -Force | Out-Null
+
+# Global tracker for file-size stability (copy completion detection)
+# Key: file path. Value: @{ Size = N; FirstSeenAtSize = DateTime }
+$global:FileSizeTracker = @{}
 
 function Write-Log {
     param(
@@ -101,6 +106,45 @@ function Test-FileReady {
     } catch {
         return $false
     }
+}
+
+function Test-FileSizeStable {
+    param([string]$Path)
+
+    $file = Get-Item -Path $Path
+    $size = $file.Length
+
+    # Never process zero-byte placeholder files
+    if ($size -eq 0) {
+        return $false
+    }
+
+    $now = Get-Date
+    if (-not $global:FileSizeTracker.ContainsKey($Path)) {
+        $global:FileSizeTracker[$Path] = @{
+            Size = $size
+            FirstSeenAtSize = $now
+        }
+        Write-Log -Project (Split-Path (Split-Path $Path -Parent) -Leaf) -Message "Tracking $($file.Name): size = $size bytes"
+        return $false
+    }
+
+    $tracker = $global:FileSizeTracker[$Path]
+    if ($tracker.Size -ne $size) {
+        $tracker.Size = $size
+        $tracker.FirstSeenAtSize = $now
+        Write-Log -Project (Split-Path (Split-Path $Path -Parent) -Leaf) -Message "Size changed for $($file.Name): $size bytes; resetting stability timer"
+        return $false
+    }
+
+    $stableFor = ($now - $tracker.FirstSeenAtSize).TotalSeconds
+    if ($stableFor -lt $FileSizeStableSeconds) {
+        Write-Log -Project (Split-Path (Split-Path $Path -Parent) -Leaf) -Message "Size stable for $([int]$stableFor)s for $($file.Name); waiting for $FileSizeStableSeconds`s"
+        return $false
+    }
+
+    Write-Log -Project (Split-Path (Split-Path $Path -Parent) -Leaf) -Message "Size stable for $([int]$stableFor)s for $($file.Name); ready to process"
+    return $true
 }
 
 function Wait-ForBatchCompletion {
@@ -257,15 +301,12 @@ function Process-Project {
 
     # Find files in images\ that are not already in done\ or failed\, excluding sidecars like .xmp
     $excludedExtensions = @('.xmp')
-    $minimumAgeSeconds = 15
     $allImages = Get-ChildItem -Path $imagesFolder -File | Where-Object {
         $ext = $_.Extension.ToLower()
         if ($ext -in $excludedExtensions) { return $false }
 
-        # Skip files that are still being copied (recently modified)
-        $age = ((Get-Date) - $_.LastWriteTime).TotalSeconds
-        if ($age -lt $minimumAgeSeconds) {
-            Write-Log -Project $projectName -Message "Skipping $($_.Name): file is only $([int]$age)s old, may still be copying"
+        # Skip placeholder files and files that are still copying
+        if (-not (Test-FileSizeStable -Path $_.FullName)) {
             return $false
         }
 
