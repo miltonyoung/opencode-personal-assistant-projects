@@ -1,0 +1,135 @@
+// RunBatch.jsx.template
+// Placeholder file. Watcher.ps1 replaces the <<VAR>> tokens with literal values
+// and writes a temporary .jsx file. No JSON parsing is used because ExtendScript
+// in this Photoshop version does not provide JSON.
+
+var ACTION_FILE = "<<ACTION_FILE>>";
+var ACTION_SET = "<<ACTION_SET>>";
+var ACTION_NAME = "<<ACTION_NAME>>";
+var OUTPUT_FOLDER = "<<OUTPUT_FOLDER>>";
+var JPEG_QUALITY = <<JPEG_QUALITY>>;
+var LOG_FILE = "<<LOG_FILE>>";
+var SOURCE_FILES = [<<SOURCE_FILES_ARRAY>>];
+
+function pad(n) {
+    return (n < 10 ? '0' : '') + n;
+}
+
+function formatDate(d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
+           pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+}
+
+function log(msg) {
+    var now = new Date();
+    var line = formatDate(now) + ' ' + msg;
+    $.writeln(line);
+
+    if (LOG_FILE) {
+        var f = new File(LOG_FILE);
+        f.open('a');
+        f.writeln(line);
+        f.close();
+    }
+}
+
+function main() {
+    if (!ACTION_FILE || !ACTION_SET || !ACTION_NAME || !OUTPUT_FOLDER || SOURCE_FILES.length === 0) {
+        log('ERROR: Missing required arguments');
+        return 1;
+    }
+
+    // Load action set from .atn file
+    var actionFileObj = new File(ACTION_FILE);
+    if (!actionFileObj.exists) {
+        log('ERROR: Action file not found: ' + ACTION_FILE);
+        return 1;
+    }
+
+    app.load(actionFileObj);
+    log('Loaded action file: ' + ACTION_FILE);
+
+    // Ensure output folder exists
+    var outFolder = new Folder(OUTPUT_FOLDER);
+    if (!outFolder.exists) {
+        outFolder.create();
+    }
+
+    var results = [];
+
+    for (var i = 0; i < SOURCE_FILES.length; i++) {
+        var sourcePath = SOURCE_FILES[i];
+        var sourceFile = new File(sourcePath);
+
+        if (!sourceFile.exists) {
+            log('ERROR: Source file not found: ' + sourcePath);
+            results.push({ file: sourcePath, success: false, error: 'File not found' });
+            continue;
+        }
+
+        try {
+            // Open the file
+            var doc = app.open(sourceFile);
+
+            // Run the action
+            app.doAction(ACTION_NAME, ACTION_SET);
+
+            // Build output path
+            var baseName = doc.name.replace(/\.[^\.]+$/, '');
+            var outputFile = new File(OUTPUT_FOLDER + '/' + baseName + '.jpg');
+
+            // If output already exists, rename it with a timestamp
+            if (outputFile.exists) {
+                var now = new Date();
+                var timestamp = formatDate(now).replace(/[:\s]/g, '-') + '-' + now.getMilliseconds();
+                var renamedFile = new File(OUTPUT_FOLDER + '/' + baseName + '-' + timestamp + '.jpg');
+                outputFile.rename(renamedFile.fsName);
+                log('Renamed existing output to: ' + renamedFile.fsName);
+            }
+
+            // Save as JPEG with max quality
+            var jpegOptions = new JPEGSaveOptions();
+            jpegOptions.quality = JPEG_QUALITY;
+            jpegOptions.embedColorProfile = true;
+            jpegOptions.formatOptions = FormatOptions.STANDARDBASELINE;
+
+            doc.saveAs(outputFile, jpegOptions, true, Extension.LOWERCASE);
+            log('Saved: ' + outputFile.fsName);
+
+            // Close document without save dialog
+            doc.close(SaveOptions.DONOTSAVECHANGES);
+
+            results.push({ file: sourcePath, success: true, output: outputFile.fsName });
+        } catch (e) {
+            log('ERROR processing ' + sourcePath + ': ' + e);
+            try {
+                if (app.documents.length > 0) {
+                    app.activeDocument.close(SaveOptions.DONOTSAVECHANGES);
+                }
+            } catch (closeErr) {
+                log('ERROR closing document after failure: ' + closeErr);
+            }
+            results.push({ file: sourcePath, success: false, error: e.toString() });
+        }
+    }
+
+    // Write results summary
+    var successfulCount = 0;
+    var failedCount = 0;
+    for (var j = 0; j < results.length; j++) {
+        if (results[j].success) {
+            successfulCount++;
+        } else {
+            failedCount++;
+        }
+    }
+    log('Processed: ' + results.length + ', Successful: ' + successfulCount + ', Failed: ' + failedCount);
+
+    // Quit Photoshop to release memory
+    log('Quitting Photoshop to release memory');
+    app.quit();
+
+    return 0;
+}
+
+main();

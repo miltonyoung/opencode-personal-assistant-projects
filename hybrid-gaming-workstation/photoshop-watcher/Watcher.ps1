@@ -6,7 +6,10 @@ $RootFolder = "E:\CreativeBridge\photoshop-projects"
 $MaxBatchSize = 10
 $PollIntervalSeconds = 30
 $PhotoshopExe = "C:\Program Files\Adobe\Adobe Photoshop 2026\Photoshop.exe"
-$RunBatchJsx = "C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\RunBatch.jsx"
+$RunBatchTemplate = "C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\RunBatch.jsx.template"
+$TempJsxFolder = Join-Path $env:TEMP "photoshop-watcher"
+
+New-Item -ItemType Directory -Path $TempJsxFolder -Force | Out-Null
 
 function Write-Log {
     param(
@@ -83,6 +86,12 @@ function Get-FirstActionName {
     return ""
 }
 
+function ConvertTo-JsString {
+    param([string]$Value)
+    # Escape backslashes and double quotes for JavaScript string literals
+    return ($Value -replace '\\', '\\' -replace '"', '\"')
+}
+
 function Invoke-PhotoshopBatch {
     param(
         [string]$ProjectFolder,
@@ -100,24 +109,30 @@ function Invoke-PhotoshopBatch {
     New-Item -ItemType Directory -Path $failedFolder -Force | Out-Null
     New-Item -ItemType Directory -Path $doneFolder -Force | Out-Null
 
-    $batchArgs = @{
-        actionFile    = $ActionDetails.ActionFile
-        actionSet     = $ActionDetails.ActionSet
-        actionName    = $ActionDetails.ActionName
-        outputFolder  = $processedFolder
-        sourceFiles   = $FilesToProcess
-        jpegQuality   = 12
-        logFile       = $logFile
-    } | ConvertTo-Json -Depth 3 -Compress
+    # Build JavaScript string for source files array
+    $jsSourceFiles = ($FilesToProcess | ForEach-Object { '"' + (ConvertTo-JsString $_) + '"' }) -join ", "
 
-    $env:PS_BATCH_ARGS = $batchArgs
+    # Generate temporary JSX file with literal argument values
+    $template = Get-Content -Path $RunBatchTemplate -Raw
+    $jsxContent = $template `
+        -replace "<<ACTION_FILE>>", (ConvertTo-JsString $ActionDetails.ActionFile) `
+        -replace "<<ACTION_SET>>", (ConvertTo-JsString $ActionDetails.ActionSet) `
+        -replace "<<ACTION_NAME>>", (ConvertTo-JsString $ActionDetails.ActionName) `
+        -replace "<<OUTPUT_FOLDER>>", (ConvertTo-JsString $processedFolder) `
+        -replace "<<JPEG_QUALITY>>", 12 `
+        -replace "<<LOG_FILE>>", (ConvertTo-JsString $logFile) `
+        -replace "<<SOURCE_FILES_ARRAY>>", $jsSourceFiles
+
+    $tempJsxPath = Join-Path $TempJsxFolder "RunBatch-$projectName-$(Get-Date -Format 'yyyyMMddHHmmssfff').jsx"
+    $jsxContent | Out-File -FilePath $tempJsxPath -Encoding UTF8
 
     Write-Log -Project $projectName -Message "Starting batch of $($FilesToProcess.Count) files"
     Write-Log -Project $projectName -Message "Using action: $($ActionDetails.ActionSet) / $($ActionDetails.ActionName)"
+    Write-Log -Project $projectName -Message "Generated temp JSX: $tempJsxPath"
 
     $psi = New-Object System.Diagnostics.ProcessStartInfo
     $psi.FileName = $PhotoshopExe
-    $psi.Arguments = '"' + $RunBatchJsx + '"'
+    $psi.Arguments = "-r `"$tempJsxPath`""
     $psi.UseShellExecute = $false
     $psi.WorkingDirectory = (Split-Path $PhotoshopExe)
 
