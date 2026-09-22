@@ -114,6 +114,7 @@ function Wait-ForBatchCompletion {
 function Close-Photoshop {
     param([string]$ProjectName)
 
+    Write-Log -Project $ProjectName -Message "Closing Photoshop now"
     Start-Sleep -Seconds 2
     $photoshopProcesses = Get-Process -Name "Photoshop" -ErrorAction SilentlyContinue
     if ($photoshopProcesses) {
@@ -132,6 +133,8 @@ function Close-Photoshop {
                 Write-Log -Project $ProjectName -Message "Could not close Photoshop: $_"
             }
         }
+    } else {
+        Write-Log -Project $ProjectName -Message "No Photoshop process found to close"
     }
 }
 
@@ -192,16 +195,21 @@ function Invoke-PhotoshopBatch {
     # After Photoshop exits, verify outputs and move source files
     foreach ($sourcePath in $FilesToProcess) {
         $fileName = [System.IO.Path]::GetFileNameWithoutExtension($sourcePath)
+        $sourceFileName = [System.IO.Path]::GetFileName($sourcePath)
         $outputPath = Join-Path $processedFolder "$fileName.jpg"
 
         if (Test-Path $outputPath) {
+            Write-Log -Project $projectName -Message "Output file created: $outputPath"
             # Move source to images\done
-            $destination = Join-Path $doneFolder ([System.IO.Path]::GetFileName($sourcePath))
+            $destination = Join-Path $doneFolder $sourceFileName
+            Write-Log -Project $projectName -Message "Moving source file to done: $sourceFileName -> $destination"
             Move-Item -Path $sourcePath -Destination $destination -Force
             Write-Log -Project $projectName -Message "Processed and moved to done: $fileName"
         } else {
+            Write-Log -Project $projectName -Message "Output file missing: $outputPath"
             # Move source to failed
-            $destination = Join-Path $failedFolder ([System.IO.Path]::GetFileName($sourcePath))
+            $destination = Join-Path $failedFolder $sourceFileName
+            Write-Log -Project $projectName -Message "Moving source file to failed: $sourceFileName -> $destination"
             Move-Item -Path $sourcePath -Destination $destination -Force
             Write-Log -Project $projectName -Message "FAILED: $fileName (output missing)"
         }
