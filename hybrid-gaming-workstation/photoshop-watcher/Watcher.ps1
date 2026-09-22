@@ -38,27 +38,66 @@ function Get-ActionDetails {
         Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "WARNING: Multiple .atn files found. Using first: $($actionFiles[0].Name)"
     }
 
-    $configPath = Join-Path $ProjectFolder "action-config.json"
+    $atnPath = $actionFiles[0].FullName
     $actionSetName = $actionFiles[0].BaseName
     $actionName = ""
 
-    if (Test-Path $configPath) {
+    # Priority 1: Python-based ATN parser (most reliable)
+    $pythonParser = Join-Path (Split-Path $PSCommandPath -Parent) "parse_atn.py"
+    if (Test-Path $pythonParser) {
         try {
-            $config = Get-Content -Path $configPath -Raw | ConvertFrom-Json
-            if ($config.actionSet) { $actionSetName = $config.actionSet }
-            if ($config.actionName) { $actionName = $config.actionName }
-            Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "Loaded action config: $actionSetName / $actionName"
+            $python = Get-Command python -ErrorAction SilentlyContinue
+            if (-not $python) {
+                $python = Get-Command py -ErrorAction SilentlyContinue
+            }
+            if ($python) {
+                $pythonCmd = $python.Source
+                if (-not $pythonCmd) { $pythonCmd = $python.Path }
+                if (-not $pythonCmd) { $pythonCmd = $python.Name }
+                $output = & $pythonCmd "$pythonParser" "$atnPath" 2>&1
+                if ($LASTEXITCODE -eq 0) {
+                    # Parse output lines
+                    foreach ($line in $output) {
+                        if ($line -match '^\s*Action Set:\s*(.+)$') {
+                            $actionSetName = $matches[1].Trim()
+                        }
+                        if ($line -match '^\s*-\s*(.+)$') {
+                            $actionName = $matches[1].Trim()
+                        }
+                    }
+                    if ($actionName) {
+                        Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "Parsed ATN via Python: $actionSetName / $actionName"
+                    }
+                }
+            }
         } catch {
-            Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "ERROR reading action-config.json: $_"
+            Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "Python ATN parser failed: $_"
         }
     }
 
+    # Priority 2: action-config.json override (useful for manual control)
     if (-not $actionName) {
-        $actionName = Get-FirstActionName -AtnPath $actionFiles[0].FullName
+        $configPath = Join-Path $ProjectFolder "action-config.json"
+        if (Test-Path $configPath) {
+            try {
+                $config = Get-Content -Path $configPath -Raw | ConvertFrom-Json
+                if ($config.actionSet) { $actionSetName = $config.actionSet }
+                if ($config.actionName) { $actionName = $config.actionName }
+                Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "Loaded action config: $actionSetName / $actionName"
+            } catch {
+                Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "ERROR reading action-config.json: $_"
+            }
+        }
+    }
+
+    # Priority 3: Heuristic binary parse fallback
+    if (-not $actionName) {
+        $actionName = Get-FirstActionName -AtnPath $atnPath
+        Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "Used heuristic ATN parse: $actionSetName / $actionName"
     }
 
     return @{
-        ActionFile = $actionFiles[0].FullName
+        ActionFile = $atnPath
         ActionSet  = $actionSetName
         ActionName = $actionName
     }
