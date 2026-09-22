@@ -161,12 +161,11 @@ function Invoke-PhotoshopBatch {
     New-Item -ItemType Directory -Path $failedFolder -Force | Out-Null
     New-Item -ItemType Directory -Path $doneFolder -Force | Out-Null
 
-    # Capture starting log line count, then clear the log for this fresh batch
+    # Capture starting log line count so we can detect a fresh completion summary
     $startLineCount = 0
     if (Test-Path $logFile) {
         $startLineCount = (Get-Content -Path $logFile).Count
-        Remove-Item -Path $logFile -Force
-        Write-Log -Project $projectName -Message "Cleared previous batch.log for fresh run"
+        Write-Log -Project $projectName -Message "Existing batch.log has $startLineCount lines; watching for fresh summary after line $startLineCount"
     }
 
     # Build JavaScript string for source files array
