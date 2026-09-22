@@ -92,6 +92,49 @@ function ConvertTo-JsString {
     return ($Value -replace '\\', '\\' -replace '"', '\"')
 }
 
+function Wait-ForBatchCompletion {
+    param(
+        [string]$LogFile,
+        [int]$TimeoutSeconds = 1800
+    )
+
+    $start = Get-Date
+    while (((Get-Date) - $start).TotalSeconds -lt $TimeoutSeconds) {
+        if (Test-Path $LogFile) {
+            $content = Get-Content -Path $LogFile -Raw
+            if ($content -match 'Processed: \d+, Successful: \d+, Failed: \d+') {
+                return $true
+            }
+        }
+        Start-Sleep -Seconds 2
+    }
+    return $false
+}
+
+function Close-Photoshop {
+    param([string]$ProjectName)
+
+    Start-Sleep -Seconds 2
+    $photoshopProcesses = Get-Process -Name "Photoshop" -ErrorAction SilentlyContinue
+    if ($photoshopProcesses) {
+        foreach ($psProc in $photoshopProcesses) {
+            try {
+                $psProc.CloseMainWindow() | Out-Null
+                $closed = $psProc.WaitForExit(5000)
+                if (-not $closed) {
+                    $psProc.Kill()
+                    $psProc.WaitForExit(5000)
+                    Write-Log -Project $ProjectName -Message "Force-killed lingering Photoshop process"
+                } else {
+                    Write-Log -Project $ProjectName -Message "Gracefully closed Photoshop"
+                }
+            } catch {
+                Write-Log -Project $ProjectName -Message "Could not close Photoshop: $_"
+            }
+        }
+    }
+}
+
 function Invoke-PhotoshopBatch {
     param(
         [string]$ProjectFolder,
@@ -138,29 +181,13 @@ function Invoke-PhotoshopBatch {
 
     $proc = [System.Diagnostics.Process]::Start($psi)
 
-    # Wait up to 30 minutes for this batch to complete
-    $timeoutSeconds = 1800
-    $exited = $proc.WaitForExit($timeoutSeconds * 1000)
-    if (-not $exited) {
-        Write-Log -Project $projectName -Message "WARNING: Photoshop did not exit within timeout; forcing close"
-        $proc.Kill()
-        $proc.WaitForExit(5000)
+    # Wait for the batch script to log its summary line, then close Photoshop
+    $completed = Wait-ForBatchCompletion -LogFile $logFile -TimeoutSeconds 1800
+    if (-not $completed) {
+        Write-Log -Project $projectName -Message "WARNING: Batch did not report completion within timeout"
     }
 
-    # Ensure Photoshop process is gone even if ExtendScript quit failed
-    Start-Sleep -Seconds 2
-    $photoshopProcesses = Get-Process -Name "Photoshop" -ErrorAction SilentlyContinue
-    if ($photoshopProcesses) {
-        foreach ($psProc in $photoshopProcesses) {
-            try {
-                $psProc.Kill()
-                $psProc.WaitForExit(5000)
-                Write-Log -Project $projectName -Message "Force-closed lingering Photoshop process"
-            } catch {
-                Write-Log -Project $projectName -Message "Could not force-close Photoshop: $_"
-            }
-        }
-    }
+    Close-Photoshop -ProjectName $projectName
 
     # After Photoshop exits, verify outputs and move source files
     foreach ($sourcePath in $FilesToProcess) {
