@@ -46,15 +46,26 @@ function Get-ActionDetails {
     $pythonParser = Join-Path (Split-Path $PSCommandPath -Parent) "parse_atn.py"
     if (Test-Path $pythonParser) {
         try {
-            $python = Get-Command python -ErrorAction SilentlyContinue
-            if (-not $python) {
-                $python = Get-Command py -ErrorAction SilentlyContinue
+            # Prefer uv-managed Python, then system python, then py launcher
+            $pythonCmd = $null
+            $uv = Get-Command uv -ErrorAction SilentlyContinue
+            if ($uv) {
+                $pythonCmd = @($uv.Source, "run", "python")
             }
-            if ($python) {
-                $pythonCmd = $python.Source
-                if (-not $pythonCmd) { $pythonCmd = $python.Path }
-                if (-not $pythonCmd) { $pythonCmd = $python.Name }
-                $output = & $pythonCmd "$pythonParser" "$atnPath" 2>&1
+            if (-not $pythonCmd) {
+                $python = Get-Command python -ErrorAction SilentlyContinue
+                if (-not $python) {
+                    $python = Get-Command py -ErrorAction SilentlyContinue
+                }
+                if ($python) {
+                    $cmd = $python.Source
+                    if (-not $cmd) { $cmd = $python.Path }
+                    if (-not $cmd) { $cmd = $python.Name }
+                    $pythonCmd = @($cmd)
+                }
+            }
+            if ($pythonCmd) {
+                $output = & $pythonCmd[0] ($pythonCmd[1..$pythonCmd.Length] + @("$pythonParser", "$atnPath")) 2>&1
                 if ($LASTEXITCODE -eq 0) {
                     # Parse output lines
                     foreach ($line in $output) {
