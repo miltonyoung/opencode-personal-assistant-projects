@@ -107,9 +107,25 @@ New-Item -ItemType Directory -Path "E:\CreativeBridge\Renders" -Force
 
 ## Step 7: Set up automatic launch of the remote render node
 
-Choose one of the following methods.
+The recommended method is a **shell:startup shortcut with a CMD wrapper**. This avoids the UAC/elevation issues that prevent Resolve from launching correctly via Task Scheduler.
 
-### Method A: Desktop shortcut (manual start after login)
+### Working method: shell:startup shortcut
+
+1. Press **Win + R**, type:
+   ```
+   shell:startup
+   ```
+   and press Enter.
+2. Right-click in the folder → **New → Shortcut**.
+3. In the location field, paste:
+   ```
+   cmd /c "set __COMPAT_LAYER=RunAsInvoker && start "" \"C:\Program Files\Blackmagic Design\DaVinci Resolve\Resolve.exe\" -rr"
+   ```
+4. Click **Next**, name the shortcut `Resolve Remote Render Node`, and click **Finish**.
+5. Reboot the PC.
+6. After auto-login, check Task Manager for `Resolve.exe`.
+
+### Alternative: PowerShell desktop shortcut (manual start)
 
 Create a PowerShell script on the desktop:
 
@@ -122,37 +138,9 @@ After logging in, right-click the `Start-RemoteRender.ps1` file and choose **Run
 **Pros:** Simple, explicit control.  
 **Cons:** Requires a manual click after every reboot.
 
-### Method B: Scheduled task (automatic start after login)
+### Not recommended: Task Scheduler
 
-1. Open **Task Scheduler**.
-2. Click **Create Task** (not Basic Task).
-3. On the **General** tab:
-   - **Name:** `Resolve Remote Render Node`
-   - Select **Run only when user is logged on**.
-   - Check **Run with highest privileges**.
-4. On the **Triggers** tab:
-   - Click **New**.
-   - Choose **Begin the task:** `At log on`.
-   - Select **Specific user:** your Windows account.
-   - Click **OK**.
-5. On the **Actions** tab:
-   - Click **New**.
-   - **Action:** `Start a program`.
-   - **Program/script:** `C:\Program Files\Blackmagic Design\DaVinci Resolve\Resolve.exe`
-   - **Add arguments:** `-rr`
-   - **Start in:** `C:\Program Files\Blackmagic Design\DaVinci Resolve\`
-   - Click **OK**.
-6. On the **Conditions** tab:
-   - Uncheck **Start the task only if the computer is on AC power**.
-7. On the **Settings** tab:
-   - Uncheck **Stop the task if it runs longer than**.
-8. Click **OK**.
-9. Test by signing out and signing back in, then check Task Manager for `Resolve.exe`.
-
-**Pros:** Fully automatic after auto-login.  
-**Cons:** Resolve runs continuously, consuming a small amount of resources even when idle.
-
-**Recommendation:** Use Method B for a true server experience. Keep Method A as a fallback or for testing.
+A scheduled task may fail to launch Resolve because Task Scheduler runs the process in a non-interactive or elevated context that conflicts with Resolve’s license and GPU initialization requirements. If you want to try it anyway, set it to **Run only when user is logged on** and do not run with highest privileges. The shell:startup shortcut is the tested, working approach.
 
 ## Step 8: Record completion
 
