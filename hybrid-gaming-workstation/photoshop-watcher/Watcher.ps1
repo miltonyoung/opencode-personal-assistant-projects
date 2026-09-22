@@ -342,6 +342,15 @@ function Process-Project {
         if ($allImages.Count -gt 0) {
             Write-Log -Project $projectName -Message "$($allImages.Count) file(s) remaining; restarting Photoshop after brief pause"
             Start-Sleep -Seconds 5
+            # Ensure Photoshop is fully gone before starting the next batch
+            Close-Photoshop -ProjectName $projectName
+            Start-Sleep -Seconds 10
+            $stillRunning = Get-Process -Name "Photoshop" -ErrorAction SilentlyContinue
+            if ($stillRunning) {
+                Write-Log -Project $projectName -Message "Photoshop still running after close; waiting additional 15 seconds"
+                Start-Sleep -Seconds 15
+                Close-Photoshop -ProjectName $projectName
+            }
         }
     }
 }
