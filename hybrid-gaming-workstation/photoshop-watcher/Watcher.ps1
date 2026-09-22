@@ -30,13 +30,24 @@ function Get-ActionDetails {
         Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "WARNING: Multiple .atn files found. Using first: $($actionFiles[0].Name)"
     }
 
-    # Extract action set name from .atn metadata is not trivial in PowerShell.
-    # We assume the action set name matches the .atn filename without extension.
-    # Override this assumption below if needed.
+    $configPath = Join-Path $ProjectFolder "action-config.json"
     $actionSetName = $actionFiles[0].BaseName
-    # The action name inside the set must be known. For now, we use the first action name
-    # by reading the .atn file. This is a best-effort parse.
-    $actionName = Get-FirstActionName -AtnPath $actionFiles[0].FullName
+    $actionName = ""
+
+    if (Test-Path $configPath) {
+        try {
+            $config = Get-Content -Path $configPath -Raw | ConvertFrom-Json
+            if ($config.actionSet) { $actionSetName = $config.actionSet }
+            if ($config.actionName) { $actionName = $config.actionName }
+            Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "Loaded action config: $actionSetName / $actionName"
+        } catch {
+            Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "ERROR reading action-config.json: $_"
+        }
+    }
+
+    if (-not $actionName) {
+        $actionName = Get-FirstActionName -AtnPath $actionFiles[0].FullName
+    }
 
     return @{
         ActionFile = $actionFiles[0].FullName
