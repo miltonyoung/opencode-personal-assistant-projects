@@ -137,7 +137,30 @@ function Invoke-PhotoshopBatch {
     $psi.WorkingDirectory = (Split-Path $PhotoshopExe)
 
     $proc = [System.Diagnostics.Process]::Start($psi)
-    $proc.WaitForExit()
+
+    # Wait up to 30 minutes for this batch to complete
+    $timeoutSeconds = 1800
+    $exited = $proc.WaitForExit($timeoutSeconds * 1000)
+    if (-not $exited) {
+        Write-Log -Project $projectName -Message "WARNING: Photoshop did not exit within timeout; forcing close"
+        $proc.Kill()
+        $proc.WaitForExit(5000)
+    }
+
+    # Ensure Photoshop process is gone even if ExtendScript quit failed
+    Start-Sleep -Seconds 2
+    $photoshopProcesses = Get-Process -Name "Photoshop" -ErrorAction SilentlyContinue
+    if ($photoshopProcesses) {
+        foreach ($psProc in $photoshopProcesses) {
+            try {
+                $psProc.Kill()
+                $psProc.WaitForExit(5000)
+                Write-Log -Project $projectName -Message "Force-closed lingering Photoshop process"
+            } catch {
+                Write-Log -Project $projectName -Message "Could not force-close Photoshop: $_"
+            }
+        }
+    }
 
     # After Photoshop exits, verify outputs and move source files
     foreach ($sourcePath in $FilesToProcess) {

@@ -127,7 +127,18 @@ function main() {
 
     // Quit Photoshop to release memory
     log('Quitting Photoshop to release memory');
-    app.quit();
+    try {
+        if (typeof app.quit === 'function') {
+            app.quit();
+        } else if (typeof app.doQuit === 'function') {
+            app.doQuit();
+        } else {
+            // Fallback: close all documents and signal watcher to kill process
+            log('No built-in quit method available; leaving process for watcher cleanup');
+        }
+    } catch (quitErr) {
+        log('ERROR quitting Photoshop: ' + quitErr);
+    }
 
     return 0;
 }
