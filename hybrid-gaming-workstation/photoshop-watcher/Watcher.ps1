@@ -3,7 +3,7 @@
 # Processes images in batches of $MaxBatchSize, then restarts Photoshop to release memory.
 
 $RootFolder = "E:\CreativeBridge\photoshop-projects"
-$MaxBatchSize = 10
+$MaxBatchSize = 3
 $PollIntervalSeconds = 30
 $PhotoshopExe = "C:\Program Files\Adobe\Adobe Photoshop 2026\Photoshop.exe"
 $RunBatchTemplate = "C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\RunBatch.jsx.template"
