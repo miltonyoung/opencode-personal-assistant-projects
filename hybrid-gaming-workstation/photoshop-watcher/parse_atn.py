@@ -34,28 +34,24 @@ def extract_names(path):
     action_count = struct.unpack_from('>I', data, off)[0]
     off += 4
 
-    action_names = []
-    for _ in range(action_count):
-        # Action header
-        if off + 6 > len(data):
-            raise ValueError('Truncated action header')
-        off += 2  # index
-        off += 1  # shiftKey
-        off += 1  # commandKey
-        off += 2  # colorIndex
+    if action_count == 0:
+        return set_name, [], version
 
-        name, off = read_unicode(data, off)
-        action_names.append(name)
+    # Extract only the first action name. The watcher only needs the first
+    # action in an ATN file; parsing the item bodies is fragile and can drift
+    # into step/command strings (e.g., "copyToLayer").
+    if off + 6 > len(data):
+        raise ValueError('Truncated action header')
+    off += 2  # index
+    off += 1  # shiftKey
+    off += 1  # commandKey
+    off += 2  # colorIndex
 
-        if off >= len(data):
-            raise ValueError('Truncated action record')
-        off += 1  # expanded
-        item_count = struct.unpack_from('>I', data, off)[0]
-        off += 4
+    first_action_name, off = read_unicode(data, off)
+    if not first_action_name:
+        raise ValueError('Empty first action name')
 
-        # We do not need to descend into action items.
-
-    return set_name, action_names, version
+    return set_name, [first_action_name], version
 
 
 if __name__ == '__main__':

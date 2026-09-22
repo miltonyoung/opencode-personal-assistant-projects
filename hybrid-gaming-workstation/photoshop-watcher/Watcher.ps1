@@ -67,16 +67,21 @@ function Get-ActionDetails {
             if ($pythonCmd) {
                 $output = & $pythonCmd[0] ($pythonCmd[1..$pythonCmd.Length] + @("$pythonParser", "$atnPath")) 2>&1
                 if ($LASTEXITCODE -eq 0) {
-                    # Parse output lines
+                    # Parse output lines. Use the first action name returned, not the last,
+                    # so step/command strings later in the file cannot overwrite it.
+                    $parsedSetName = ""
+                    $parsedActionName = ""
                     foreach ($line in $output) {
-                        if ($line -match '^\s*Action Set:\s*(.+)$') {
-                            $actionSetName = $matches[1].Trim()
+                        if (-not $parsedSetName -and $line -match '^\s*Action Set:\s*(.+)$') {
+                            $parsedSetName = $matches[1].Trim()
                         }
-                        if ($line -match '^\s*-\s*(.+)$') {
-                            $actionName = $matches[1].Trim()
+                        if (-not $parsedActionName -and $line -match '^\s*-\s*(.+)$') {
+                            $parsedActionName = $matches[1].Trim()
                         }
                     }
-                    if ($actionName) {
+                    if ($parsedActionName) {
+                        $actionSetName = $parsedSetName
+                        $actionName = $parsedActionName
                         Write-Log -Project (Split-Path $ProjectFolder -Leaf) -Message "Parsed ATN via Python: $actionSetName / $actionName"
                     }
                 }
@@ -117,25 +122,44 @@ function Get-ActionDetails {
 function Get-FirstActionName {
     param([string]$AtnPath)
 
-    # Read .atn file as binary/string and look for action names.
-    # .atn files contain Pascal-style strings. We look for the first human-readable
-    # action name after the action set header. This is heuristic.
+    # Fallback heuristic for ATN files when the Python parser is unavailable.
+    # .atn files store Pascal-style length-prefixed Unicode strings. The set name
+    # is first, followed by a single-byte expanded flag and a 4-byte action count.
+    # The first action name follows an action header. The byte pattern for a
+    # length-prefixed string is 4 big-endian bytes (length in characters) then
+    # 2*length UTF-16BE bytes. We use this to find the first action name without
+    # being misled by step/command strings like "copyToLayer".
     $bytes = [System.IO.File]::ReadAllBytes($AtnPath)
-    $text = [System.Text.Encoding]::UTF8.GetString($bytes)
+    if ($bytes.Length -lt 12) { return "" }
 
-    # Find the first occurrence of a pattern that looks like an action name.
-    # Action names appear after the set name and after some binary markers.
-    # Heuristic: split on non-printable characters and take the longest plausible strings.
-    $matches = [regex]::Matches($text, '[\x20-\x7E]{4,64}')
-    $candidates = $matches | ForEach-Object { $_.Value } | Where-Object { $_ -notmatch '^[\s\d\-\.]+$' }
+    function Read-UnicodeString {
+        param([byte[]]$Data, [int]$Off)
+        if ($Off + 4 -gt $Data.Length) { return $null, $Off }
+        $count = [BitConverter]::ToUInt32(@($Data[$Off + 3], $Data[$Off + 2], $Data[$Off + 1], $Data[$Off]), 0)
+        $byteLen = $count * 2
+        if ($Off + 4 + $byteLen -gt $Data.Length) { return $null, $Off }
+        $chars = [System.Text.Encoding]::BigEndianUnicode.GetString($Data, $Off + 4, $byteLen)
+        return $chars.TrimEnd("`0"), ($Off + 4 + $byteLen)
+    }
 
-    if ($candidates.Count -gt 0) {
-        # The set name is usually the first long string, the action name is the second.
-        # Return the second candidate if available.
-        if ($candidates.Count -gt 1) {
-            return $candidates[1]
-        }
-        return $candidates[0]
+    # Skip version (4 bytes) and read set name.
+    $off = 4
+    $setName, $off = Read-UnicodeString -Data $bytes -Off $off
+    if ($null -eq $setName) { return "" }
+
+    # Skip expanded byte and action count.
+    $off += 1
+    if ($off + 4 -gt $bytes.Length) { return "" }
+    $off += 4
+
+    # Skip action header: 2 (index) + 1 (shiftKey) + 1 (commandKey) + 2 (colorIndex)
+    $off += 6
+    if ($off -gt $bytes.Length) { return "" }
+
+    # The first action name lives here.
+    $actionName, $_ = Read-UnicodeString -Data $bytes -Off $off
+    if ($null -ne $actionName -and $actionName -match '\S') {
+        return $actionName
     }
 
     return ""
