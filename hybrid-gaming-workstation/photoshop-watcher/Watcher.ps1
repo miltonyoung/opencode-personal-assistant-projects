@@ -95,15 +95,21 @@ function ConvertTo-JsString {
 function Wait-ForBatchCompletion {
     param(
         [string]$LogFile,
-        [int]$TimeoutSeconds = 1800
+        [int]$TimeoutSeconds = 1800,
+        [int]$StartLineCount = 0
     )
 
     $start = Get-Date
     while (((Get-Date) - $start).TotalSeconds -lt $TimeoutSeconds) {
         if (Test-Path $LogFile) {
-            $content = Get-Content -Path $LogFile -Raw
-            if ($content -match 'Processed: \d+, Successful: \d+, Failed: \d+') {
-                return $true
+            $lines = Get-Content -Path $LogFile
+            if ($lines.Count -gt $StartLineCount) {
+                $newLines = $lines | Select-Object -Skip $StartLineCount
+                foreach ($line in $newLines) {
+                    if ($line -match 'Processed: \d+, Successful: \d+, Failed: \d+') {
+                        return $true
+                    }
+                }
             }
         }
         Start-Sleep -Seconds 2
@@ -155,6 +161,14 @@ function Invoke-PhotoshopBatch {
     New-Item -ItemType Directory -Path $failedFolder -Force | Out-Null
     New-Item -ItemType Directory -Path $doneFolder -Force | Out-Null
 
+    # Capture starting log line count, then clear the log for this fresh batch
+    $startLineCount = 0
+    if (Test-Path $logFile) {
+        $startLineCount = (Get-Content -Path $logFile).Count
+        Remove-Item -Path $logFile -Force
+        Write-Log -Project $projectName -Message "Cleared previous batch.log for fresh run"
+    }
+
     # Build JavaScript string for source files array
     $jsSourceFiles = ($FilesToProcess | ForEach-Object { '"' + (ConvertTo-JsString $_) + '"' }) -join ", "
 
@@ -184,10 +198,12 @@ function Invoke-PhotoshopBatch {
 
     $proc = [System.Diagnostics.Process]::Start($psi)
 
-    # Wait for the batch script to log its summary line, then close Photoshop
-    $completed = Wait-ForBatchCompletion -LogFile $logFile -TimeoutSeconds 1800
+    # Wait for the batch script to log its fresh summary line, then close Photoshop
+    $completed = Wait-ForBatchCompletion -LogFile $logFile -TimeoutSeconds 1800 -StartLineCount 0
     if (-not $completed) {
         Write-Log -Project $projectName -Message "WARNING: Batch did not report completion within timeout"
+    } else {
+        Write-Log -Project $projectName -Message "Batch completion detected in batch.log"
     }
 
     Close-Photoshop -ProjectName $projectName
