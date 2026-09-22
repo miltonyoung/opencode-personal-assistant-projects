@@ -10,7 +10,8 @@ services:
       POSTGRES_PASSWORD: DaVinci
       POSTGRES_DB: resolve
     ports:
-      - "5432:5432"
+      # Bind to all interfaces so Tailscale/remote machines can reach the DB.
+      - "0.0.0.0:5432:5432"
     volumes:
       - resolve-pg-data:/var/lib/postgresql/data
       # Optional: expose the CreativeBridge share inside the container for DB dumps or imports
