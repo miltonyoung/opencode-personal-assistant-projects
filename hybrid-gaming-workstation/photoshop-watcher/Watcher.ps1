@@ -92,6 +92,17 @@ function ConvertTo-JsString {
     return ($Value -replace '\\', '\\' -replace '"', '\"')
 }
 
+function Test-FileReady {
+    param([string]$Path)
+    try {
+        $stream = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::None)
+        $stream.Close()
+        return $true
+    } catch {
+        return $false
+    }
+}
+
 function Wait-ForBatchCompletion {
     param(
         [string]$LogFile,
@@ -244,8 +255,26 @@ function Process-Project {
 
     New-Item -ItemType Directory -Path $doneFolder -Force | Out-Null
 
-    # Find files in images\ that are not already in done\ or failed\
+    # Find files in images\ that are not already in done\ or failed\, excluding sidecars like .xmp
+    $excludedExtensions = @('.xmp')
+    $minimumAgeSeconds = 15
     $allImages = Get-ChildItem -Path $imagesFolder -File | Where-Object {
+        $ext = $_.Extension.ToLower()
+        if ($ext -in $excludedExtensions) { return $false }
+
+        # Skip files that are still being copied (recently modified)
+        $age = ((Get-Date) - $_.LastWriteTime).TotalSeconds
+        if ($age -lt $minimumAgeSeconds) {
+            Write-Log -Project $projectName -Message "Skipping $($_.Name): file is only $([int]$age)s old, may still be copying"
+            return $false
+        }
+
+        # Skip files that are still locked
+        if (-not (Test-FileReady -Path $_.FullName)) {
+            Write-Log -Project $projectName -Message "Skipping $($_.Name): file is currently locked"
+            return $false
+        }
+
         $donePath = Join-Path $doneFolder $_.Name
         $failedPath = Join-Path (Join-Path $ProjectFolder "failed") $_.Name
         -not (Test-Path $donePath) -and -not (Test-Path $failedPath)
