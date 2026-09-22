@@ -253,7 +253,7 @@ function Invoke-PhotoshopBatch {
     $proc = [System.Diagnostics.Process]::Start($psi)
 
     # Wait for the batch script to log its fresh summary line, then close Photoshop
-    $completed = Wait-ForBatchCompletion -LogFile $logFile -TimeoutSeconds 1800 -StartLineCount 0
+    $completed = Wait-ForBatchCompletion -LogFile $logFile -TimeoutSeconds 1800 -StartLineCount $startLineCount
     if (-not $completed) {
         Write-Log -Project $projectName -Message "WARNING: Batch did not report completion within timeout"
     } else {
