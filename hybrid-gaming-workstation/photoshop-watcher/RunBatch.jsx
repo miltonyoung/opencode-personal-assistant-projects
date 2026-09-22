@@ -13,6 +13,15 @@
 //   "logFile": "E:\\CreativeBridge\\photoshop-projects\\...\\batch.log"
 // }
 
+function pad(n) {
+    return (n < 10 ? '0' : '') + n;
+}
+
+function formatDate(d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
+           pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+}
+
 function log(msg) {
     var batchArgs = $.getenv('PS_BATCH_ARGS');
     var args = {};
@@ -21,7 +30,7 @@ function log(msg) {
     } catch (e) {}
 
     var now = new Date();
-    var line = now.toISOString() + ' ' + msg;
+    var line = formatDate(now) + ' ' + msg;
     $.writeln(line);
 
     if (args.logFile) {
