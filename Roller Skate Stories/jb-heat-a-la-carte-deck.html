@@ -2,71 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JB Heat + Roller Skate Stories — Partnership Deck</title>
+  <link rel="stylesheet" href="reveal/reveal.min.css">
+  <link rel="stylesheet" href="fonts/inter-font.css">
   <style>
-    @page {
-      size: letter;
-      margin: 0;
+
+    :root {
+      --rss-yellow: #F8E030;
+      --rss-purple: #B060D8;
+      --rss-black: #000000;
+      --rss-white: #ffffff;
+      --rss-gray: #1a1a1a;
+      --rss-light-gray: #f8f8f8;
     }
 
-    * {
+    .reveal {
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 28px;
+      color: var(--rss-black);
+      background: var(--rss-white);
+    }
+
+    .reveal .slides {
+      text-align: left;
+    }
+
+    .reveal .slides section {
+      height: 100%;
+      width: 100%;
+      padding: 0;
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      color: #000000;
-      background: #ffffff;
-      line-height: 1.35;
-    }
-
-    .slide {
-      width: 8.5in;
-      height: 11in;
-      padding: 0;
-      background: #ffffff;
-      overflow: hidden;
-      display: flex;
+      display: flex !important;
       flex-direction: column;
-      page-break-after: always;
-      position: relative;
+      background: var(--rss-white);
     }
 
-    .slide:last-child {
-      page-break-after: auto;
-    }
-
-    .header {
-      background: #F8E030;
-      color: #000000;
+    .reveal .slides section .header {
+      background: var(--rss-yellow);
+      color: var(--rss-black);
       padding: 0.28in 0.55in 0.36in;
       position: relative;
+      flex-shrink: 0;
     }
 
-    .header::after {
+    .reveal .slides section .header::after {
       content: "";
       position: absolute;
       bottom: -12px;
       left: 0;
       right: 0;
       height: 24px;
-      background: #B060D8;
+      background: var(--rss-purple);
       transform: skewY(-1.2deg);
+      z-index: 10;
     }
 
-    .header-inner {
+    .reveal .slides section .header-inner {
       display: flex;
       align-items: center;
       gap: 0.2in;
     }
 
-    .header-logo {
-      flex-shrink: 0;
-    }
-
-    .header-logo img {
+    .reveal .slides section .header-logo img {
       width: 1.35in;
       height: 1.35in;
       display: block;
@@ -74,200 +72,174 @@
       object-fit: contain;
     }
 
-    .jb-logo {
-      width: 1.6in;
-      height: 1.6in;
-      display: block;
-      border-radius: 8px;
-      object-fit: contain;
-      background: #ffffff;
-      padding: 0.05in;
-    }
-
-    .header-text {
+    .reveal .slides section .header-text {
       flex: 1;
     }
 
-    .brand-name {
+    .reveal .slides section .brand-name {
       font-size: 28pt;
       font-weight: 900;
       letter-spacing: -0.6px;
       line-height: 1;
-      color: #000000;
+      color: var(--rss-black);
       margin-bottom: 0.05in;
       white-space: nowrap;
     }
 
-    .brand-tagline {
+    .reveal .slides section .brand-tagline {
       font-size: 12pt;
       font-weight: 700;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: #B060D8;
+      color: var(--rss-purple);
     }
 
-    .content {
+    .reveal .slides section .content {
       flex: 1;
       padding: 0.32in 0.6in 0.22in;
       display: flex;
       flex-direction: column;
       gap: 0.2in;
+      overflow: hidden;
     }
 
-    .slide-title {
-      font-size: 20pt;
-      font-weight: 900;
-      color: #B060D8;
-      margin-bottom: 0.12in;
-      line-height: 1.1;
-    }
-
-    .slide-subtitle {
-      font-size: 12pt;
-      font-weight: 700;
-      color: #000000;
-      margin-bottom: 0.16in;
-    }
-
-    .text-block {
-      font-size: 11pt;
-      line-height: 1.35;
-      color: #1a1a1a;
-      margin-bottom: 0.12in;
-    }
-
-    .text-block strong {
-      color: #000000;
-    }
-
-    .columns {
-      display: flex;
-      gap: 0.22in;
-    }
-
-    .column {
-      flex: 1;
-    }
-
-    .column-title {
-      font-size: 10.5pt;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #B060D8;
-      margin-bottom: 0.06in;
-    }
-
-    .column p {
-      font-size: 9pt;
-      margin-bottom: 0.06in;
-      color: #1a1a1a;
-      line-height: 1.3;
-    }
-
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.1in 0.14in;
-    }
-
-    .service-card {
-      background: #f8f8f8;
-      border-left: 4px solid #B060D8;
-      padding: 0.1in 0.14in;
-      border-radius: 0 6px 6px 0;
-    }
-
-    .service-card-title {
-      font-size: 11pt;
-      font-weight: 800;
-      color: #000000;
-      margin-bottom: 0.04in;
-    }
-
-    .service-card p {
-      font-size: 9pt;
-      color: #2a2a2a;
-      line-height: 1.25;
-    }
-
-    .highlight-box {
-      background: linear-gradient(135deg, #f5e8fc 0%, #ebd2f9 100%);
-      border-left: 5px solid #B060D8;
-      padding: 0.16in 0.24in;
-      border-radius: 0 10px 10px 0;
-    }
-
-    .highlight-label {
-      font-size: 9pt;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: #B060D8;
-      margin-bottom: 0.04in;
-    }
-
-    .highlight-text {
-      font-size: 12pt;
-      font-weight: 700;
-      line-height: 1.3;
-      color: #000000;
-    }
-
-    .footer {
-      background: #000000;
-      color: #ffffff;
+    .reveal .slides section .footer {
+      background: var(--rss-black);
+      color: var(--rss-white);
       padding: 0.22in 0.6in 0.34in;
       position: relative;
+      flex-shrink: 0;
       margin-top: auto;
     }
 
-    .footer::before {
+    .reveal .slides section .footer::before {
       content: "";
       position: absolute;
       top: -12px;
       left: 0;
       right: 0;
       height: 24px;
-      background: #B060D8;
+      background: var(--rss-purple);
       transform: skewY(1.2deg);
+      z-index: 10;
     }
 
-    .footer-text {
+    .reveal .slides section .footer-text {
       font-size: 9pt;
       color: #e8e8e8;
       line-height: 1.3;
     }
 
-    .footer-mantra {
+    .reveal .slides section .footer-mantra {
       font-size: 11pt;
       font-weight: 800;
-      color: #F8E030;
+      color: var(--rss-yellow);
       letter-spacing: 0.5px;
       margin-top: 0.08in;
     }
 
-    .cta-title {
-      font-size: 17pt;
-      font-weight: 900;
-      line-height: 1.05;
-      margin-bottom: 0.1in;
-      color: #F8E030;
+    .reveal .slides section .text-block {
+      font-size: 11pt;
+      line-height: 1.35;
+      color: var(--rss-gray);
+      margin-bottom: 0.12in;
     }
 
-    .cta-text {
+    .reveal .slides section .text-block strong {
+      color: var(--rss-black);
+    }
+
+    .reveal .slides section .columns {
+      display: flex;
+      gap: 0.22in;
+    }
+
+    .reveal .slides section .column {
+      flex: 1;
+    }
+
+    .reveal .slides section .column-title {
       font-size: 10.5pt;
-      color: #e8e8e8;
-      margin-bottom: 0.08in;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--rss-purple);
+      margin-bottom: 0.06in;
     }
 
-    .checklist {
+    .reveal .slides section .column p {
+      font-size: 9pt;
+      margin-bottom: 0.06in;
+      color: var(--rss-gray);
+      line-height: 1.3;
+    }
+
+    .reveal .slides section .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.1in 0.14in;
+    }
+
+    .reveal .slides section .service-card {
+      background: var(--rss-light-gray);
+      border-left: 4px solid var(--rss-purple);
+      padding: 0.1in 0.14in;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .reveal .slides section .service-card-title {
+      font-size: 11pt;
+      font-weight: 800;
+      color: var(--rss-black);
+      margin-bottom: 0.04in;
+    }
+
+    .reveal .slides section .service-card p {
+      font-size: 9pt;
+      color: #2a2a2a;
+      line-height: 1.25;
+    }
+
+    .reveal .slides section .highlight-box {
+      background: linear-gradient(135deg, #f5e8fc 0%, #ebd2f9 100%);
+      border-left: 5px solid var(--rss-purple);
+      padding: 0.16in 0.24in;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .reveal .slides section .highlight-label {
+      font-size: 9pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--rss-purple);
+      margin-bottom: 0.04in;
+    }
+
+    .reveal .slides section .highlight-text {
+      font-size: 12pt;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--rss-black);
+    }
+
+    .reveal .slides section .jb-logo {
+      width: 1.6in;
+      height: 1.6in;
+      display: block;
+      border-radius: 8px;
+      object-fit: contain;
+      background: var(--rss-white);
+      padding: 0.05in;
+    }
+
+    .reveal .slides section .checklist {
       list-style: none;
       padding: 0;
       margin: 0;
     }
 
-    .checklist li {
+    .reveal .slides section .checklist li {
       font-size: 10pt;
       margin-bottom: 0.08in;
       padding-left: 0.22in;
@@ -275,917 +247,837 @@
       line-height: 1.3;
     }
 
-    .checklist li::before {
+    .reveal .slides section .checklist li::before {
       content: "✓";
       position: absolute;
       left: 0;
-      color: #B060D8;
+      color: var(--rss-purple);
       font-weight: 800;
     }
 
-    .compact-list {
+    .reveal .slides section .compact-list {
       list-style: disc;
       padding-left: 0.2in;
       margin: 0;
     }
 
-    .compact-list li {
+    .reveal .slides section .compact-list li {
       font-size: 9.5pt;
       margin-bottom: 0.06in;
       line-height: 1.3;
     }
 
-    .contact-note {
+    .reveal .slides section .contact-note {
       font-size: 8.5pt;
       color: #999;
       margin-top: 0.1in;
     }
+
+    .reveal .slides section .jb-hero {
+      display: flex;
+      align-items: center;
+      gap: 0.3in;
+      margin-bottom: 0.2in;
+    }
+
+    .reveal .slides section .jb-hero .highlight-box {
+      flex: 1;
+    }
+
+    .reveal .controls {
+      color: var(--rss-purple);
+    }
+
+    .reveal .progress {
+      background: rgba(176, 96, 216, 0.2);
+      color: var(--rss-purple);
+      height: 4px;
+    }
+
+    .reveal .slide-number {
+      background: var(--rss-black);
+      color: var(--rss-yellow);
+      font-size: 12pt;
+      font-weight: 700;
+      padding: 0.1in 0.15in;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
+  <div class="reveal">
+    <div class="slides">
 
-  <!-- Slide 1: Title -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">JB Heat + Roller Skate Stories</div>
-          <div class="brand-tagline">Partnership Deck</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="highlight-box">
-        <div class="highlight-label">Purpose of This Deck</div>
-        <div class="highlight-text">
-          To show JB Heat what Roller Skate Stories can bring to the table — service by service — so we can build a partnership that fits where JB Heat is now and where it is going.
-        </div>
-      </div>
-      <div class="text-block">
-        <strong>JB Heat</strong> is a JB-style skate crew based in Arizona, currently 5–8 members strong, with presence on TikTok and Instagram, and a path that includes travel and future growth.
-      </div>
-      <div class="text-block">
-        <strong>Roller Skate Stories</strong> is a media, merch, lessons, and events platform built to help skaters and skate crews look official, grow their audience, and carry their story forward.
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">No packages or pricing are being proposed today. This is a service-first conversation.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 2: We See JB Heat -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">We See JB Heat</div>
-          <div class="brand-tagline">What we understand about your crew</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div style="display:flex; align-items:center; gap:0.3in; margin-bottom:0.2in;">
-        <img src="jb_heat_logo.JPG" alt="JB Heat logo" class="jb-logo">
-        <div class="highlight-box" style="flex:1;">
-          <div class="highlight-label">Our Read</div>
-          <div class="highlight-text">
-            JB Heat is not just a local skate group. It is a chapter with a story, a style, and a future. The question is how to make that visible, documented, and scalable.
+      <!-- Slide 1: Title -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">JB Heat + Roller Skate Stories</div>
+              <div class="brand-tagline">Partnership Deck</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">Who You Are Now</div>
-          <ul class="compact-list">
-            <li>JB-style skate crew</li>
-            <li>Based in Arizona</li>
-            <li>5–8 active members</li>
-            <li>Active on TikTok and Instagram</li>
-            <li>Travel to skate in other states</li>
-            <li>Built on crew unity and culture</li>
-          </ul>
+        <div class="content">
+          <div class="highlight-box">
+            <div class="highlight-label">Purpose of This Deck</div>
+            <div class="highlight-text">To show JB Heat what Roller Skate Stories can bring to the table — service by service — so we can build a partnership that fits where JB Heat is now and where it is going.</div>
+          </div>
+          <div class="text-block"><strong>JB Heat</strong> is a JB-style skate crew based in Arizona, currently 5–8 members strong, with presence on TikTok and Instagram, and a path that includes travel and future growth.</div>
+          <div class="text-block"><strong>Roller Skate Stories</strong> is a media, merch, lessons, and events platform built to help skaters and skate crews look official, grow their audience, and carry their story forward.</div>
         </div>
-        <div class="column">
-          <div class="column-title">Where You Are Headed</div>
-          <ul class="compact-list">
-            <li>Grow locally in Arizona</li>
-            <li>Preserve and spread your crew’s history</li>
-            <li>Build recognition beyond your immediate circle</li>
-            <li>Create proof of belonging for traveling members</li>
-            <li>Eventually expand the JB Heat name into new chapters</li>
-          </ul>
+        <div class="footer">
+          <div class="footer-text">No packages or pricing are being proposed today. This is a service-first conversation.</div>
+          <div class="footer-mantra">Go do something you love.</div>
         </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">This framing is based on what we have learned about JB Heat. Correct anything that misses the mark.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
+      </section>
+
+      <!-- Slide 2: We See JB Heat -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">We See JB Heat</div>
+              <div class="brand-tagline">What we understand about your crew</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="jb-hero">
+            <img src="jb_heat_logo.JPG" alt="JB Heat logo" class="jb-logo">
+            <div class="highlight-box">
+              <div class="highlight-label">Our Read</div>
+              <div class="highlight-text">JB Heat is not just a local skate group. It is a chapter with a story, a style, and a future. The question is how to make that visible, documented, and scalable.</div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Who You Are Now</div>
+              <ul class="compact-list">
+                <li>JB-style skate crew</li>
+                <li>Based in Arizona</li>
+                <li>5–8 active members</li>
+                <li>Active on TikTok and Instagram</li>
+                <li>Travel to skate in other states</li>
+                <li>Built on crew unity and culture</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">Where You Are Headed</div>
+              <ul class="compact-list">
+                <li>Grow locally in Arizona</li>
+                <li>Preserve and spread your crew’s history</li>
+                <li>Build recognition beyond your immediate circle</li>
+                <li>Create proof of belonging for traveling members</li>
+                <li>Eventually expand the JB Heat name into new chapters</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">This framing is based on what we have learned about JB Heat. Correct anything that misses the mark.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 3: What a Crew Like JB Heat Needs -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">What a Crew Like JB Heat Needs</div>
+              <div class="brand-tagline">The gaps between now and the future</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="service-grid">
+            <div class="service-card"><div class="service-card-title">Visibility</div><p>More skaters, crews, and opportunities need to know JB Heat exists beyond your current following.</p></div>
+            <div class="service-card"><div class="service-card-title">Credibility</div><p>A polished, consistent look and story make it easier to be taken seriously by rinks, events, and future chapters.</p></div>
+            <div class="service-card"><div class="service-card-title">Documentation</div><p>Sessions, founders, milestones, and style need to be captured so the history does not disappear.</p></div>
+            <div class="service-card"><div class="service-card-title">Momentum</div><p>Regular content and events keep the crew active, growing, and exciting for members and outsiders.</p></div>
+            <div class="service-card"><div class="service-card-title">Belonging</div><p>Members need proof they are part of something — especially when they travel or meet other crews.</p></div>
+            <div class="service-card"><div class="service-card-title">Expansion Readiness</div><p>Before JB Heat can grow into new cities, the story and identity need to be clear enough to repeat.</p></div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">These needs apply to most growing crews. The right partner closes the gaps without the crew doing all the work alone.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 4: The Chapter Challenge -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">The Chapter Challenge</div>
+              <div class="brand-tagline">Going from local crew to something bigger</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">A crew that wants to expand carries a specific problem: <strong>the story has to travel before the people do.</strong></div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Without Documentation</div>
+              <ul class="compact-list">
+                <li>Members show up in a new city with no proof of the crew</li>
+                <li>Future chapters have no clear identity to copy</li>
+                <li>Founding principles get watered down over time</li>
+                <li>The crew stays invisible outside its home rink</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">With Documentation</div>
+              <ul class="compact-list">
+                <li>Traveling members have content and story to share</li>
+                <li>New chapters start with a clear visual and cultural playbook</li>
+                <li>The original chapter’s history is preserved and respected</li>
+                <li>JB Heat becomes findable in any state</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">RSS Position</div>
+            <div class="highlight-text">Roller Skate Stories exists to document, promote, and preserve skate culture. That is exactly what a chapter like JB Heat needs to grow without losing itself.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">The goal is not just more followers. It is a crew that can travel, expand, and be remembered.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Who Is Roller Skate Stories -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Who Is Roller Skate Stories?</div>
+              <div class="brand-tagline">A platform built for the skating community</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="highlight-box">
+            <div class="highlight-label">Our Mission</div>
+            <div class="highlight-text">Roller Skate Stories preserves the heart of the culture: the people, the sessions, the struggles, and the joy — and gives skaters a home where their stories matter.</div>
+          </div>
+          <div class="text-block">We operate like the <strong>Boys &amp; Girls Club for the roller skating community</strong>: a place where skaters of every age find belonging, family, security, and something to look forward to just by showing up with their skates on.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Believe</div>
+              <ul class="compact-list">
+                <li>Every skater has a story worth keeping</li>
+                <li>You do not need influencer status to matter</li>
+                <li>Crews are the backbone of skate culture</li>
+                <li>Preserving history grows the future</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">Who We Serve</div>
+              <ul class="compact-list">
+                <li>Individual skaters</li>
+                <li>Skate crews and chapters</li>
+                <li>Rinks and event organizers</li>
+                <li>Brands in the skate space</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">RSS is not a one-time content vendor. We are a long-term partner for skate culture.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 6: How RSS Operates -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">How RSS Operates</div>
+              <div class="brand-tagline">Six lanes, one mission</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="service-grid">
+            <div class="service-card"><div class="service-card-title">Movement</div><p>Get out and skate. Move the body. Move the culture forward.</p></div>
+            <div class="service-card"><div class="service-card-title">Media</div><p>Capture sessions, stories, and skaters so the history does not die.</p></div>
+            <div class="service-card"><div class="service-card-title">Merch</div><p>Rep the brand and make the story visible wherever you roll.</p></div>
+            <div class="service-card"><div class="service-card-title">Music</div><p>Shape the sound and vibe that moves the culture. (Not active in this deck.)</p></div>
+            <div class="service-card"><div class="service-card-title">Events</div><p>Plan or support skate meetups and gatherings for the community.</p></div>
+            <div class="service-card"><div class="service-card-title">Positivity</div><p>Show up for other skaters. Impact someone positively. Build belonging.</p></div>
+          </div>
+          <div class="text-block">These lanes are how RSS thinks about value. For JB Heat, the most relevant lanes today are <strong>Media, Merch, Events, Movement, and Positivity</strong>.</div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">The lanes are not services themselves. They are the framework behind every service we offer.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 7: RSS Network & Reach -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">RSS Network &amp; Reach</div>
+              <div class="brand-tagline">Connections that extend beyond Arizona</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Audience Reach</div>
+              <ul class="compact-list">
+                <li>Large, engaged roller skating audience</li>
+                <li>Followers across multiple states</li>
+                <li>International skaters keeping up with RSS</li>
+                <li>A pathway for individuals and crews to be found</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What That Means for JB Heat</div>
+              <ul class="compact-list">
+                <li>Exposure to skaters outside Arizona</li>
+                <li>Visibility before traveling to new cities</li>
+                <li>Connection to a wider skate ecosystem</li>
+                <li>Access to opportunities that come through the RSS network</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Leverage Point</div>
+            <div class="highlight-text">RSS has a broad pool of people who follow the platform from different states and countries. When JB Heat partners with RSS, it taps into that network.</div>
+          </div>
+          <div class="text-block">We are not promising numbers today. We are offering access to a community that already cares about roller skating and is looking for crews and stories to follow.</div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">This is one of RSS’s strongest assets: a ready-made audience that trusts the platform.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Service - Video Production -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Video Production</div>
+              <div class="brand-tagline">Film the culture</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">RSS produces video content that captures the energy, style, and story of skaters and crews.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Session highlight reels</li>
+                <li>Individual and crew features</li>
+                <li>Event recap videos</li>
+                <li>Short-form content for TikTok, Reels, YouTube Shorts</li>
+                <li>Longer-form storytelling pieces</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>Professional content without buying gear</li>
+                <li>Regular drops that keep the crew visible</li>
+                <li>Travel footage that proves the crew shows up</li>
+                <li>Content that future chapters can point to</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">Video is proof of life for a crew. It shows you exist, you skate, and you have a style worth watching.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">No pricing in this deck. We will customize a video plan after we understand JB Heat’s schedule and goals.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 9: Service - Photography -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Photography</div>
+              <div class="brand-tagline">Still proof of the session</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">Photos give a crew the still assets it needs for profiles, posters, merch, press, and memory.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Session photography</li>
+                <li>Crew portraits</li>
+                <li>Individual skater spotlights</li>
+                <li>Event documentation</li>
+                <li>Monthly photo refresh packages</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>High-quality images for social media</li>
+                <li>Consistent visual identity over time</li>
+                <li>Photos for future merch and promotion</li>
+                <li>Archive of crew history and milestones</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">A monthly photo refresh keeps a crew looking current, professional, and active — without anyone on the crew becoming a full-time photographer.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">Photography and video work together. One creates motion and energy; the other creates identity and permanence.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 10: Service - Social & Content Strategy -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Social &amp; Content Strategy</div>
+              <div class="brand-tagline">Post with intention</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">Creating content is only half the battle. The other half is knowing what to post, when to post it, and how to make it land.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Content guide and posting plan</li>
+                <li>Caption writing and hashtag strategy</li>
+                <li>Posting calendar</li>
+                <li>Social media marketing</li>
+                <li>Posting support (RSS posts on your behalf)</li>
+                <li>Accountability check-ins</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>A consistent presence instead of sporadic posts</li>
+                <li>More engagement without more guesswork</li>
+                <li>Strategy that matches the crew’s real schedule</li>
+                <li>Freedom to skate while RSS handles the feed</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">Posting when you remember is not a strategy. A content plan turns JB Heat’s sessions into a steady stream of momentum.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">This is often the hardest part for crews. RSS can take it on or train JB Heat to do it themselves.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 11: Service - Page & Profile Rebrand -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Page &amp; Profile Rebrand</div>
+              <div class="brand-tagline">Look official from the first click</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">A crew can skate hard and still look scattered online. A rebrand fixes the first impression.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Bio and profile optimization</li>
+                <li>Profile and highlight image design</li>
+                <li>Visual theme and content pillars</li>
+                <li>Platform-specific setup</li>
+                <li>Cross-platform consistency</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>A page that matches the crew’s energy</li>
+                <li>Clear identity for new followers</li>
+                <li>Foundation for all future content</li>
+                <li>Professional look for rink and event conversations</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">When someone discovers JB Heat online, the profile should answer the question instantly: who are these skaters, what do they do, and why should I care?</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">A rebrand is a one-time foundation that makes every future post more effective.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 12: Service - Custom Merch -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Custom Merch</div>
+              <div class="brand-tagline">Make the story visible</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">Merch turns a crew into something people can wear, rep, and recognize. It also creates revenue and unifies members.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Custom hoodies</li>
+                <li>Custom shirts</li>
+                <li>Mugs and accessories</li>
+                <li>Small-item subscriptions (socks, stickers, towels)</li>
+                <li>Shop listing in the RSS store</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>Professional merch design and production</li>
+                <li>Members who rep the crew at sessions and while traveling</li>
+                <li>Unified look for future chapters</li>
+                <li>Proof of belonging when linking up with other crews</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">A hoodie travels. A sticker ends up on a board in another city. Merch is portable proof that JB Heat is real.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">We can start with a single item or build a full merch program. The choice depends on where JB Heat is ready to go.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 13: Service - Lessons & Teaching Pipeline -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Lessons &amp; Teaching Pipeline</div>
+              <div class="brand-tagline">Turn style into growth</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">JB Heat specializes in JB skating. RSS can help turn that expertise into classes, new students, and future members.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Private skating lessons</li>
+                <li>Crew clinics (up to 6 skaters)</li>
+                <li>Teaching pipeline placement</li>
+                <li>Matching new students to qualified JB-style teachers</li>
+                <li>Class coordination and promotion</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>Revenue from teaching</li>
+                <li>New skaters exposed to JB Heat culture</li>
+                <li>A feeder system for future members</li>
+                <li>Positioning of JB Heat members as leaders and instructors</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">When RSS sends new students to learn JB-style skating, those students do not just take a class — they enter the JB Heat orbit.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">This service is especially relevant for JB Heat because JB skating is a defined, teachable style.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 14: Service - Events Planning & Support -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Events Planning &amp; Support</div>
+              <div class="brand-tagline">Bring the community together</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">Events give a crew something to gather around. RSS can help plan, promote, and document them.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Event concept and planning support</li>
+                <li>Promotion through RSS channels</li>
+                <li>Event-day photo and video coverage</li>
+                <li>Recap content after the event</li>
+                <li>Co-hosted meetups and sessions</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>Bigger turnout at their sessions</li>
+                <li>Professional event documentation</li>
+                <li>Cross-promotion to new skaters</li>
+                <li>Experience running events that future chapters can replicate</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">An event is not just a session. It is a statement that JB Heat is a real, organized crew worth showing up for.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">Events can be local, collaborative, or part of JB Heat’s travel plans.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 15: Service - Skate Tech & Maintenance -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Service: Skate Tech &amp; Maintenance</div>
+              <div class="brand-tagline">Keep the crew rolling</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">RSS has an in-house/affiliate mobile skate tech who can handle repairs, plate swaps, and general maintenance.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">What We Offer</div>
+              <ul class="compact-list">
+                <li>Skate repairs</li>
+                <li>Plate swaps</li>
+                <li>General skate maintenance</li>
+                <li>In-house service at the Roller Skate Stories location</li>
+                <li>Mobile event-day tech support</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What JB Heat Gets</div>
+              <ul class="compact-list">
+                <li>Reliable gear so members stay on the floor</li>
+                <li>Event-day support so no one sits out with broken skates</li>
+                <li>Convenient maintenance without shipping gear out</li>
+                <li>Another reason for members to stay connected to RSS</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Key Point</div>
+            <div class="highlight-text">A crew cannot perform if the gear is not working. Skate tech support keeps JB Heat on wheels.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">This can be a standalone service for individuals or a crew perk during events.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 16: How RSS Makes It Real -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">How RSS Makes It Real</div>
+              <div class="brand-tagline">From local crew to lasting chapter</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">JB Heat Wants</div>
+              <ul class="compact-list">
+                <li>Local growth</li>
+                <li>Credibility</li>
+                <li>Documented history</li>
+                <li>Travel recognition</li>
+                <li>Future expansion</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">RSS Provides</div>
+              <ul class="compact-list">
+                <li>Monthly content that keeps the crew visible</li>
+                <li>Professional rebrand and social strategy</li>
+                <li>Founder and member spotlights</li>
+                <li>Photo and video assets that travel</li>
+                <li>Merch that unifies members and future chapters</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">The Long Game</div>
+            <div class="highlight-text">RSS can help JB Heat become the kind of crew that is easy to find, easy to believe in, and easy to join — in Arizona and beyond.</div>
+          </div>
+          <div class="text-block">The goal is not to make JB Heat dependent on RSS. The goal is to give JB Heat the tools, content, and visibility to grow under its own name.</div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">This is a partnership, not a takeover. JB Heat keeps its name, its leadership, and its culture.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 17: Why Partner With RSS -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Why Partner With RSS?</div>
+              <div class="brand-tagline">What sets this partnership apart</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <ul class="checklist">
+            <li>We understand crew culture because we are built inside it.</li>
+            <li>We offer a full service stack: media, merch, lessons, events, and skate tech.</li>
+            <li>We have a large, engaged audience of skaters across states and countries.</li>
+            <li>We help individuals and crews become findable.</li>
+            <li>We think in terms of history and legacy, not just one-time posts.</li>
+            <li>We are structured to support expansion — local first, then broader.</li>
+            <li>We operate with clear service options so nothing is vague.</li>
+          </ul>
+          <div class="highlight-box">
+            <div class="highlight-label">Bottom Line</div>
+            <div class="highlight-text">RSS can help JB Heat look official, stay active, and build something that outlasts any single session.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">The next step is a conversation, not a contract.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 18: Call to Action -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Which Services Fit JB Heat Right Now?</div>
+              <div class="brand-tagline">Let’s build the right partnership</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">Today we are not selling a package. We are here to learn which services matter most to JB Heat and how RSS can support your next phase.</div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Questions for JB Heat</div>
+              <ul class="compact-list">
+                <li>Which services stood out?</li>
+                <li>What is the biggest pain point right now?</li>
+                <li>What would change the game for JB Heat in the next 90 days?</li>
+                <li>Who handles posting and content today?</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">What Happens Next</div>
+              <ul class="compact-list">
+                <li>We listen to what JB Heat needs</li>
+                <li>We recommend a focused set of services</li>
+                <li>We build a custom package and next steps</li>
+                <li>We start small, prove value, then scale</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Next Step</div>
+            <div class="highlight-text">Tell us what JB Heat needs most. We will take it from there.</div>
+          </div>
+          <div class="contact-note">Contact: Marcus Dover, 312-465-3975</div>
+        </div>
+        <div class="footer">
+          <div class="footer-text">Roller Skate Stories — Go do something you love.</div>
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+    </div>
   </div>
 
-  <!-- Slide 3: What a Crew Like JB Heat Needs -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">What a Crew Like JB Heat Needs</div>
-          <div class="brand-tagline">The gaps between now and the future</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="service-grid">
-        <div class="service-card">
-          <div class="service-card-title">Visibility</div>
-          <p>More skaters, crews, and opportunities need to know JB Heat exists beyond your current following.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Credibility</div>
-          <p>A polished, consistent look and story make it easier to be taken seriously by rinks, events, and future chapters.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Documentation</div>
-          <p>Sessions, founders, milestones, and style need to be captured so the history does not disappear.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Momentum</div>
-          <p>Regular content and events keep the crew active, growing, and exciting for members and outsiders.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Belonging</div>
-          <p>Members need proof they are part of something — especially when they travel or meet other crews.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Expansion Readiness</div>
-          <p>Before JB Heat can grow into new cities, the story and identity need to be clear enough to repeat.</p>
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">These needs apply to most growing crews. The right partner closes the gaps without the crew doing all the work alone.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 4: The Chapter Challenge -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">The Chapter Challenge</div>
-          <div class="brand-tagline">Going from local crew to something bigger</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        A crew that wants to expand carries a specific problem: <strong>the story has to travel before the people do.</strong>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">Without Documentation</div>
-          <ul class="compact-list">
-            <li>Members show up in a new city with no proof of the crew</li>
-            <li>Future chapters have no clear identity to copy</li>
-            <li>Founding principles get watered down over time</li>
-            <li>The crew stays invisible outside its home rink</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">With Documentation</div>
-          <ul class="compact-list">
-            <li>Traveling members have content and story to share</li>
-            <li>New chapters start with a clear visual and cultural playbook</li>
-            <li>The original chapter’s history is preserved and respected</li>
-            <li>JB Heat becomes findable in any state</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">RSS Position</div>
-        <div class="highlight-text">
-          Roller Skate Stories exists to document, promote, and preserve skate culture. That is exactly what a chapter like JB Heat needs to grow without losing itself.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">The goal is not just more followers. It is a crew that can travel, expand, and be remembered.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 5: Who Is Roller Skate Stories -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Who Is Roller Skate Stories?</div>
-          <div class="brand-tagline">A platform built for the skating community</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="highlight-box">
-        <div class="highlight-label">Our Mission</div>
-        <div class="highlight-text">
-          Roller Skate Stories preserves the heart of the culture: the people, the sessions, the struggles, and the joy — and gives skaters a home where their stories matter.
-        </div>
-      </div>
-      <div class="text-block">
-        We operate like the <strong>Boys & Girls Club for the roller skating community</strong>: a place where skaters of every age find belonging, family, security, and something to look forward to just by showing up with their skates on.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Believe</div>
-          <ul class="compact-list">
-            <li>Every skater has a story worth keeping</li>
-            <li>You do not need influencer status to matter</li>
-            <li>Crews are the backbone of skate culture</li>
-            <li>Preserving history grows the future</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">Who We Serve</div>
-          <ul class="compact-list">
-            <li>Individual skaters</li>
-            <li>Skate crews and chapters</li>
-            <li>Rinks and event organizers</li>
-            <li>Brands in the skate space</li>
-          </ul>
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">RSS is not a one-time content vendor. We are a long-term partner for skate culture.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 6: RSS Lanes -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">How RSS Operates</div>
-          <div class="brand-tagline">Six lanes, one mission</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="service-grid">
-        <div class="service-card">
-          <div class="service-card-title">Movement</div>
-          <p>Get out and skate. Move the body. Move the culture forward.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Media</div>
-          <p>Capture sessions, stories, and skaters so the history does not die.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Merch</div>
-          <p>Rep the brand and make the story visible wherever you roll.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Music</div>
-          <p>Shape the sound and vibe that moves the culture. (Not active in this deck.)</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Events</div>
-          <p>Plan or support skate meetups and gatherings for the community.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card-title">Positivity</div>
-          <p>Show up for other skaters. Impact someone positively. Build belonging.</p>
-        </div>
-      </div>
-      <div class="text-block">
-        These lanes are how RSS thinks about value. For JB Heat, the most relevant lanes today are <strong>Media, Merch, Events, Movement, and Positivity</strong>.
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">The lanes are not services themselves. They are the framework behind every service we offer.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 7: RSS Network & Reach -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">RSS Network & Reach</div>
-          <div class="brand-tagline">Connections that extend beyond Arizona</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">Audience Reach</div>
-          <ul class="compact-list">
-            <li>Large, engaged roller skating audience</li>
-            <li>Followers across multiple states</li>
-            <li>International skaters keeping up with RSS</li>
-            <li>A pathway for individuals and crews to be found</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What That Means for JB Heat</div>
-          <ul class="compact-list">
-            <li>Exposure to skaters outside Arizona</li>
-            <li>Visibility before traveling to new cities</li>
-            <li>Connection to a wider skate ecosystem</li>
-            <li>Access to opportunities that come through the RSS network</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Leverage Point</div>
-        <div class="highlight-text">
-          RSS has a broad pool of people who follow the platform from different states and countries. When JB Heat partners with RSS, it taps into that network.
-        </div>
-      </div>
-      <div class="text-block">
-        We are not promising numbers today. We are offering access to a community that already cares about roller skating and is looking for crews and stories to follow.
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">This is one of RSS’s strongest assets: a ready-made audience that trusts the platform.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 8: Service - Video Production -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Video Production</div>
-          <div class="brand-tagline">Film the culture</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        RSS produces video content that captures the energy, style, and story of skaters and crews.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Session highlight reels</li>
-            <li>Individual and crew features</li>
-            <li>Event recap videos</li>
-            <li>Short-form content for TikTok, Reels, YouTube Shorts</li>
-            <li>Longer-form storytelling pieces</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>Professional content without buying gear</li>
-            <li>Regular drops that keep the crew visible</li>
-            <li>Travel footage that proves the crew shows up</li>
-            <li>Content that future chapters can point to</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          Video is proof of life for a crew. It shows you exist, you skate, and you have a style worth watching.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">No pricing in this deck. We will customize a video plan after we understand JB Heat’s schedule and goals.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 9: Service - Photography -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Photography</div>
-          <div class="brand-tagline">Still proof of the session</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        Photos give a crew the still assets it needs for profiles, posters, merch, press, and memory.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Session photography</li>
-            <li>Crew portraits</li>
-            <li>Individual skater spotlights</li>
-            <li>Event documentation</li>
-            <li>Monthly photo refresh packages</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>High-quality images for social media</li>
-            <li>Consistent visual identity over time</li>
-            <li>Photos for future merch and promotion</li>
-            <li>Archive of crew history and milestones</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          A monthly photo refresh keeps a crew looking current, professional, and active — without anyone on the crew becoming a full-time photographer.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">Photography and video work together. One creates motion and energy; the other creates identity and permanence.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 10: Service - Social & Content Strategy -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Social & Content Strategy</div>
-          <div class="brand-tagline">Post with intention</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        Creating content is only half the battle. The other half is knowing what to post, when to post it, and how to make it land.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Content guide and posting plan</li>
-            <li>Caption writing and hashtag strategy</li>
-            <li>Posting calendar</li>
-            <li>Social media marketing</li>
-            <li>Posting support (RSS posts on your behalf)</li>
-            <li>Accountability check-ins</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>A consistent presence instead of sporadic posts</li>
-            <li>More engagement without more guesswork</li>
-            <li>Strategy that matches the crew’s real schedule</li>
-            <li>Freedom to skate while RSS handles the feed</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          Posting when you remember is not a strategy. A content plan turns JB Heat’s sessions into a steady stream of momentum.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">This is often the hardest part for crews. RSS can take it on or train JB Heat to do it themselves.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 11: Service - Page & Profile Rebrand -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Page & Profile Rebrand</div>
-          <div class="brand-tagline">Look official from the first click</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        A crew can skate hard and still look scattered online. A rebrand fixes the first impression.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Bio and profile optimization</li>
-            <li>Profile and highlight image design</li>
-            <li>Visual theme and content pillars</li>
-            <li>Platform-specific setup</li>
-            <li>Cross-platform consistency</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>A page that matches the crew’s energy</li>
-            <li>Clear identity for new followers</li>
-            <li>Foundation for all future content</li>
-            <li>Professional look for rink and event conversations</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          When someone discovers JB Heat online, the profile should answer the question instantly: who are these skaters, what do they do, and why should I care?
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">A rebrand is a one-time foundation that makes every future post more effective.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 12: Service - Custom Merch -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Custom Merch</div>
-          <div class="brand-tagline">Make the story visible</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        Merch turns a crew into something people can wear, rep, and recognize. It also creates revenue and unifies members.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Custom hoodies</li>
-            <li>Custom shirts</li>
-            <li>Mugs and accessories</li>
-            <li>Small-item subscriptions (socks, stickers, towels)</li>
-            <li>Shop listing in the RSS store</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>Professional merch design and production</li>
-            <li>Members who rep the crew at sessions and while traveling</li>
-            <li>Unified look for future chapters</li>
-            <li>Proof of belonging when linking up with other crews</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          A hoodie travels. A sticker ends up on a board in another city. Merch is portable proof that JB Heat is real.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">We can start with a single item or build a full merch program. The choice depends on where JB Heat is ready to go.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 13: Service - Lessons & Teaching Pipeline -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Lessons & Teaching Pipeline</div>
-          <div class="brand-tagline">Turn style into growth</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        JB Heat specializes in JB skating. RSS can help turn that expertise into classes, new students, and future members.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Private skating lessons</li>
-            <li>Crew clinics (up to 6 skaters)</li>
-            <li>Teaching pipeline placement</li>
-            <li>Matching new students to qualified JB-style teachers</li>
-            <li>Class coordination and promotion</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>Revenue from teaching</li>
-            <li>New skaters exposed to JB Heat culture</li>
-            <li>A feeder system for future members</li>
-            <li>Positioning of JB Heat members as leaders and instructors</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          When RSS sends new students to learn JB-style skating, those students do not just take a class — they enter the JB Heat orbit.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">This service is especially relevant for JB Heat because JB skating is a defined, teachable style.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 14: Service - Events Planning & Support -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Events Planning & Support</div>
-          <div class="brand-tagline">Bring the community together</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        Events give a crew something to gather around. RSS can help plan, promote, and document them.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Event concept and planning support</li>
-            <li>Promotion through RSS channels</li>
-            <li>Event-day photo and video coverage</li>
-            <li>Recap content after the event</li>
-            <li>Co-hosted meetups and sessions</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>Bigger turnout at their sessions</li>
-            <li>Professional event documentation</li>
-            <li>Cross-promotion to new skaters</li>
-            <li>Experience running events that future chapters can replicate</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          An event is not just a session. It is a statement that JB Heat is a real, organized crew worth showing up for.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">Events can be local, collaborative, or part of JB Heat’s travel plans.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 15: Service - Skate Tech & Maintenance -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Service: Skate Tech & Maintenance</div>
-          <div class="brand-tagline">Keep the crew rolling</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        RSS has an in-house/affiliate mobile skate tech who can handle repairs, plate swaps, and general maintenance.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">What We Offer</div>
-          <ul class="compact-list">
-            <li>Skate repairs</li>
-            <li>Plate swaps</li>
-            <li>General skate maintenance</li>
-            <li>In-house service at the Roller Skate Stories location</li>
-            <li>Mobile event-day tech support</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What JB Heat Gets</div>
-          <ul class="compact-list">
-            <li>Reliable gear so members stay on the floor</li>
-            <li>Event-day support so no one sits out with broken skates</li>
-            <li>Convenient maintenance without shipping gear out</li>
-            <li>Another reason for members to stay connected to RSS</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Key Point</div>
-        <div class="highlight-text">
-          A crew cannot perform if the gear is not working. Skate tech support keeps JB Heat on wheels.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">This can be a standalone service for individuals or a crew perk during events.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 16: How RSS Makes JB Heat’s Vision Real -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">How RSS Makes It Real</div>
-          <div class="brand-tagline">From local crew to lasting chapter</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">JB Heat Wants</div>
-          <ul class="compact-list">
-            <li>Local growth</li>
-            <li>Credibility</li>
-            <li>Documented history</li>
-            <li>Travel recognition</li>
-            <li>Future expansion</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">RSS Provides</div>
-          <ul class="compact-list">
-            <li>Monthly content that keeps the crew visible</li>
-            <li>Professional rebrand and social strategy</li>
-            <li>Founder and member spotlights</li>
-            <li>Photo and video assets that travel</li>
-            <li>Merch that unifies members and future chapters</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">The Long Game</div>
-        <div class="highlight-text">
-          RSS can help JB Heat become the kind of crew that is easy to find, easy to believe in, and easy to join — in Arizona and beyond.
-        </div>
-      </div>
-      <div class="text-block">
-        The goal is not to make JB Heat dependent on RSS. The goal is to give JB Heat the tools, content, and visibility to grow under its own name.
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">This is a partnership, not a takeover. JB Heat keeps its name, its leadership, and its culture.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 17: Why Partner With RSS -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Why Partner With RSS?</div>
-          <div class="brand-tagline">What sets this partnership apart</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <ul class="checklist">
-        <li>We understand crew culture because we are built inside it.</li>
-        <li>We offer a full service stack: media, merch, lessons, events, and skate tech.</li>
-        <li>We have a large, engaged audience of skaters across states and countries.</li>
-        <li>We help individuals and crews become findable.</li>
-        <li>We think in terms of history and legacy, not just one-time posts.</li>
-        <li>We are structured to support expansion — local first, then broader.</li>
-        <li>We operate with clear service options so nothing is vague.</li>
-      </ul>
-      <div class="highlight-box">
-        <div class="highlight-label">Bottom Line</div>
-        <div class="highlight-text">
-          RSS can help JB Heat look official, stay active, and build something that outlasts any single session.
-        </div>
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">The next step is a conversation, not a contract.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
-  <!-- Slide 18: Call to Action -->
-  <div class="slide">
-    <header class="header">
-      <div class="header-inner">
-        <div class="header-logo">
-          <img src="rss_logo.PNG" alt="Roller Skate Stories logo">
-        </div>
-        <div class="header-text">
-          <div class="brand-name">Which Services Fit JB Heat Right Now?</div>
-          <div class="brand-tagline">Let’s build the right partnership</div>
-        </div>
-      </div>
-    </header>
-    <main class="content">
-      <div class="text-block">
-        Today we are not selling a package. We are here to learn which services matter most to JB Heat and how RSS can support your next phase.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="column-title">Questions for JB Heat</div>
-          <ul class="compact-list">
-            <li>Which services stood out?</li>
-            <li>What is the biggest pain point right now?</li>
-            <li>What would change the game for JB Heat in the next 90 days?</li>
-            <li>Who handles posting and content today?</li>
-          </ul>
-        </div>
-        <div class="column">
-          <div class="column-title">What Happens Next</div>
-          <ul class="compact-list">
-            <li>We listen to what JB Heat needs</li>
-            <li>We recommend a focused set of services</li>
-            <li>We build a custom package and next steps</li>
-            <li>We start small, prove value, then scale</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box">
-        <div class="highlight-label">Next Step</div>
-        <div class="highlight-text">
-          Tell us what JB Heat needs most. We will take it from there.
-        </div>
-      </div>
-      <div class="contact-note">
-        Contact: Marcus Dover, 312-465-3975
-      </div>
-    </main>
-    <footer class="footer">
-      <div class="footer-text">Roller Skate Stories — Go do something you love.</div>
-      <div class="footer-mantra">Go do something you love.</div>
-    </footer>
-  </div>
-
+  <script src="reveal/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      showSlideNumber: 'all',
+      transition: 'slide',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      center: false,
+      width: 960,
+      height: 700,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      keyboard: true,
+      touch: true,
+      overview: true,
+      help: true,
+      progress: true,
+      controls: true
+    });
+  </script>
 </body>
 </html>
