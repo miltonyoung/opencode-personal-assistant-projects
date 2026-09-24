@@ -83,19 +83,32 @@ function Start-WatcherProcess {
 
     $psi = New-Object System.Diagnostics.ProcessStartInfo
     $psi.FileName         = "powershell.exe"
-    $psi.Arguments        = "-ExecutionPolicy Bypass -File `"$WatcherPath`""
+    $psi.Arguments        = "-ExecutionPolicy Bypass -NoProfile -File `"$WatcherPath`""
     $psi.WorkingDirectory  = $WatcherDir
     $psi.UseShellExecute    = $false
     $psi.CreateNoWindow     = $true
     $psi.RedirectStandardOutput = $true
     $psi.RedirectStandardError  = $true
 
-    $proc = [System.Diagnostics.Process]::Start($psi)
+    try {
+        $proc = [System.Diagnostics.Process]::Start($psi)
+    } catch {
+        Write-Log "ERROR: Failed to start watcher process: $_"
+        return $null
+    }
+
+    # Wait a moment and capture an early crash (syntax errors, missing path, etc.)
+    Start-Sleep -Seconds 2
+    if ($proc.HasExited) {
+        $stdout = $proc.StandardOutput.ReadToEnd()
+        $stderr = $proc.StandardError.ReadToEnd()
+        Write-Log "ERROR: Watcher exited immediately (exit code $($proc.ExitCode))"
+        if ($stdout) { Write-Log "Watcher stdout: $stdout" }
+        if ($stderr) { Write-Log "Watcher stderr: $stderr" }
+        return $null
+    }
 
     # Forward watcher stdout/stderr to the launcher log so everything is in one place
-    $proc.BeginOutputReadLine()
-    $proc.BeginErrorReadLine()
-
     $proc.add_OutputDataReceived({
         param($sender, $e)
         if ($e.Data) { Write-Log "[Watcher] $($e.Data)" }
@@ -105,6 +118,10 @@ function Start-WatcherProcess {
         if ($e.Data) { Write-Log "[Watcher ERR] $($e.Data)" }
     })
 
+    $proc.BeginOutputReadLine()
+    $proc.BeginErrorReadLine()
+
+    Write-Log "Watcher started with PID $($proc.Id)"
     return $proc
 }
 
