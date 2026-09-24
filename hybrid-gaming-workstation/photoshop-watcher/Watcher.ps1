@@ -350,27 +350,84 @@ function Invoke-PhotoshopBatch {
 
     Close-Photoshop -ProjectName $projectName
 
-    # After Photoshop exits, verify outputs and move source files
-    foreach ($sourcePath in $FilesToProcess) {
+    # After Photoshop exits, verify outputs and move source files.
+    # Files with missing outputs are retried up to 3 times before being moved to failed.
+    $maxRetries = 3
+    $retryList = [System.Collections.ArrayList]::new($FilesToProcess)
+    $retryCount = 0
+
+    while ($retryList.Count -gt 0 -and $retryCount -lt $maxRetries) {
+        $retryCount++
+        Write-Log -Project $projectName -Message "Verifying $($retryList.Count) file(s); attempt $retryCount of $maxRetries"
+
+        $nextRetryList = [System.Collections.ArrayList]::new()
+        foreach ($sourcePath in $retryList) {
+            $fileName = [System.IO.Path]::GetFileNameWithoutExtension($sourcePath)
+            $sourceFileName = [System.IO.Path]::GetFileName($sourcePath)
+            $outputPath = Join-Path $processedFolder "$fileName.jpg"
+
+            if (Test-Path $outputPath) {
+                Write-Log -Project $projectName -Message "Output file created: $outputPath"
+                $destination = Join-Path $doneFolder $sourceFileName
+                Write-Log -Project $projectName -Message "Moving source file to done: $sourceFileName -> $destination"
+                Move-Item -Path $sourcePath -Destination $destination -Force
+                Write-Log -Project $projectName -Message "Processed and moved to done: $fileName"
+            } else {
+                Write-Log -Project $projectName -Message "Output file missing: $outputPath"
+                [void]$nextRetryList.Add($sourcePath)
+            }
+        }
+
+        $retryList = $nextRetryList
+
+        if ($retryList.Count -gt 0 -and $retryCount -lt $maxRetries) {
+            Write-Log -Project $projectName -Message "Retrying $($retryList.Count) failed file(s)"
+            # Re-run Photoshop with only the failed files
+            $jsSourceFiles = ($retryList | ForEach-Object { '"' + (ConvertTo-JsString $_) + '"' }) -join ", "
+            $template = Get-Content -Path $RunBatchTemplate -Raw
+            $jsxContent = $template `
+                -replace "<<ACTION_FILE>>", (ConvertTo-JsString $ActionDetails.ActionFile) `
+                -replace "<<ACTION_SET>>", (ConvertTo-JsString $ActionDetails.ActionSet) `
+                -replace "<<ACTION_NAME>>", (ConvertTo-JsString $ActionDetails.ActionName) `
+                -replace "<<OUTPUT_FOLDER>>", (ConvertTo-JsString $processedFolder) `
+                -replace "<<JPEG_QUALITY>>", 12 `
+                -replace "<<LOG_FILE>>", (ConvertTo-JsString $logFile) `
+                -replace "<<SOURCE_FILES_ARRAY>>", $jsSourceFiles
+
+            $tempJsxPath = Join-Path $TempJsxFolder "RunBatch-$projectName-retry$retryCount-$(Get-Date -Format 'yyyyMMddHHmmssfff').jsx"
+            $jsxContent | Out-File -FilePath $tempJsxPath -Encoding UTF8
+
+            Write-Log -Project $projectName -Message "Generated retry JSX: $tempJsxPath"
+
+            $psi = New-Object System.Diagnostics.ProcessStartInfo
+            $psi.FileName = $PhotoshopExe
+            $psi.Arguments = "-r `"$tempJsxPath`""
+            $psi.UseShellExecute = $false
+            $psi.WorkingDirectory = (Split-Path $PhotoshopExe)
+            $proc = [System.Diagnostics.Process]::Start($psi)
+
+            $startLineCount = 0
+            if (Test-Path $logFile) {
+                $startLineCount = (Get-Content -Path $logFile).Count
+            }
+            $completed = Wait-ForBatchCompletion -LogFile $logFile -TimeoutSeconds 1800 -StartLineCount $startLineCount
+            if (-not $completed) {
+                Write-Log -Project $projectName -Message "WARNING: Retry batch did not report completion within timeout"
+            } else {
+                Write-Log -Project $projectName -Message "Retry batch completion detected in batch.log"
+            }
+            Close-Photoshop -ProjectName $projectName
+        }
+    }
+
+    # Move any remaining failures to failed folder
+    foreach ($sourcePath in $retryList) {
         $fileName = [System.IO.Path]::GetFileNameWithoutExtension($sourcePath)
         $sourceFileName = [System.IO.Path]::GetFileName($sourcePath)
-        $outputPath = Join-Path $processedFolder "$fileName.jpg"
-
-        if (Test-Path $outputPath) {
-            Write-Log -Project $projectName -Message "Output file created: $outputPath"
-            # Move source to images\done
-            $destination = Join-Path $doneFolder $sourceFileName
-            Write-Log -Project $projectName -Message "Moving source file to done: $sourceFileName -> $destination"
-            Move-Item -Path $sourcePath -Destination $destination -Force
-            Write-Log -Project $projectName -Message "Processed and moved to done: $fileName"
-        } else {
-            Write-Log -Project $projectName -Message "Output file missing: $outputPath"
-            # Move source to failed
-            $destination = Join-Path $failedFolder $sourceFileName
-            Write-Log -Project $projectName -Message "Moving source file to failed: $sourceFileName -> $destination"
-            Move-Item -Path $sourcePath -Destination $destination -Force
-            Write-Log -Project $projectName -Message "FAILED: $fileName (output missing)"
-        }
+        $destination = Join-Path $failedFolder $sourceFileName
+        Write-Log -Project $projectName -Message "Moving source file to failed after $maxRetries attempts: $sourceFileName -> $destination"
+        Move-Item -Path $sourcePath -Destination $destination -Force
+        Write-Log -Project $projectName -Message "FAILED: $fileName (output missing after $maxRetries attempts)"
     }
 }
 
