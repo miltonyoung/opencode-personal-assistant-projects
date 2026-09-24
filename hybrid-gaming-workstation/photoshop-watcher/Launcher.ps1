@@ -14,6 +14,7 @@ $WatcherDir            = Join-Path $RepoPath "hybrid-gaming-workstation\photosho
 $WatcherPath           = Join-Path $WatcherDir "Watcher.ps1"
 $ShutdownFlagPath      = "E:\CreativeBridge\watcher.shutdown"
 $GitPullIntervalSeconds = 20    # Check for updates every 20 seconds (testing)
+$WatcherHealthCheckIntervalSeconds = 15  # Check if watcher died and restart it
 $LogFile               = Join-Path $env:TEMP "photoshop-watcher-launcher.log"
 
 function Write-Log {
@@ -287,5 +288,16 @@ while ($true) {
         Write-Log "Stack: $($_.ScriptStackTrace)"
     }
 
-    Start-Sleep -Seconds $GitPullIntervalSeconds
+    # Sleep in short chunks so we can detect a dead watcher quickly,
+    # while still checking git on the longer interval.
+    $secondsSlept = 0
+    while ($secondsSlept -lt $GitPullIntervalSeconds) {
+        Start-Sleep -Seconds $WatcherHealthCheckIntervalSeconds
+        $secondsSlept += $WatcherHealthCheckIntervalSeconds
+
+        if ($currentWatcher -and $currentWatcher.HasExited) {
+            Write-Log "Watcher process exited unexpectedly (exit code $($currentWatcher.ExitCode)). Restarting."
+            $currentWatcher = Start-WatcherProcess
+        }
+    }
 }
