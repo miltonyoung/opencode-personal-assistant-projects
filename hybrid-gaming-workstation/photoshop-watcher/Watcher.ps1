@@ -379,7 +379,7 @@ function Process-Project {
     New-Item -ItemType Directory -Path $doneFolder -Force | Out-Null
 
     # Find files in images\ that are not already in done\ or failed\, excluding sidecars like .xmp
-    $excludedExtensions = @('.xmp')
+    $excludedExtensions = @('.xmp', '.ds_store')
     $allImages = Get-ChildItem -Path $imagesFolder -File | Where-Object {
         $ext = $_.Extension.ToLower()
         if ($ext -in $excludedExtensions) { return $false }
