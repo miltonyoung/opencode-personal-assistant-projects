@@ -13,7 +13,7 @@ $RepoPath              = "C:\Users\milton\projects\opencode-personal-assistant-p
 $WatcherDir            = Join-Path $RepoPath "hybrid-gaming-workstation\photoshop-watcher"
 $WatcherPath           = Join-Path $WatcherDir "Watcher.ps1"
 $ShutdownFlagPath      = "E:\CreativeBridge\watcher.shutdown"
-$GitPullIntervalSeconds = 300   # Check for updates every 5 minutes
+$GitPullIntervalSeconds = 20    # Check for updates every 20 seconds (testing)
 $LogFile               = Join-Path $env:TEMP "photoshop-watcher-launcher.log"
 
 function Write-Log {
