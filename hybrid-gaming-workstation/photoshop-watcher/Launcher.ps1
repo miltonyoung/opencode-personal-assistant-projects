@@ -39,15 +39,32 @@ function Test-GitAvailable {
 function Invoke-GitPull {
     param([string]$Path)
     try {
-        $output = git -C $Path pull 2>&1 | Out-String
-        if ($LASTEXITCODE -ne 0) {
-            Write-Log "git pull failed (exit $LASTEXITCODE): $output"
+        # Use Start-Process to capture stdout/stderr without throwing on stderr output
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = "git"
+        $psi.Arguments = "-C `"$Path`" pull"
+        $psi.UseShellExecute = $false
+        $psi.CreateNoWindow = $true
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.WorkingDirectory = $Path
+
+        $proc = [System.Diagnostics.Process]::Start($psi)
+        $stdout = $proc.StandardOutput.ReadToEnd()
+        $stderr = $proc.StandardError.ReadToEnd()
+        $proc.WaitForExit()
+
+        $output = ($stdout + "`n" + $stderr).Trim()
+        if ($proc.ExitCode -ne 0) {
+            Write-Log "git pull failed (exit $($proc.ExitCode)): $output"
             return $false
         }
         if ($output -match "Already up to date|Already up-to-date") {
             return $false
         }
-        Write-Log "git pull output: $output"
+        if ($output) {
+            Write-Log "git pull output: $output"
+        }
         return $true
     } catch {
         Write-Log "git pull exception: $_"
@@ -97,8 +114,10 @@ function Start-WatcherProcess {
         return $null
     }
 
+    Write-Log "Watcher process started with PID $($proc.Id)"
+
     # Wait a moment and capture an early crash (syntax errors, missing path, etc.)
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 3
     if ($proc.HasExited) {
         $stdout = $proc.StandardOutput.ReadToEnd()
         $stderr = $proc.StandardError.ReadToEnd()
@@ -121,7 +140,7 @@ function Start-WatcherProcess {
     $proc.BeginOutputReadLine()
     $proc.BeginErrorReadLine()
 
-    Write-Log "Watcher started with PID $($proc.Id)"
+    Write-Log "Watcher is running and output is being forwarded"
     return $proc
 }
 
@@ -209,6 +228,9 @@ while ($true) {
 
             Write-Log "Starting watcher"
             $currentWatcher = Start-WatcherProcess
+            if (-not $currentWatcher) {
+                Write-Log "ERROR: Watcher did not start; will retry on next cycle"
+            }
             $currentFilesHash = $newFilesHash
         }
 
@@ -219,6 +241,7 @@ while ($true) {
         }
     } catch {
         Write-Log "ERROR in main loop: $_"
+        Write-Log "Stack: $($_.ScriptStackTrace)"
     }
 
     Start-Sleep -Seconds $GitPullIntervalSeconds
