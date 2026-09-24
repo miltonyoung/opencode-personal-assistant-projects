@@ -16,14 +16,6 @@ $ShutdownFlagPath      = "E:\CreativeBridge\watcher.shutdown"
 $GitPullIntervalSeconds = 300   # Check for updates every 5 minutes
 $LogFile               = Join-Path $env:TEMP "photoshop-watcher-launcher.log"
 
-# Files to hash; if any change after a pull, request a graceful watcher restart
-$WatchedFiles = @(
-    Join-Path $WatcherDir "Watcher.ps1"
-    Join-Path $WatcherDir "RunBatch.jsx"
-    Join-Path $WatcherDir "RunBatch.jsx.template"
-    Join-Path $WatcherDir "parse_atn.py"
-)
-
 function Write-Log {
     param([string]$Message)
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -36,10 +28,84 @@ function Test-GitAvailable {
     return [bool](Get-Command git -ErrorAction SilentlyContinue)
 }
 
+function Get-LocalHeadHash {
+    param([string]$Path)
+    try {
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = "git"
+        $psi.Arguments = "-C `"$Path`" rev-parse HEAD"
+        $psi.UseShellExecute = $false
+        $psi.CreateNoWindow = $true
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.WorkingDirectory = $Path
+
+        $proc = [System.Diagnostics.Process]::Start($psi)
+        $stdout = $proc.StandardOutput.ReadToEnd().Trim()
+        $stderr = $proc.StandardError.ReadToEnd().Trim()
+        $proc.WaitForExit()
+
+        if ($proc.ExitCode -ne 0) {
+            Write-Log "git rev-parse failed: $stderr"
+            return $null
+        }
+        return $stdout
+    } catch {
+        Write-Log "git rev-parse exception: $_"
+        return $null
+    }
+}
+
+function Get-RemoteHeadHash {
+    param([string]$Path)
+    try {
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = "git"
+        $psi.Arguments = "-C `"$Path`" ls-remote origin HEAD"
+        $psi.UseShellExecute = $false
+        $psi.CreateNoWindow = $true
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.WorkingDirectory = $Path
+
+        $proc = [System.Diagnostics.Process]::Start($psi)
+        $stdout = $proc.StandardOutput.ReadToEnd().Trim()
+        $stderr = $proc.StandardError.ReadToEnd().Trim()
+        $proc.WaitForExit()
+
+        if ($proc.ExitCode -ne 0) {
+            Write-Log "git ls-remote failed: $stderr"
+            return $null
+        }
+        # Output format: "<hash>\tHEAD"
+        return ($stdout -split "\s+")[0]
+    } catch {
+        Write-Log "git ls-remote exception: $_"
+        return $null
+    }
+}
+
+function Test-UpdateAvailable {
+    param([string]$Path)
+    $localHash = Get-LocalHeadHash -Path $Path
+    $remoteHash = Get-RemoteHeadHash -Path $Path
+
+    if (-not $localHash -or -not $remoteHash) {
+        Write-Log "Could not compare hashes; assuming no update"
+        return $false
+    }
+
+    if ($localHash -eq $remoteHash) {
+        return $false
+    }
+
+    Write-Log "Update available: local $localHash -> remote $remoteHash"
+    return $true
+}
+
 function Invoke-GitPull {
     param([string]$Path)
     try {
-        # Use Start-Process to capture stdout/stderr without throwing on stderr output
         $psi = New-Object System.Diagnostics.ProcessStartInfo
         $psi.FileName = "git"
         $psi.Arguments = "-C `"$Path`" pull"
@@ -50,16 +116,13 @@ function Invoke-GitPull {
         $psi.WorkingDirectory = $Path
 
         $proc = [System.Diagnostics.Process]::Start($psi)
-        $stdout = $proc.StandardOutput.ReadToEnd()
-        $stderr = $proc.StandardError.ReadToEnd()
+        $stdout = $proc.StandardOutput.ReadToEnd().Trim()
+        $stderr = $proc.StandardError.ReadToEnd().Trim()
         $proc.WaitForExit()
 
         $output = ($stdout + "`n" + $stderr).Trim()
         if ($proc.ExitCode -ne 0) {
             Write-Log "git pull failed (exit $($proc.ExitCode)): $output"
-            return $false
-        }
-        if ($output -match "Already up to date|Already up-to-date") {
             return $false
         }
         if ($output) {
@@ -70,17 +133,6 @@ function Invoke-GitPull {
         Write-Log "git pull exception: $_"
         return $false
     }
-}
-
-function Get-WatchedFilesHash {
-    $hashes = foreach ($path in $WatchedFiles) {
-        if (Test-Path $path) {
-            (Get-FileHash -Path $path -Algorithm SHA256).Hash
-        } else {
-            "missing"
-        }
-    }
-    return ($hashes -join "|")
 }
 
 function Request-GracefulShutdown {
@@ -200,25 +252,25 @@ if (-not (Test-GitAvailable)) {
 }
 
 $currentWatcher = $null
-$currentFilesHash = $null
 $firstRun = $true
 
 while ($true) {
     try {
-        $pulledChanges = Invoke-GitPull -Path $RepoPath
-        $newFilesHash = Get-WatchedFilesHash
+        $updateAvailable = Test-UpdateAvailable -Path $RepoPath
+        $pulledChanges = $false
 
         $needsRestart = $false
         if ($firstRun) {
             Write-Log "First run: starting watcher"
             $needsRestart = $true
             $firstRun = $false
-        } elseif ($pulledChanges) {
-            Write-Log "Git pull reported changes"
-            $needsRestart = $true
-        } elseif ($currentFilesHash -and $newFilesHash -ne $currentFilesHash) {
-            Write-Log "Watched watcher files changed (local edit or pull)"
-            $needsRestart = $true
+        } elseif ($updateAvailable) {
+            Write-Log "Remote repo has new commits; pulling"
+            $pulledChanges = Invoke-GitPull -Path $RepoPath
+            if (-not $pulledChanges) {
+                Write-Log "git pull did not apply changes; will retry next cycle"
+            }
+            $needsRestart = $pulledChanges
         }
 
         if ($needsRestart) {
@@ -231,13 +283,11 @@ while ($true) {
             if (-not $currentWatcher) {
                 Write-Log "ERROR: Watcher did not start; will retry on next cycle"
             }
-            $currentFilesHash = $newFilesHash
         }
 
         if ($currentWatcher -and $currentWatcher.HasExited) {
             Write-Log "Watcher process exited unexpectedly (exit code $($currentWatcher.ExitCode)). Restarting."
             $currentWatcher = Start-WatcherProcess
-            $currentFilesHash = Get-WatchedFilesHash
         }
     } catch {
         Write-Log "ERROR in main loop: $_"
