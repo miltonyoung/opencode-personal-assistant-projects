@@ -21,7 +21,16 @@ function Write-Log {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $line = "$timestamp [Launcher] $Message"
     Write-Host $line
-    Add-Content -Path $LogFile -Value $line -ErrorAction SilentlyContinue
+
+    # Retry if the log file is locked by a live tail (e.g., Get-Content -Wait)
+    for ($i = 0; $i -lt 5; $i++) {
+        try {
+            Add-Content -Path $LogFile -Value $line -ErrorAction Stop
+            break
+        } catch {
+            Start-Sleep -Milliseconds 50
+        }
+    }
 }
 
 function Test-GitAvailable {

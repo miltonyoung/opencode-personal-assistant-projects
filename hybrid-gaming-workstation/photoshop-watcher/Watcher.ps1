@@ -29,7 +29,16 @@ function Write-Log {
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $line = "$timestamp [$Project] $Message"
     Write-Host $line
-    Add-Content -Path "$RootFolder\watcher.log" -Value $line -ErrorAction SilentlyContinue
+
+    # Retry if the log file is locked by a live tail (e.g., Get-Content -Wait)
+    for ($i = 0; $i -lt 5; $i++) {
+        try {
+            Add-Content -Path "$RootFolder\watcher.log" -Value $line -ErrorAction Stop
+            break
+        } catch {
+            Start-Sleep -Milliseconds 50
+        }
+    }
 }
 
 function Get-ActionDetails {
