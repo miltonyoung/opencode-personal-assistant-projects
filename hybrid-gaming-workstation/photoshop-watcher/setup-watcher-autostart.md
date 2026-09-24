@@ -27,33 +27,30 @@ If your repo is somewhere else, edit the `$RepoPath` variable at the top of
 
 ## Step 2: Create the Windows Task Scheduler task
 
-### Option A: Run at user logon (recommended)
+### Option A: `shell:startup` shortcut (recommended)
 
-This is the safest choice because Photoshop and the watcher run under your
-normal user profile, which has access to your Adobe installation and
-`E:\CreativeBridge`.
+Task Scheduler can fail with access-denied errors on some Windows builds.
+A `shell:startup` shortcut launches the watcher automatically after you log in,
+without requiring elevation, and avoids a visible PowerShell window by wrapping
+PowerShell in a `cmd /c start /min` command.
 
-Open PowerShell **as your normal user** (not Administrator) and run:
+1. Press **Win + R**, type `shell:startup`, and press Enter.
+2. Right-click in the folder → **New → Shortcut**.
+3. In the location field, paste:
+   ```
+   cmd /c start "" /min powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\Launcher.ps1"
+   ```
+4. Click **Next**, name it `Photoshop Watcher Launcher`, and click **Finish**.
+5. Reboot (or double-click the shortcut to test).
+6. Check Task Manager for `powershell.exe` running `Launcher.ps1` and a child
+   `powershell.exe` running `Watcher.ps1`.
 
-```powershell
-$Action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -File C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\Launcher.ps1"
+### Option B: Windows Task Scheduler
 
-$Trigger = New-ScheduledTaskTrigger -AtLogOn
-
-$Principal = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType Interactive -RunLevel Highest
-
-$Settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1)
-
-Register-ScheduledTask -TaskName "PhotoshopWatcher-Launcher" -Action $Action -Trigger $Trigger -Principal $Principal -Settings $Settings -Force
-
-# Start now to test
-Start-ScheduledTask -TaskName "PhotoshopWatcher-Launcher"
-```
-
-### Option B: Run at system startup as a service
-
-Not recommended because Photoshop needs an interactive user session and GUI.
-Only choose this if you have auto-login enabled and a real display session.
+Not recommended because Task Scheduler may deny registration or run in a
+non-interactive context that conflicts with Photoshop. If you want to try it,
+set it to **Run only when user is logged on** and do **not** run with highest
+privileges.
 
 ---
 
@@ -80,7 +77,22 @@ You should see entries like:
 
 ---
 
-## Step 4: Test the auto-pull / auto-restart behavior
+## Step 4: Create a shortcut to tail the logs
+
+A helper script `Tail-Logs.ps1` opens the watcher and launcher logs in two
+separate PowerShell windows.
+
+1. Right-click the desktop → **New → Shortcut**.
+2. In the location field, paste:
+   ```
+   cmd /c start "" /min powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\Tail-Logs.ps1"
+   ```
+3. Name it `Tail Watcher Logs` and click **Finish**.
+4. Double-click it to open two live log windows.
+
+---
+
+## Step 5: Test the auto-pull / auto-restart behavior
 
 1. Note the current watcher process ID in Task Manager.
 2. From another machine, push a small change to
