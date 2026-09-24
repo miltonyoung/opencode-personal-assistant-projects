@@ -352,56 +352,112 @@ Finder stat is a network round-trip. Use it for browsing, not for bulk ingest.
 
 ---
 
-## Step 6: macOS client — automated folder watch (optional)
+## Step 6: macOS client — GUI options for managing syncs and mounts
 
-If you want drop-and-forget behavior similar to the SMB watcher, install
-`fswatch`:
+Since you want a GUI to manage what gets synced and when, choose one of these
+three paths on the MacBook.
 
-```bash
-brew install fswatch
-```
+### Option A: RcloneView (recommended)
 
-Create `~/bin/watch-creativebridge.sh`:
+- Native macOS app built around rclone.
+- Two-pane file explorer, drag-and-drop transfers, folder comparison.
+- Mount any rclone remote (including SFTP) as a Finder volume.
+- Job scheduling with PLUS license.
+- Auto-mount on startup.
+- Free core features; scheduling is a paid PLUS feature.
+- Install: `brew install --cask rclone-ui` or download from
+  <https://rcloneview.com/>.
 
-```bash
-#!/bin/bash
-SRC="/Users/milton/CreativeBridge-Drop"
-DST="pc-sftp:/"
+Recommended if you want a single app that covers SFTP transfers, mounts, and
+future cloud providers.
 
-fswatch -o "$SRC" | while read -r event; do
-    echo "Change detected, syncing..."
-    rclone sync "$SRC" "$DST" \
-      --transfers 8 \
-      --sftp-concurrency 64 \
-      --sftp-chunk-size 32k \
-      --progress
-    # Optional: move successfully synced files to a local "sent" folder
-    # find "$SRC" -type f -exec mv {} "$SRC/../sent/" \;
-done
-```
+### Option B: Official rclone Web GUI
 
-> For your workflow, a manual `push-to-pc.sh` per project is probably cleaner
-> and avoids accidental deletions from `sync`.
+- Bundled with rclone, no extra install.
+- Browser-based dashboard: remotes, explorer, mounts, serves, settings.
+- No scheduling; manual jobs only.
+- Launch: `rclone gui --user admin --pass <password>`.
+
+Useful for quick browsing and ad-hoc transfers, but lacks automation.
+
+### Option C: Dual-pane file manager + rclone CLI
+
+- ForkLift, Commander One, or Path Finder can connect to SFTP/SMB directly.
+- Good for browsing and manual transfers, but they do not use rclone's
+  parallel SFTP engine.
+- Useful as a **Finder replacement** alongside scripted rclone jobs, but not
+  as the primary sync engine.
+
+### Recommended mix
+
+- **RcloneView** as the daily GUI for browsing the PC, mounting it when
+  needed, and managing scheduled sync jobs.
+- **Custom scripts** (`push-to-pc-atomic.sh`, `pull-from-pc.sh`) for the
+  heavy Photoshop/Resolve handoffs, because they can be tuned exactly to your
+  `--transfers` / `--sftp-concurrency` / atomic-staging needs.
 
 ---
 
-## Step 7: Update the Windows Photoshop watcher if needed
+## Step 7: macOS client — mount the SFTP remote via RcloneView
+
+1. Open RcloneView and add a new **SFTP** remote:
+   - Host: Windows PC Tailscale IP (`100.x.x.x`).
+   - Port: `2022`.
+   - User: `creativebridge`.
+   - Password: the long random password.
+   - Advanced: set `chunk_size` to `32k` to match `rclone serve sftp`.
+2. In the **Mount Manager**, create a mount:
+   - Remote: `pc-sftp:/`.
+   - Mount point: `~/CreativeBridge-SFTP`.
+   - VFS cache mode: `writes` for read/write compatibility, or `full` if you
+     want aggressive local caching for large previews.
+3. Grant RcloneView the macOS permissions it asks for
+   (Files and Folders / Full Disk Access, and macFUSE/FUSE-T if needed).
+
+This gives you a Finder-accessible view of the PC for light browsing, while
+heavy transfers still go through RcloneView's job manager or your scripts.
+
+---
+
+## Step 8: macOS client — scheduled jobs (RcloneView PLUS)
+
+If you get the PLUS license, set up scheduled jobs for common handoffs:
+
+| Job | Source | Destination | Direction | Schedule |
+| --- | ------ | ----------- | --------- | -------- |
+| Drop RAWs to PC | `~/CreativeBridge/*/raw` | `pc-sftp:/photoshop-projects/*/raw` | Copy | Manual or on folder change |
+| Pull processed exports | `pc-sftp:/photoshop-projects/*/processed` | `~/CreativeBridge/*/processed` | Copy | After you know a batch is done |
+| Nightly sync working folder | `~/CreativeBridge` | `pc-sftp:/` | Copy | 2:00 AM |
+
+Use **Copy**, not **Sync**, for safety so accidental local deletions do not
+propagate to the PC.
+
+---
+
+## Step 9: Update the Windows Photoshop watcher if needed
 
 The watcher currently monitors `E:\CreativeBridge\photoshop-projects`. Since
 rclone SFTP is only a transport, the watcher does **not** need to change.
 
-However, if you later switch the MacBook client to use SFTP **mount** instead
-of SMB, the watcher must still look at the local Windows path, not the mount
-path. The SMB share and the SFTP server can expose the same root folder
-simultaneously.
+However, because you will use atomic staging (`__incoming` → `images`), add a
+safety rule so the watcher explicitly ignores any folder starting with `__`.
+This protects against future code changes.
 
-One update you may want: the watcher currently waits 10 seconds for file-size
-stability. Over a faster transport you could lower this, but leave it alone
-unless you confirm copy completion is reliable at lower values.
+Open `photoshop-watcher/Watcher.ps1` and add this near the top of
+`Process-Project`, before scanning `images\`:
+
+```powershell
+$projectName = Split-Path $ProjectFolder -Leaf
+if ($projectName -match '^__') {
+    return
+}
+```
+
+Also, if you lower `FileSizeStableSeconds` later, test thoroughly first.
 
 ---
 
-## Step 8: Update Resolve remote-rendering notes
+## Step 10: Update Resolve remote-rendering notes
 
 Resolve Remote Rendering also reads from `E:\CreativeBridge`. No change is
 required. If you ever move the share root, update both the SMB share, the SFTP
@@ -409,10 +465,10 @@ root, and the Resolve path settings together.
 
 ---
 
-## Step 9: Quick benchmark plan
+## Step 11: Quick benchmark plan
 
 1. Create a test folder with 100 representative files (RAW + JPEG + sidecar).
-2. Time three methods:
+2. Time these methods:
    - SMB drag/drop from MacBook to `\\<tailscale-ip>\CreativeBridge`.
    - `rclone copy` over Tailscale SFTP with `--transfers 8`.
    - `rclone copy` over local LAN SMB for a baseline.
@@ -420,7 +476,7 @@ root, and the Resolve path settings together.
    - Wall time
    - CPU usage on the Windows PC
    - `tailscale status` connection type (direct vs relay)
-4. Decide which method becomes the primary handoff path.
+4. Decide whether SMB can be removed.
 
 ---
 
@@ -428,15 +484,16 @@ root, and the Resolve path settings together.
 
 | Option | Pros | Cons |
 | ------ | ---- | ---- |
-| **Keep only SMB + disable MultiChannel** | No new software | Still single-threaded per file; may still be slow over Tailscale. |
+| **Keep only SMB + disable MultiChannel** | No new software | Still single-threaded per file; poor remote performance. |
 | **Tailscale + `rclone serve webdav`** | Easy macOS Finder mount | WebDAV is not as fast or robust as SFTP for bulk transfer. |
 | **Tailscale + `rclone serve nfs`** | Can use native OS mount | Experimental in rclone, historically had severe performance issues. |
 | **OpenSSH SFTP on Windows** | Uses standard SSH tooling | More setup (install OpenSSH server, key auth, chroot); harder to autostart cleanly. |
 | **rsync over SSH** | Very fast for large sets | Needs WSL or Cygwin on Windows; path mapping becomes complex. |
 | **Tailscale + Syncthing** | Continuous sync, versioning | Adds another daemon; versioning can fill disk; conflicts need handling. |
 
-Recommended path: **Tailscale + rclone `serve sftp` as an additive fast lane,
-keep SMB for browsing/light use.**
+Recommended path: **Tailscale + rclone `serve sftp` as the primary transport,
+`rclone mount` (via RcloneView) for occasional Finder browsing, and SMB removed
+after validation.**
 
 ---
 
@@ -455,9 +512,12 @@ keep SMB for browsing/light use.**
 
 1. Confirm Tailscale direct connection between MacBook and PC.
 2. Install rclone on both machines.
-3. Create the `creativebridge` local account and set NTFS permissions on
+3. Choose and install the MacBook GUI: **RcloneView** (recommended) or use the
+   bundled rclone Web GUI for now.
+4. Create the `creativebridge` local account and set NTFS permissions on
    `E:\CreativeBridge`.
-4. Create and test the Windows scheduled task for `rclone serve sftp`.
-5. Configure the MacBook rclone remote and run a first `rclone copy` test.
-6. Run the benchmark plan and record results.
-7. Decide whether to keep SMB, demote it, or remove it.
+5. Create and test the Windows scheduled task for `rclone serve sftp`.
+6. Configure the MacBook rclone remote (via RcloneView or `rclone config`).
+7. Run the atomic staging `push-to-pc-atomic.sh` test.
+8. Run the benchmark plan and record results.
+9. Disable or remove SMB after SFTP + mount are proven.

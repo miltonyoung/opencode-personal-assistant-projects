@@ -9,12 +9,17 @@ $PhotoshopExe = "C:\Program Files\Adobe\Adobe Photoshop 2026\Photoshop.exe"
 $RunBatchTemplate = "C:\Users\milton\projects\opencode-personal-assistant-projects\hybrid-gaming-workstation\photoshop-watcher\RunBatch.jsx.template"
 $TempJsxFolder = Join-Path $env:TEMP "photoshop-watcher"
 $FileSizeStableSeconds = 10
+$ShutdownFlagPath = "E:\CreativeBridge\watcher.shutdown"
 
 New-Item -ItemType Directory -Path $TempJsxFolder -Force | Out-Null
 
 # Global tracker for file-size stability (copy completion detection)
 # Key: file path. Value: @{ Size = N; FirstSeenAtSize = DateTime }
 $global:FileSizeTracker = @{}
+
+function Test-ShutdownRequested {
+    return Test-Path $ShutdownFlagPath
+}
 
 function Write-Log {
     param(
@@ -444,6 +449,19 @@ while ($true) {
         }
     } catch {
         Write-Log -Project "Watcher" -Message "ERROR in main loop: $_"
+    }
+
+    if (Test-ShutdownRequested) {
+        Write-Log -Project "Watcher" -Message "Shutdown flag detected; finishing batch and closing Photoshop"
+        Close-Photoshop -ProjectName "Watcher"
+        try {
+            Remove-Item -Path $ShutdownFlagPath -Force -ErrorAction Stop
+            Write-Log -Project "Watcher" -Message "Shutdown flag removed"
+        } catch {
+            Write-Log -Project "Watcher" -Message "WARNING: could not remove shutdown flag: $_"
+        }
+        Write-Log -Project "Watcher" -Message "Watcher exiting gracefully"
+        exit 0
     }
 
     Start-Sleep -Seconds $PollIntervalSeconds
