@@ -152,12 +152,13 @@ function Start-WatcherProcess {
 
     $psi = New-Object System.Diagnostics.ProcessStartInfo
     $psi.FileName         = "powershell.exe"
-    $psi.Arguments        = "-ExecutionPolicy Bypass -NoProfile -File `"$WatcherPath`""
+    $psi.Arguments        = "-ExecutionPolicy Bypass -NoProfile -WindowStyle Hidden -File `"$WatcherPath`""
     $psi.WorkingDirectory  = $WatcherDir
     $psi.UseShellExecute    = $false
     $psi.CreateNoWindow     = $true
-    $psi.RedirectStandardOutput = $true
-    $psi.RedirectStandardError  = $true
+    # Do not redirect stdout/stderr here. Watcher.ps1 writes its own log to
+    # E:\CreativeBridge\photoshop-projects\watcher.log. Async redirection in
+    # PowerShell can terminate the parent process unexpectedly.
 
     try {
         $proc = [System.Diagnostics.Process]::Start($psi)
@@ -168,31 +169,14 @@ function Start-WatcherProcess {
 
     Write-Log "Watcher process started with PID $($proc.Id)"
 
-    # Wait a moment and capture an early crash (syntax errors, missing path, etc.)
+    # Wait a moment and verify it didn't crash immediately
     Start-Sleep -Seconds 3
     if ($proc.HasExited) {
-        $stdout = $proc.StandardOutput.ReadToEnd()
-        $stderr = $proc.StandardError.ReadToEnd()
         Write-Log "ERROR: Watcher exited immediately (exit code $($proc.ExitCode))"
-        if ($stdout) { Write-Log "Watcher stdout: $stdout" }
-        if ($stderr) { Write-Log "Watcher stderr: $stderr" }
         return $null
     }
 
-    # Forward watcher stdout/stderr to the launcher log so everything is in one place
-    $proc.add_OutputDataReceived({
-        param($sender, $e)
-        if ($e.Data) { Write-Log "[Watcher] $($e.Data)" }
-    })
-    $proc.add_ErrorDataReceived({
-        param($sender, $e)
-        if ($e.Data) { Write-Log "[Watcher ERR] $($e.Data)" }
-    })
-
-    $proc.BeginOutputReadLine()
-    $proc.BeginErrorReadLine()
-
-    Write-Log "Watcher is running and output is being forwarded"
+    Write-Log "Watcher is running"
     return $proc
 }
 
