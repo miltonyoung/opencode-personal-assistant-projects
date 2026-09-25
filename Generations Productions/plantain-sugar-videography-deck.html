@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plantain Sugar — Videography Coverage Approach</title>
+  <link rel="stylesheet" href="reveal/reveal.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gp-black: #111111;
+      --gp-white: #ffffff;
+      --gp-green: #1B7F4E;
+      --gp-gold: #C9A227;
+      --gp-gray: #f5f5f5;
+    }
+
+    .reveal {
+      font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 28px;
+      color: var(--gp-black);
+      background: var(--gp-white);
+    }
+
+    .reveal .slides { text-align: left; }
+
+    .reveal .slides section {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex !important;
+      flex-direction: column;
+      background: var(--gp-white);
+    }
+
+    .reveal .slides section .header {
+      background: var(--gp-black);
+      color: var(--gp-white);
+      padding: 0.3in 0.55in 0.38in;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .reveal .slides section .header::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: var(--gp-green);
+      transform: skewY(-1.2deg);
+      z-index: 10;
+    }
+
+    .reveal .slides section .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.2in;
+    }
+
+    .reveal .slides section .header-logo {
+      font-size: 12pt;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gp-gold);
+    }
+
+    .reveal .slides section .header-logo-img {
+      background: var(--gp-white);
+      border-radius: 50%;
+      padding: 0.04in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .reveal .slides section .header-logo-img img {
+      width: 0.55in;
+      height: 0.55in;
+      object-fit: contain;
+      display: block;
+    }
+
+    .reveal .slides section .header-text { flex: 1; text-align: right; }
+
+    .reveal .slides section .brand-name {
+      font-size: 30pt;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      line-height: 1;
+      color: var(--gp-white);
+      margin-bottom: 0.05in;
+    }
+
+    .reveal .slides section .brand-tagline {
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gp-green);
+    }
+
+    .reveal .slides section .content {
+      flex: 1;
+      padding: 0.35in 0.55in 0.2in;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.22in;
+      overflow: hidden;
+    }
+
+    .reveal .slides section .footer {
+      background: var(--gp-black);
+      color: var(--gp-white);
+      padding: 0.2in 0.55in 0.3in;
+      position: relative;
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    .reveal .slides section .footer::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: var(--gp-green);
+      transform: skewY(1.2deg);
+      z-index: 10;
+    }
+
+    .reveal .slides section .footer-mantra {
+      font-size: 11pt;
+      font-weight: 800;
+      color: var(--gp-gold);
+      letter-spacing: 0.5px;
+    }
+
+    .reveal .slides section .word-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .reveal .slides section .word-list li {
+      font-size: 18pt;
+      font-weight: 700;
+      margin-bottom: 0.16in;
+      line-height: 1.25;
+      padding-left: 0.2in;
+      position: relative;
+    }
+
+    .reveal .slides section .word-list li::before {
+      content: "›";
+      position: absolute;
+      left: 0;
+      color: var(--gp-gold);
+      font-weight: 800;
+    }
+
+    .reveal .slides section .word-list.small li {
+      font-size: 16pt;
+      margin-bottom: 0.12in;
+    }
+
+    .reveal .slides section .columns {
+      display: flex;
+      gap: 0.35in;
+    }
+
+    .reveal .slides section .column { flex: 1; }
+
+    .reveal .slides section .column-title {
+      font-size: 11pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--gp-green);
+      margin-bottom: 0.12in;
+    }
+
+    .reveal .slides section .one-liner {
+      font-size: 16pt;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--gp-black);
+    }
+
+    .reveal .slides section .big-idea {
+      font-size: 22pt;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--gp-black);
+    }
+
+    .reveal .slides section .phase-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.2in;
+      margin-bottom: 0.16in;
+    }
+
+    .reveal .slides section .phase-time {
+      font-size: 12pt;
+      font-weight: 800;
+      color: var(--gp-green);
+      white-space: nowrap;
+      min-width: 1.4in;
+    }
+
+    .reveal .slides section .phase-what {
+      font-size: 14pt;
+      font-weight: 700;
+      color: var(--gp-black);
+    }
+
+    .reveal .slides section .title-slide {
+      align-items: center;
+      text-align: center;
+    }
+
+    .reveal .slides section .title-slide .main-title {
+      font-size: 42pt;
+      font-weight: 900;
+      color: var(--gp-black);
+      margin-bottom: 0.1in;
+      line-height: 1.05;
+    }
+
+    .reveal .slides section .title-slide .subtitle {
+      font-size: 16pt;
+      font-weight: 700;
+      color: var(--gp-green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.35in;
+    }
+
+    .reveal .slides section .title-slide .meta {
+      font-size: 13pt;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .reveal .slides section .title-slide .note {
+      margin-top: 0.3in;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.08in;
+    }
+
+    .reveal .slides section .title-logo-img {
+      background: var(--gp-white);
+      border-radius: 50%;
+      padding: 0.1in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reveal .slides section .title-logo-img img {
+      width: 1.3in;
+      height: 1.3in;
+      object-fit: contain;
+      display: block;
+    }
+
+    .reveal .slides section .title-logo-text {
+      font-size: 11pt;
+      color: #777;
+      letter-spacing: 0.5px;
+    }
+
+    .reveal .controls { color: var(--gp-green); }
+
+    .reveal .progress {
+      background: rgba(27, 127, 78, 0.2);
+      color: var(--gp-green);
+      height: 4px;
+    }
+
+    .reveal .slide-number {
+      background: var(--gp-black);
+      color: var(--gp-gold);
+      font-size: 12pt;
+      font-weight: 700;
+      padding: 0.1in 0.15in;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Title -->
+      <section>
+        <div class="content title-slide">
+          <div class="main-title">Plantain Sugar</div>
+          <div class="subtitle">Videography Approach</div>
+          <div class="meta">
+            AZ's First Nigerian Independence Festival<br>
+            Sept 26, 2026 | 3 PM – 9:30 PM<br>
+            Peoria's Centennial Plaza Park<br>
+            ~400 attendees
+          </div>
+          <div class="note">
+            <div class="title-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="title-logo-text">Generations Productions</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+      <!-- Slide 2: The Opportunity -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="header-text">
+              <div class="brand-name">The Opportunity</div>
+              <div class="brand-tagline">A first-of-its-kind milestone</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="big-idea">~400 people. One historic day. A story worth telling right.</div>
+          <div class="one-liner">A professional 60-second recap for the organizers — capturing the energy, culture, and community of the first Nigerian Independence Festival in Arizona.</div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+      <!-- Slide 3: The Approach -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="header-text">
+              <div class="brand-name">The Approach</div>
+              <div class="brand-tagline">People first. Emotion first. Enjoyment first.</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="big-idea">We capture how the event feels — not just how it looks.</div>
+          <ul class="word-list">
+            <li>Landscape orientation throughout</li>
+            <li>Reactions over staged shots</li>
+            <li>Friends, families, and candid joy</li>
+            <li>Short interviews with attendees as it happens</li>
+          </ul>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Coverage by Phase -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="header-text">
+              <div class="brand-name">Coverage by Phase</div>
+              <div class="brand-tagline">Mapped to the schedule</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="phase-row">
+            <div class="phase-time">3:00 – 4:00</div>
+            <div class="phase-what">Arrivals, marketplace, first impressions, atmosphere</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-time">4:00 – 4:30</div>
+            <div class="phase-what">Mini parade &amp; opening ceremony energy</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-time">4:40 – 7:00</div>
+            <div class="phase-what">Main stage, soccer, cooking demo, crowd reactions</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-time">6:45 – 7:20</div>
+            <div class="phase-what">Music &amp; traditional dance, close-ups, crowd joy</div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-time">7:35 – 9:30</div>
+            <div class="phase-what">Outdoor movie &amp; closing ambience</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+      <!-- Slide 5: What We Are Capturing -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="header-text">
+              <div class="brand-name">What We Are Capturing</div>
+              <div class="brand-tagline">The heart of the experience</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Moments</div>
+              <ul class="word-list small">
+                <li>Performances &amp; speakers</li>
+                <li>Food, fashion, flags, tradition</li>
+                <li>Day-to-night transition</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">People</div>
+              <ul class="word-list small">
+                <li>Reactions &amp; laughter</li>
+                <li>Friends &amp; families enjoying together</li>
+                <li>Attendee interviews</li>
+              </ul>
+            </div>
+          </div>
+          <div class="one-liner">Respectful coverage. No blocked sightlines. No disruptive lighting.</div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Gear & Crew -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="header-text">
+              <div class="brand-name">Gear &amp; Crew</div>
+              <div class="brand-tagline">Two shooters, clean audio</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Team</div>
+              <ul class="word-list small">
+                <li>2-person crew</li>
+                <li>Primary shooter</li>
+                <li>Second angle / roaming operator</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">Gear</div>
+              <ul class="word-list small">
+                <li>2 DJI Osmo Pocket 3 cameras</li>
+                <li>All footage in landscape orientation</li>
+                <li>Built-in gimbal stabilization</li>
+                <li>DJ booth line-out for crisp audio</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Deliverables -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="header-text">
+              <div class="brand-name">Deliverables</div>
+              <div class="brand-tagline">Landscape. Tight. Shareable.</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="big-idea">One polished 60-second recap video in landscape.</div>
+          <ul class="word-list">
+            <li>People-first story of the event</li>
+            <li>High-energy, emotion-driven edit</li>
+            <li>Crisp performance audio from the DJ mix</li>
+          </ul>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Next Steps -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo-img"><img src="gp-logo.png" alt="Generations Productions"></div>
+            <div class="header-text">
+              <div class="brand-name">Next Steps</div>
+              <div class="brand-tagline">Let's lock it in</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <ul class="word-list">
+            <li>Coordinate DJ booth audio access</li>
+            <li>Finalize shot list and interview approach</li>
+            <li>Tell the story of Plantain Sugar</li>
+          </ul>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Capture the moment. Preserve the culture.</div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="reveal/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      showSlideNumber: 'all',
+      transition: 'slide',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      center: false,
+      width: 960,
+      height: 700,
+      margin: 0.04,
+      minScale: 0.2,
+      maxScale: 2.0,
+      keyboard: true,
+      touch: true,
+      overview: true,
+      help: true,
+      progress: true,
+      controls: true
+    });
+  </script>
+</body>
+</html>
