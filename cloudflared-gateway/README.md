@@ -4,7 +4,7 @@
 
 A single, shared Cloudflare Tunnel that exposes multiple Docker Compose projects over HTTPS.
 
-Each project connects only the public-facing service to a shared Docker network (`cloudflare-net`). The tunnel container forwards traffic, and routing is managed in the [Cloudflare Zero Trust dashboard](https://one.dash.cloudflare.com/).
+Each project connects only the public-facing service to a shared Docker network (`cloudflare-net`). The gateway's own `docker-compose.yml` creates and owns `cloudflare-net`; other projects attach to it as an external network. Routing is managed in the [Cloudflare Zero Trust dashboard](https://one.dash.cloudflare.com/).
 
 ## Included projects
 
@@ -15,13 +15,7 @@ Each project connects only the public-facing service to a shared Docker network 
 
 ## Quick start
 
-1. **Create the shared Docker network:**
-
-   ```bash
-   make network
-   ```
-
-2. **Copy the env file and paste the tunnel token:**
+1. **Copy the env file and paste the tunnel token:**
 
    ```bash
    cp .env.example .env
@@ -29,20 +23,20 @@ Each project connects only the public-facing service to a shared Docker network 
 
    Then edit `.env` and set `CLOUDFLARE_TUNNEL_TOKEN` to the token from the Cloudflare Zero Trust dashboard.
 
-3. **Start the tunnel:**
+2. **Start the tunnel (creates `cloudflare-net` automatically):**
 
    ```bash
    make up
    ```
 
-4. **Configure public hostnames in the Cloudflare dashboard:**
+3. **Configure public hostnames in the Cloudflare dashboard:**
 
    - Go to **Networks** → **Tunnels** and select the shared tunnel.
    - Add or confirm public hostnames pointing to the internal service URLs above:
      - Annie: `http://web:8080`
      - Event Media Intake: `http://event-coordinator:3000`
 
-5. **Start each project** so its services join `cloudflare-net`.
+4. **Start each project** so its services join `cloudflare-net`.
 
    Annie example:
 
