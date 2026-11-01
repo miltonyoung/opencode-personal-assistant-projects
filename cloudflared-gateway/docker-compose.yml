@@ -1,5 +1,5 @@
-# Stage 1: token-based shared tunnel.
-# Stage 2 will migrate to a locally-managed tunnel with config.yml + credentials.json.
+# Token-based shared tunnel.
+# Routing is managed in the Cloudflare Zero Trust dashboard.
 
 services:
   cloudflared:
