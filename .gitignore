@@ -19,3 +19,6 @@ Thumbs.db
 *.key
 *.pem
 config.json
+
+# Node
+node_modules/
