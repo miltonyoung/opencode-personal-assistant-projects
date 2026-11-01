@@ -22,3 +22,7 @@ config.json
 
 # Node
 node_modules/
+
+# Nested independent project repositories
+annie-30-birthday-trip-site/
+

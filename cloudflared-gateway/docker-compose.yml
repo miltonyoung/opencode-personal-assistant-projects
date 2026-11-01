@@ -1,0 +1,17 @@
+# Stage 1: token-based shared tunnel.
+# Stage 2 will migrate to a locally-managed tunnel with config.yml + credentials.json.
+
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    env_file:
+      - .env
+    networks:
+      - cloudflare-net
+    restart: unless-stopped
+
+networks:
+  cloudflare-net:
+    external: true
+    name: cloudflare-net
