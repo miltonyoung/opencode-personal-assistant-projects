@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSS Portrait Bar Partnership — Skateland Chandler</title>
+  <link rel="stylesheet" href="../reveal/reveal.min.css">
+  <style>
+    :root {
+      --rss-yellow: #F8E030;
+      --rss-purple: #B060D8;
+      --rss-black: #000000;
+      --rss-white: #ffffff;
+      --rss-gray: #1a1a1a;
+      --rss-light-gray: #f8f8f8;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
+    .reveal {
+      font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 28px;
+      color: var(--rss-black);
+      background: var(--rss-white);
+    }
+
+    .reveal .slides {
+      text-align: left;
+    }
+
+    .reveal .slides section {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex !important;
+      flex-direction: column;
+      background: var(--rss-white);
+    }
+
+    .reveal .slides section .header {
+      background: var(--rss-yellow);
+      color: var(--rss-black);
+      padding: 0.28in 0.55in 0.36in;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .reveal .slides section .header::after {
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: var(--rss-purple);
+      transform: skewY(-1.2deg);
+      z-index: 10;
+    }
+
+    .reveal .slides section .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.2in;
+    }
+
+    .reveal .slides section .header-logo img {
+      width: 1.35in;
+      height: 1.35in;
+      display: block;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    .reveal .slides section .header-text {
+      flex: 1;
+      text-align: right;
+    }
+
+    .reveal .slides section .brand-name {
+      font-size: 28pt;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+      line-height: 1;
+      color: var(--rss-black);
+      margin-bottom: 0.05in;
+    }
+
+    .reveal .slides section .brand-tagline {
+      font-size: 12pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--rss-purple);
+    }
+
+    .reveal .slides section .content {
+      flex: 1;
+      padding: 0.4in 0.6in 0.22in;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.25in;
+      overflow: hidden;
+    }
+
+    .reveal .slides section .footer {
+      background: var(--rss-black);
+      color: var(--rss-white);
+      padding: 0.22in 0.6in 0.34in;
+      position: relative;
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    .reveal .slides section .footer::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: var(--rss-purple);
+      transform: skewY(1.2deg);
+      z-index: 10;
+    }
+
+    .reveal .slides section .footer-text {
+      font-size: 9pt;
+      color: #e8e8e8;
+      line-height: 1.3;
+    }
+
+    .reveal .slides section .footer-mantra {
+      font-size: 11pt;
+      font-weight: 800;
+      color: var(--rss-yellow);
+      letter-spacing: 0.5px;
+      margin-top: 0.08in;
+    }
+
+    .reveal .slides section .text-block {
+      font-size: 14pt;
+      line-height: 1.35;
+      color: var(--rss-gray);
+    }
+
+    .reveal .slides section .text-block strong {
+      color: var(--rss-black);
+    }
+
+    .reveal .slides section .columns {
+      display: flex;
+      gap: 0.3in;
+    }
+
+    .reveal .slides section .column {
+      flex: 1;
+    }
+
+    .reveal .slides section .column-title {
+      font-size: 11pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--rss-purple);
+      margin-bottom: 0.1in;
+    }
+
+    .reveal .slides section .compact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .reveal .slides section .compact-list li {
+      font-size: 12pt;
+      margin-bottom: 0.1in;
+      line-height: 1.3;
+      padding-left: 0.18in;
+      position: relative;
+    }
+
+    .reveal .slides section .compact-list li::before {
+      content: "›";
+      position: absolute;
+      left: 0;
+      color: var(--rss-purple);
+      font-weight: 800;
+    }
+
+    .reveal .slides section .highlight-box {
+      background: linear-gradient(135deg, #f5e8fc 0%, #ebd2f9 100%);
+      border-left: 5px solid var(--rss-purple);
+      padding: 0.2in 0.28in;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .reveal .slides section .highlight-label {
+      font-size: 9pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--rss-purple);
+      margin-bottom: 0.06in;
+    }
+
+    .reveal .slides section .highlight-text {
+      font-size: 14pt;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--rss-black);
+    }
+
+    .reveal .slides section .price-card {
+      background: var(--rss-light-gray);
+      border-left: 5px solid var(--rss-purple);
+      padding: 0.3in 0.35in;
+      border-radius: 0 12px 12px 0;
+      text-align: center;
+    }
+
+    .reveal .slides section .price-amount {
+      font-size: 48pt;
+      font-weight: 900;
+      color: var(--rss-black);
+      line-height: 1;
+    }
+
+    .reveal .slides section .price-label {
+      font-size: 12pt;
+      font-weight: 700;
+      color: var(--rss-purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 0.08in;
+    }
+
+    .reveal .slides section .price-detail {
+      font-size: 11pt;
+      color: var(--rss-gray);
+      margin-top: 0.12in;
+    }
+
+    .reveal .slides section .split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.2in;
+    }
+
+    .reveal .slides section .split-card {
+      background: var(--rss-light-gray);
+      border-top: 4px solid var(--rss-purple);
+      padding: 0.16in 0.2in;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .reveal .slides section .split-card-title {
+      font-size: 13pt;
+      font-weight: 800;
+      color: var(--rss-black);
+      margin-bottom: 0.08in;
+    }
+
+    .reveal .slides section .split-card p {
+      font-size: 10pt;
+      color: var(--rss-gray);
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .reveal .slides section .step-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: step;
+    }
+
+    .reveal .slides section .step-list li {
+      font-size: 12pt;
+      margin-bottom: 0.12in;
+      line-height: 1.35;
+      padding-left: 0.45in;
+      position: relative;
+      color: var(--rss-gray);
+    }
+
+    .reveal .slides section .step-list li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0.3in;
+      height: 0.3in;
+      background: var(--rss-purple);
+      color: var(--rss-white);
+      border-radius: 50%;
+      font-size: 11pt;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reveal .slides section .title-slide {
+      align-items: center;
+      text-align: center;
+    }
+
+    .reveal .slides section .title-slide .main-logo img {
+      width: 2.2in;
+      height: 2.2in;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 0.3in;
+    }
+
+    .reveal .slides section .title-slide .main-title {
+      font-size: 36pt;
+      font-weight: 900;
+      color: var(--rss-black);
+      margin-bottom: 0.1in;
+    }
+
+    .reveal .slides section .title-slide .subtitle {
+      font-size: 16pt;
+      font-weight: 700;
+      color: var(--rss-purple);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.4in;
+    }
+
+    .reveal .slides section .title-slide .meta {
+      font-size: 12pt;
+      color: #555;
+    }
+
+    .reveal .slides section .question-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.12in;
+    }
+
+    .reveal .slides section .question-list li {
+      font-size: 10pt;
+      line-height: 1.25;
+      color: var(--rss-gray);
+      padding-left: 0.18in;
+      position: relative;
+    }
+
+    .reveal .slides section .question-list li::before {
+      content: "?";
+      position: absolute;
+      left: 0;
+      color: var(--rss-purple);
+      font-weight: 800;
+    }
+
+    .reveal .controls {
+      color: var(--rss-purple);
+    }
+
+    .reveal .progress {
+      background: rgba(176, 96, 216, 0.2);
+      color: var(--rss-purple);
+      height: 4px;
+    }
+
+    .reveal .slide-number {
+      background: var(--rss-black);
+      color: var(--rss-yellow);
+      font-size: 12pt;
+      font-weight: 700;
+      padding: 0.1in 0.15in;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Title -->
+      <section>
+        <div class="content title-slide">
+          <div class="main-logo">
+            <img src="../rss_logo.PNG" alt="Roller Skate Stories logo">
+          </div>
+          <div class="main-title">RSS Portrait Bar Partnership</div>
+          <div class="subtitle">Skateland Chandler</div>
+          <div class="meta">
+            A daytime add-on for birthday parties and events<br>
+            November 2, 2026
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 2: The Opportunity -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">The Opportunity</div>
+              <div class="brand-tagline">Turn daytime events into revenue</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="highlight-box">
+            <div class="highlight-text">Skateland's daytime business is strong. Every birthday party, field trip, and group event has people who want proof they were there. Right now, that proof walks out the door.</div>
+          </div>
+          <div class="text-block">
+            RSS can close that gap with a <strong>Portrait Bar add-on</strong>: professional, shareable photos for event hosts, powered by local skaters.
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 3: What Is the Portrait Bar? -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">What Is the Portrait Bar?</div>
+              <div class="brand-tagline">Premium, affordable photo activation</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="text-block">
+            Built on the same gear and workflow as <strong>GenIdem</strong>, a Phoenix-area portrait-booth service. Closer to a mini studio setup than an iPad selfie booth.
+          </div>
+          <ol class="step-list">
+            <li>Guests step into the portrait area.</li>
+            <li>They press a handheld trigger to take their own photo.</li>
+            <li>Professional camera and strobe deliver flattering, high-quality images.</li>
+            <li>Within 24 hours, the host receives a private online gallery link.</li>
+            <li>Guests scan a QR code to download their photos once the gallery is live.</li>
+          </ol>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 4: The Offer -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">The Offer</div>
+              <div class="brand-tagline">Simple pricing, clear value</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="price-card">
+            <div class="price-amount">$150</div>
+            <div class="price-label">Party Portrait Bar Add-On</div>
+            <div class="price-detail">Unlimited photos during the full party | Online gallery | 24-hour delivery</div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Included</div>
+              <ul class="compact-list">
+                <li>Equipment setup and breakdown</li>
+                <li>On-site operator</li>
+                <li>Camera, lighting, handheld trigger</li>
+                <li>Private online gallery</li>
+                <li>QR code card for guests</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">Space &amp; Power</div>
+              <ul class="compact-list">
+                <li>10' × 10' minimum space</li>
+                <li>Ideally near a power outlet</li>
+                <li>Portable power station available if needed</li>
+                <li>Setup shortly before the party</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Business Flow -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Business Flow</div>
+              <div class="brand-tagline">Portrait Bar ↔ RSS ↔ Skateland</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="split-grid">
+            <div class="split-card">
+              <div class="split-card-title">Portrait Bar</div>
+              <p>Provides equipment, operator training, and capture workflow. Contracted by RSS.</p>
+            </div>
+            <div class="split-card">
+              <div class="split-card-title">Roller Skate Stories</div>
+              <p>Partners with Skateland, coordinates operators, delivers galleries, and fuels skate-community marketing.</p>
+            </div>
+            <div class="split-card">
+              <div class="split-card-title">Skateland</div>
+              <p>Pitches the add-on to party hosts, collects payment, provides space and access.</p>
+            </div>
+            <div class="split-card">
+              <div class="split-card-title">Party Host</div>
+              <p>Pays $150 for unlimited Portrait Bar access during their party. Gets a private photo gallery.</p>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Partnership Model -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Partnership Model</div>
+              <div class="brand-tagline">10% to Skateland per booking</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="columns">
+            <div class="column">
+              <div class="column-title">Per Booking</div>
+              <ul class="compact-list">
+                <li><strong>Party host fee:</strong> $150</li>
+                <li><strong>Skateland keeps:</strong> $15 (10%)</li>
+                <li><strong>Net to RSS:</strong> $135</li>
+                <li><strong>RSS splits $135</strong> with Portrait Bar team</li>
+              </ul>
+            </div>
+            <div class="column">
+              <div class="column-title">Why This Works</div>
+              <ul class="compact-list">
+                <li>No upfront cost for Skateland</li>
+                <li>No operational burden</li>
+                <li>Direct incentive to pitch it</li>
+                <li>RSS handles equipment, operator, delivery</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-text">Skateland pitches the add-on, collects the $150, and keeps $15. RSS invoices Skateland for the net $135 and settles with the Portrait Bar team.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 7: What Skateland Gets -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">What Skateland Gets</div>
+              <div class="brand-tagline">Revenue, differentiation, happy hosts</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <ul class="compact-list">
+            <li><strong>New revenue per event</strong> — no new staff or inventory needed.</li>
+            <li><strong>Differentiation</strong> from other rinks and party venues.</li>
+            <li><strong>Happier event hosts</strong> who leave with professional photos and a reason to rebook.</li>
+            <li><strong>Marketing content</strong> — with permission, Skateland can use event photos to promote future bookings.</li>
+            <li><strong>Low risk</strong> — RSS brings the gear, operator, and delivery workflow.</li>
+          </ul>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 8: What RSS Gets -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">What RSS Gets</div>
+              <div class="brand-tagline">Fuel for the mission</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="split-grid">
+            <div class="split-card">
+              <div class="split-card-title">Revenue</div>
+              <p>A real income stream to fund nighttime adult-skate marketing.</p>
+            </div>
+            <div class="split-card">
+              <div class="split-card-title">Jobs</div>
+              <p>Concrete tasks for skaters: setup, operation, editing, posting.</p>
+            </div>
+            <div class="split-card">
+              <div class="split-card-title">Mission Alignment</div>
+              <p>Serves the daytime business while preserving skate culture.</p>
+            </div>
+            <div class="split-card">
+              <div class="split-card-title">Growth</div>
+              <p>Proof of concept for expanding to other rinks and events.</p>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 9: Day-Of Operations -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Day-Of Operations</div>
+              <div class="brand-tagline">What happens at the event</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <ol class="step-list">
+            <li>RSS operator arrives before the party to set up the Portrait Bar.</li>
+            <li>Guests use the handheld trigger to take photos during the party.</li>
+            <li>Operator stays nearby to assist, troubleshoot, and manage the line.</li>
+            <li>After the party, gear is packed and cleared quickly.</li>
+            <li>Photos are culled and edited; gallery link is sent to the host within 24 hours.</li>
+            <li>RSS can create short recap clips for social media with permission.</li>
+          </ol>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 10: Pilot Plan -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Pilot Plan</div>
+              <div class="brand-tagline">Prove it before scaling</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <ol class="step-list">
+            <li>Pick one upcoming birthday party or daytime event at Skateland Chandler.</li>
+            <li>Skateland pitches the Portrait Bar to the host as a $150 add-on.</li>
+            <li>RSS provides equipment, operator, gallery delivery, and a one-page service flyer.</li>
+            <li>Skateland provides space, power access, and day-of coordination.</li>
+            <li>After the event, both sides review photos, host feedback, revenue, and friction.</li>
+            <li>Decide: formalize the partnership, adjust pricing, or refine the offering.</li>
+          </ol>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 11: Open Questions -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Open Questions</div>
+              <div class="brand-tagline">Operational details to resolve</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <ul class="question-list">
+            <li>How are birthday parties currently marketed, booked, and pitched?</li>
+            <li>When and by whom is the Portrait Bar offered to party hosts?</li>
+            <li>Can it be added to the online booking flow?</li>
+            <li>What is the latest a host can add the add-on?</li>
+            <li>Who collects payment from the host?</li>
+            <li>What payment/remittance cadence works best?</li>
+            <li>How far in advance are parties confirmed?</li>
+            <li>How is RSS notified of a booked Portrait Bar event?</li>
+            <li>Who is the Skateland day-of contact?</li>
+            <li>What is the earliest RSS can arrive to set up?</li>
+            <li>Where exactly will the 10'×10' space be?</li>
+            <li>How does RSS load in gear and park?</li>
+            <li>What if the party runs late?</li>
+            <li>How should minor guest photo releases be handled?</li>
+            <li>What is Skateland's cancellation policy?</li>
+            <li>Can RSS film B-roll and use photos for marketing?</li>
+            <li>What co-branded marketing assets does Skateland want?</li>
+            <li>Which event type should be the pilot?</li>
+            <li>How does Skateland track pitch-to-book conversion?</li>
+            <li>Photo usage rights contract language for hosts.</li>
+          </ul>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+      <!-- Slide 12: Next Steps -->
+      <section>
+        <div class="header">
+          <div class="header-inner">
+            <div class="header-logo"><img src="../rss_logo.PNG" alt="Roller Skate Stories logo"></div>
+            <div class="header-text">
+              <div class="brand-name">Next Steps</div>
+              <div class="brand-tagline">Let's move forward</div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <ol class="step-list">
+            <li>Review and approve this proposal.</li>
+            <li>Walk through the open operational questions together.</li>
+            <li>Agree on photo usage rights language for party hosts.</li>
+            <li>Schedule the pilot birthday party.</li>
+            <li>Confirm payment and remittance workflow.</li>
+            <li>RSS finalizes the pack list and operator checklist.</li>
+          </ol>
+          <div class="highlight-box" style="margin-top:0.2in;">
+            <div class="highlight-text">The goal is a simple, low-risk partnership that makes daytime events more valuable for Skateland and gives RSS the resources to grow the night.</div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="footer-mantra">Go do something you love.</div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../reveal/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      controls: true,
+      progress: true,
+      center: false,
+      transition: 'slide'
+    });
+  </script>
+</body>
+</html>
