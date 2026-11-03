@@ -68,9 +68,13 @@ The package includes:
 - **Location:** Ideally near a power outlet, though a portable power station is available if needed.
 - **Setup time:** RSS needs access to the space shortly before the party begins.
 
+### Included Backdrop
+
+The Portrait Bar includes a **step-and-repeat backdrop co-branded with RSS, Portrait Bar, and Skateland logos**. This turns every guest photo into marketing for all three partners.
+
 Optional add-ons for future consideration:
 - Instant on-site printing
-- Branded backdrop or Skateland-branded overlay
+- Custom Skateland-branded overlay for digital images
 - Same-day gallery delivery
 - Short event recap video reel
 
