@@ -27,7 +27,7 @@ The Portrait Bar is a **premium but affordable photo activation** built from the
 1. A small portrait area is set up at the event.
 2. Guests step in, press a handheld trigger, and take their own photo.
 3. A professional strobe and camera deliver high-quality, flattering images.
-4. Within 24 hours, the host receives a private online gallery link.
+4. Within 24-72 hours, the host receives a private online gallery link.
 5. Guests scan a QR code at the event to access the gallery once it is live.
 
 ---
@@ -52,7 +52,7 @@ A simple add-on for birthday party hosts: **one flat fee for unlimited Portrait 
 
 | Package | Coverage | Party Host Fee | Deliverables |
 |---------|----------|----------------|--------------|
-| **Party Portrait Bar** | Full party | **$150** | Unlimited guests photographed during the party; private online gallery; 24-hour delivery |
+| **Party Portrait Bar** | Full party | **$150** | Unlimited guests photographed during the party; private online gallery; 24-72 hour delivery |
 
 The package includes:
 - Portrait Bar equipment setup and breakdown
@@ -156,7 +156,7 @@ To prove the concept before scaling:
 1. **Pilot Event:** One scheduled birthday party or organization event at Skateland Chandler.
 2. **RSS provides:** Equipment, operator, gallery delivery, and a simple one-page flyer explaining the service.
 3. **Skateland provides:** Space, power access, and a test booking to offer the add-on.
-4. **After the pilot:** Both sides review photos, host feedback, revenue, and operational friction.
+4. **After the pilot:** Photos from the party are delivered to the host. Both sides review host feedback, revenue, and operational friction.
 5. **Decision:** Move to a standing partnership, adjust pricing, or refine the offering.
 
 ---
