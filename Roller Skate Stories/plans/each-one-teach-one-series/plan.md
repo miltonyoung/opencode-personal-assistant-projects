@@ -81,16 +81,74 @@
 
 ## Open questions
 
-1. **First event date:** Which adult night in mid-December 2026 works for Skateland Chandler and all co-hosts?
-2. **Skateland proposal status:** Have we contacted them? What is their preferred group rate and teacher comp structure?
-3. **RNG + RSS split:** Who owns promotion, ticket sales, money handling, day-of operations, and recap content?
-4. **Teacher recruitment:** How many seasoned skaters can we realistically confirm for the first event?
-5. **Ticket platform:** Will tickets be sold on an RSS/RNG website, through Skateland directly, or via a third-party platform?
-6. **Waiver/liability:** Does Skateland’s standard waiver cover this event, or do we need a supplemental waiver?
-7. **Minimum attendance threshold:** What is the lowest number of paid sign-ups that still makes the event worth running?
-8. **Refund/cancellation policy:** What happens if Skateland cancels, a beginner cancels, or minimum attendance isn’t met?
-9. **Consent for content:** How do we get explicit consent to film/photograph beginners and teachers for recap content?
-10. **Monthly continuation criteria:** What metrics (attendance, feedback, profit, teacher availability) determine whether this becomes a recurring event?
+### Event identity and positioning
+1. **Event name:** Is it officially “Each One Teach One,” or do we want a branded/event-specific name?
+2. **Tagline / pitch:** How do we describe the event in one sentence for promotion?
+3. **Target beginner:** Never skated at all, or “can stand but can’t do much”? This affects matching and curriculum.
+4. **Coach definition:** What qualifies someone to teach? Years of experience, specific skills, or simply confident and willing?
+5. **Your role at the event:** Host/coordinator, teacher, content creator, or all three? How much do you want to skate vs. manage?
+6. **Support team / co-host duties:** Will you run this alone, or is there a clear co-host managing operations?
+
+### Venue and scheduling
+7. **First event date:** Which adult night in mid-December 2026 works for Skateland Chandler and all co-hosts?
+8. **Skateland adult night schedule:** What day/time is adult night, and what is the capacity?
+9. **Normal adult night attendance:** Roughly how many people attend normally? Helps us argue upside to Skateland.
+10. **Skateland proposal status:** Have we contacted them? Verbally approved, or need a formal proposal?
+11. **1.5-hour window specifics:** What time during adult night does the teaching slice happen?
+12. **January backup date:** If December conflicts with holidays, what is the alternate date?
+
+### Co-host split (Roll N Glide + Roller Skate Stories)
+13. **Promotion ownership:** Who posts what, where, and when?
+14. **Ticket sales ownership:** Whose website/platform handles purchases?
+15. **Money handling:** Who holds the funds, pays Skateland, and reimburses expenses?
+16. **Day-of operations ownership:** Who runs check-in, pairing, timing, and troubleshooting?
+17. **Recap content ownership:** Who films, edits, and posts event content?
+18. **Decision-making authority:** Who has final say if co-hosts disagree?
+
+### People and matching
+19. **Teacher recruitment count:** How many seasoned skaters can we realistically confirm for the first event? You estimated 20 max.
+20. **Teacher recruitment method:** Instagram post, group chat, direct invites, open form?
+21. **Teacher vetting:** Any background/safety check, or just self-reported experience?
+22. **Matching method:** Host assigns pairs, self-selection, wristband colors, or random assignment?
+23. **Beginner cap:** Hard cap at 40, waitlist beyond that, or scale to pods/stations?
+24. **Gender/comfort pairing:** Any consideration for who gets matched with whom?
+
+### Experience design
+25. **Curriculum focus:** Pick 2–3 skills every beginner should leave with (e.g., safe falling, basic roll, stop, crossover, transition).
+26. **Structured vs. loose:** Do teachers follow a checklist, or is it informal “hang and answer questions”?
+27. **Warm-up / icebreaker:** Any group intro at the start, or straight to pairing?
+28. **Name tags / identifiers:** Different colors for beginners vs. teachers? Check-in materials?
+29. **Helmets / pads:** Required, recommended, or provided?
+30. **Language / accessibility:** Any need for bilingual support or adaptive skating considerations?
+
+### Operations and money
+31. **Ticket platform:** Sell on RSS/RNG website, Skateland website, Eventbrite, or another platform?
+32. **Ticket-buying method:** Push for Skateland group hold/invoice, or buy daily individual tickets?
+33. **Payment processor:** Stripe, PayPal, Venmo, Square? Fees and timing?
+34. **Minimum attendance threshold:** What is the lowest number of paid sign-ups that still makes the event worth running?
+35. **Refund/cancellation policy:** What happens if Skateland cancels, a beginner cancels, or minimum attendance isn’t met?
+36. **Financial risk tolerance:** Are you willing to cover small upfront costs if ticket sales justify it? Zero out-of-pocket?
+37. **Teacher thank-you:** Drink/food, sticker, patch, or just free/discounted entry?
+38. **Budget for materials:** Name tags, printing, wristbands — how much is allocated?
+
+### Safety and legal
+39. **Waiver / liability:** Does Skateland’s standard waiver cover this event, or do we need a supplemental waiver?
+40. **First aid / emergency plan:** Who handles injuries? Does Skateland have staff on site?
+41. **Incident reporting:** Any documentation process if someone gets hurt?
+
+### Promotion and follow-up
+42. **Sign-up / RSVP method:** Instagram DM, Google Form, Linktree, website form?
+43. **Promotion timeline:** When do we start posting, and how often?
+44. **Content filming:** Who films, and do we get explicit consent from attendees?
+45. **Follow-up conversion:** Group chat, newsletter, next event announcement on-site?
+46. **Success metrics:** Number of beginners, return rate, teacher recruitment, content views, or profit?
+47. **Monthly continuation criteria:** What metrics determine whether this becomes a recurring event?
+48. **Instagram comments analysis:** Can we capture and categorize the 56 comments to shape marketing and curriculum?
+
+### Business / long-term
+49. **RNG + RSS revenue split:** Any shared profit/loss model, or purely community-building?
+50. **Sponsorship potential:** Local skate shop, snack bar, or brand sponsor?
+51. **Scalability model:** If demand is 100+, do we add events, increase capacity, or raise price?
 
 ## Risks and unknowns
 
