@@ -79,6 +79,19 @@
 | First event | Target mid-December 2026 adult night | yes |
 | Feedback review + continuation decision | Within 3 days after event | no |
 
+## Open questions
+
+1. **First event date:** Which adult night in mid-December 2026 works for Skateland Chandler and all co-hosts?
+2. **Skateland proposal status:** Have we contacted them? What is their preferred group rate and teacher comp structure?
+3. **RNG + RSS split:** Who owns promotion, ticket sales, money handling, day-of operations, and recap content?
+4. **Teacher recruitment:** How many seasoned skaters can we realistically confirm for the first event?
+5. **Ticket platform:** Will tickets be sold on an RSS/RNG website, through Skateland directly, or via a third-party platform?
+6. **Waiver/liability:** Does Skateland’s standard waiver cover this event, or do we need a supplemental waiver?
+7. **Minimum attendance threshold:** What is the lowest number of paid sign-ups that still makes the event worth running?
+8. **Refund/cancellation policy:** What happens if Skateland cancels, a beginner cancels, or minimum attendance isn’t met?
+9. **Consent for content:** How do we get explicit consent to film/photograph beginners and teachers for recap content?
+10. **Monthly continuation criteria:** What metrics (attendance, feedback, profit, teacher availability) determine whether this becomes a recurring event?
+
 ## Risks and unknowns
 
 - **Teacher shortage:** Demand may exceed 20 teachers. Mitigation: cap attendance or switch to station/pod model.
