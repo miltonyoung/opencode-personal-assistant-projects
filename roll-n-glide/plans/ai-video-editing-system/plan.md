@@ -2,123 +2,166 @@
 
 ## Goal and intention
 
-- **Outcome:** A reusable system — callable through Jarvis — that can take Rolling Glide footage (from Tella, local storage, or other sources), apply one of Milton's defined video styles, and produce a publish-ready draft video with licensed music, captions, branded overlays, and proper export settings.
-- **Why it matters:** Rolling Glide generates a steady stream of footage and needs recurring recap and announcement videos. Automating the repetitive editing decisions frees Milton to focus on capture, community, and higher-level creative choices.
+- **Outcome:** A reusable system — callable through Jarvis — that takes Rolling Glide footage, applies Milton's defined video styles, and produces a publish-ready draft video with licensed music, captions, branded overlays, and proper export settings.
+- **Why it matters:** Rolling Glide generates a steady stream of footage and needs recurring recap videos. Automating the repetitive editing decisions frees Milton to focus on capture, community, and higher-level creative choices.
 - **Who it is for:** Rolling Glide community content, with templates that can be reused for Milton's broader videography work.
 - **Domain tag:** photo-video / business
-- **Kairos / kronos / both:** Both. Recurring recap/announcement videos are **kronos** (must keep shipping). Timely edits after events are **kairos** (engagement is highest in the first 24–48 hours).
+- **Kairos / kronos / both:** Both. Recurring recap videos are **kronos** (must keep shipping). Timely edits after events are **kairos** (engagement is highest in the first 24–48 hours).
+
+## Current warning
+
+> ⚠️ **This plan is not implemented yet.** No video ingestion, transcoding, or rendering pipeline exists. Jarvis cannot analyze, preview, or edit video files until the build phases below are executed. Phase 0 style discovery is done for the recap style; Phase 1 architecture is locked.
 
 ## Done criteria
 
-- [ ] System ingests source footage from at least one intake path (Tella API or a watched local folder).
-- [ ] At least two Rolling Glide styles are encoded as reproducible templates: **event recap** and **announcement / talking-head with B-roll**.
-- [ ] A multi-step pipeline exists, inspired by the reference workflow: editor (agent/LLM), transcriber, animator, researcher, screen editor, sound designer, finisher.
-- [ ] Editor step: agent interprets the brief/style and coordinates the pipeline.
-- [ ] Transcriber step: speech is transcribed so captions and timing can be derived (Parakeet or equivalent).
-- [ ] Animator step: HyperFrames generates branded overlays, lower-thirds, intro cards, and motion graphics.
-- [ ] Researcher step: browser/screenshot tool fetches reference images, stats, or clips if the script references external information.
-- [ ] Screen editor step: Tella handles screen/webcam recordings or structured clip assembly.
-- [ ] Sound designer step: licensed Artlist music/sfx matched to mood and duration.
-- [ ] Finisher step: FFmpeg assembles, encodes, and exports the final draft.
-- [ ] Milton can add a new style by describing it in natural language, without rebuilding the engine.
+- [x] Phase 0: Interview + existing-video style capture approach locked.
+- [x] First style template written: **Rolling Glide recap** (`/app-projects/roll-n-glide/video-styles/recap.md`).
+- [ ] System ingests source footage from at least one intake path (local watched folder; Tella optional later).
+- [ ] Architecture implemented: standalone service on MacBook, callable by Jarvis.
+- [ ] MacBook environment provisioned: FFmpeg, HyperFrames CLI, and any needed acceleration.
+- [ ] A multi-step pipeline exists: editor, transcriber, animator, researcher, screen editor, sound designer, finisher.
+- [ ] **Recap** style generator produces a Resolve-compatible EDL + reference render from a folder of source clips.
+- [ ] Milton can review the draft in DaVinci Resolve or a simple UI.
 - [ ] Jarvis can invoke the system with a simple command and return the rendered file path or a review link.
-- [ ] A fallback path exists so Milton can open any AI draft in DaVinci Resolve for manual finishing.
 
-## Context check
+## Progress tracker
 
-- [x] Goal is clear: plan (not build yet) an AI-assisted editing system for Rolling Glide.
-- [x] Intention is clear: reduce manual editing hours on recurring community videos.
-- [ ] Constraints are partially known: Artlist API access for personal subscriptions is unconfirmed; infrastructure choice (Docker/Windows vs Proxmox) is open.
-- [ ] "Good enough" needs confirmation: fully automatic exports, or AI-assisted drafts that Milton always reviews before publishing?
+| Phase | Status | Notes |
+| ----- | ------ | ----- |
+| 0. Style discovery | ✅ Done | Recap style captured from interview + existing videos. Announcement/B-roll style skipped per owner request. |
+| 1. Architecture | 🔄 In progress | Standalone service + MacBook primary host approved. Next: auto-discover MacBook specs and provision tools. |
+| 2. Core pipeline | ⏳ Not started | Build editor → transcriber → animator → researcher → screen editor → sound designer → finisher. |
+| 3. Style engine | ⏳ Not started | Map recap template + footage + music to an edit decision list and reference render. |
+| 4. Validation | ⏳ Not started | Test renders on real Rolling Glide footage; compare with Milton's manual edits. |
+| 5. Jarvis wiring | ⏳ Not started | Expose service to Jarvis via skill or tool call; add natural-language commands. |
 
-## Logical / chronological breakdown
+## Phase 0 — Completed
 
-| Phase | Step | Action | Estimated time | Dependencies | Owner |
-| ----- | ---- | ------ | -------------- | ------------ | ----- |
-| 0. Style discovery | 1 | Decide how to capture Milton's editing style: analyze existing final videos vs. interview him about clip selection, pacing, music, captions, and color. | 1 session | none | owner + Jarvis |
-| 0. Style discovery | 2 | Gather 2–3 representative final videos for each style (recap, announcement/B-roll) and break them into editing decision records. | 2–3 hrs | step 1 | owner |
-| 0. Style discovery | 3 | Write the first two style templates as structured files (YAML/JSON + Markdown) describing: source clip types, ideal shot length, music energy, B-roll rules, caption style, export spec. | 2–4 hrs | step 2 | Jarvis with owner review |
-| 1. Architecture | 4 | Choose integration shape: **skill inside Jarvis** vs. **standalone video service/tool** that Jarvis calls. | 1 session | none | owner + Jarvis |
-| 1. Architecture | 5 | Choose infrastructure: keep current Docker-on-Windows, or migrate host to Proxmox with Windows VM + GPU passthrough for DaVinci Resolve and LXC/container for Jarvis/video processing. | 1 session | none | owner |
-| 1. Architecture | 6 | Provision the chosen environment with GPU-visible FFmpeg and HyperFrames CLI. | 2–6 hrs | step 5 | owner + Jarvis |
-| 2. Core pipeline (reference workflow) | 7 | Build the **editor** step: an LLM/agent that reads the brief/style and coordinates the other pipeline steps. | 2–4 hrs | steps 3, 6 | Jarvis |
-| 2. Core pipeline (reference workflow) | 8 | Build the **transcriber** step: transcribe speech to derive captions and timing. Evaluate Parakeet vs. built-in Whisper/FFmpeg or ElevenLabs Scribe. | 2–4 hrs | step 6 | Jarvis |
-| 2. Core pipeline (reference workflow) | 9 | Build the **animator** step: HyperFrames renders branded overlays, lower-thirds, titles, and any HTML/CSS motion graphics. | 2–4 hrs | step 6 | Jarvis |
-| 2. Core pipeline (reference workflow) | 10 | Build the **researcher** step: browser/screenshot tool that fetches reference images, stats, or clips if the script references external information. | 2–4 hrs | step 6 | Jarvis |
-| 2. Core pipeline (reference workflow) | 11 | Build the **screen editor** step: Tella API/MCP integration or local folder intake for screen/webcam recordings. | 2–4 hrs | step 6 | owner + Jarvis |
-| 2. Core pipeline (reference workflow) | 12 | Build the **sound designer** step: local Artlist library folder with mood/tempo metadata; select and trim music and SFX. | 2–4 hrs | none | owner + Jarvis |
-| 2. Core pipeline (reference workflow) | 13 | Build the **finisher** step: FFmpeg assembles, adds captions, mixes audio, applies overlays, and encodes to platform specs. | 4–8 hrs | steps 6, 8, 9, 11, 12 | Jarvis |
-| 3. Style engine | 14 | Build a style parser that maps a style template + available footage + music to an edit decision list (EDL / JSON). | 4–8 hrs | steps 3, 13 | Jarvis |
-| 3. Style engine | 15 | Implement **recap** style generator: select best moments, sync to music beats, intersperse wide/crowd/detail shots, add captions for names/quotes if available. | 4–8 hrs | step 14 | Jarvis with owner feedback |
-| 3. Style engine | 16 | Implement **announcement / talking-head with B-roll** style generator: place A-roll segments, insert illustrative B-roll from past events, add lower-thirds/titles. | 4–8 hrs | step 14 | Jarvis with owner feedback |
-| 3. Style engine | 17 | Build "new style onboarding" flow: Milton describes a new format in natural language; Jarvis translates it into a new style template file and a checklist for validation. | 4–6 hrs | step 14 | Jarvis |
-| 4. Validation | 18 | Run test renders on real Rolling Glide footage and compare side-by-side with Milton's manual edits. | 3–5 hrs | steps 15, 16 | owner + Jarvis |
-| 4. Validation | 19 | Refine templates and prompt flows based on feedback until the draft is consistently usable. | ongoing | step 18 | Jarvis |
-| 5. Jarvis wiring | 20 | Expose the system to Jarvis: either as a loadable skill or as a tool call to the standalone service. | 2–4 hrs | step 4, 19 | Jarvis |
-| 5. Jarvis wiring | 21 | Add natural-language commands and session logging so Jarvis can track runs, outputs, and owner feedback. | 2–4 hrs | step 20 | Jarvis |
+- ✅ Step 1: Style capture approach decided — **interview first, validate against existing videos**.
+- ✅ Step 2: Representative recap videos reviewed by Milton.
+- ✅ Step 3: First style template written and saved to `/app-projects/roll-n-glide/video-styles/recap.md`.
 
-## Dialectical tensions
+**Key decisions from Phase 0:**
 
-| Tension | Option A | Option B | Decision | Confidence |
-| ------- | -------- | -------- | -------- | ---------- |
-| **Where the engine lives** | **Skill inside Jarvis**: one system, natural language activation, shared vault memory, but video processing runs in the same process/container and can slow or crash Jarvis. | **Standalone video service**: separate container/VM with its own API; better isolation, can restart/redeploy independently and use GPU differently; slightly more setup and one more thing to maintain. | **Standalone service** ✅ (owner confirmed). Start as a separate service that Jarvis calls via API or MCP tools. | medium |
-| **How to capture style** | **Analyze existing videos** with HyperFrames/AI to infer cuts, pacing, and music cues. More automated but may miss the "why" behind choices and needs a corpus. | **Interview Milton** about how he selects clips, times cuts, and pairs music. Slower upfront but captures intent and is easier to extend to new styles. | **Both** ✅ (owner confirmed). Interview first to capture intent, then validate against existing final videos. | high |
-| **Infrastructure** | **MacBook local Jarvis**: simpler interaction, always with Milton, but may lack GPU power for heavy rendering and could strain the laptop during long renders. | **Windows gaming PC Docker**: much stronger GPU for FFmpeg/HyperFrames rendering, but currently runs in a Docker container and may be less convenient for day-to-day interaction. | **MacBook for the interaction workflow; consider Windows PC as render target for heavy exports once pipeline is proven** ✅. Owner wants to operate from the MacBook. | medium |
-| **Music sourcing** | **Artlist Enterprise API**: true automation, but likely requires a business/enterprise account and sales approval. | **Local Artlist library**: Milton downloads tracks/sfx manually into a watched folder; system matches by mood/tempo/BPM metadata. Simpler and works with the current subscription. | **Local Artlist library** ✅ (owner confirmed). Upgrade to Enterprise API only if volume justifies it. | high |
-| **Level of automation** | **Fully automatic**: Milton gives a prompt and gets a final export. Fastest, but may produce misses that hurt brand. | **AI-assisted draft**: system produces a rough cut with an EDL/render that Milton reviews in Resolve or a simple UI before publishing. Slightly slower but preserves quality control. | **AI-assisted drafts** ✅ (owner confirmed). Final creative veto stays with Milton. | high |
+- Skip the announcement / talking-head with B-roll style for now.
+- Focus the entire build on the **recap** style.
 
-## Materials / tools / information needed
+## Phase 1 — Current: MacBook architecture
 
-- [ ] HyperFrames CLI installed and working with GPU-accelerated rendering.
-- [ ] FFmpeg compiled with desired codecs and hardware acceleration (NVENC/AMF/QuickSync depending on GPU).
-- [ ] Tella API key and confirmed endpoint access, OR a local intake folder workflow.
-- [ ] Parakeet or equivalent transcription setup (evaluate alongside Whisper/ElevenLabs Scribe options).
-- [ ] Browser/screenshot tool for the researcher step (e.g., Playwright, Puppeteer, or a simple MCP browser server).
-- [ ] Artlist subscription details and a decision on API vs. local music library.
-- [ ] 2–3 representative Rolling Glide recap videos and 2–3 announcement/B-roll videos.
-- [ ] Source footage for at least one upcoming or past event to use as a test set.
-- [ ] Rolling Glide brand assets: logo, fonts, color hex codes, preferred lower-third style.
-- [ ] Target export specs for each platform (Instagram Reel, Feed, Story, YouTube Short, etc.).
-- [ ] DaVinci Resolve remote rendering workflow preserved so manual finishing remains possible.
-- [ ] Input footage can remain log; system applies a default LUT only to log clips, and passes graded clips through.
-- [ ] System outputs a Resolve-compatible timeline/EDL with selected source clips and a reference render so Milton can apply final color grading.
+### Already decided
 
-## Schedule proposal
+- **Engine shape:** standalone service called by Jarvis.
+- **Primary host:** Milton's MacBook (local Jarvis instance).
+- **Render fallback:** Windows gaming PC remains available as a remote render target later if MacBook rendering is too slow.
+- **Automation level:** AI-assisted drafts reviewed by Milton before publishing.
+- **Music workflow:** local Artlist library folder, not Enterprise API yet.
+- **Output handoff:** Resolve-compatible EDL/timeline + reference render + notes file.
 
-| Phase | Proposed timing | Calendar event? |
-| ----- | --------------- | --------------- |
-| 0. Style discovery — recap style | This session or next; ~20–30 min | yes (if owner wants) |
-| 0. Style discovery — announcement/B-roll style | After recap style is drafted and validated | yes |
-| 1. Architecture decision | Within this week | yes |
-| 2. Core integrations | After architecture locked; 1–2 weekends of focused work | yes |
-| 3. Style engine | Once integrations work; 1–2 weeks | yes |
-| 4. Validation | As soon as first styles render; ongoing | yes |
-| 5. Jarvis wiring | Final step once draft quality is acceptable | yes |
+### Next step: discover and provision the MacBook
+
+Run on the MacBook in a new session and record results in `/app-projects/roll-n-glide/video-styles/.context/macbook-context.md`.
+
+```bash
+# 1. Hardware and OS
+system_profiler SPHardwareDataType | head -20
+sw_vers
+
+# 2. Video tools
+which ffmpeg && ffmpeg -version | head -1
+which ffprobe && ffprobe -version | head -1
+which hyperframes && hyperframes --version 2>/dev/null || echo "HyperFrames CLI not found"
+ls -d /Applications/DaVinci\ Resolve/DaVinci\ Resolve.app 2>/dev/null || echo "Resolve not in /Applications"
+
+# 3. Package managers
+which brew && brew --version
+which npm && npm --version
+which node && node --version
+which uv && uv --version
+which python3 && python3 --version
+
+# 4. Local music library (ask Milton for the actual path)
+ls -d ~/Music/Artlist 2>/dev/null || echo "Artlist folder not found at ~/Music/Artlist"
+ls -d ~/Downloads/Artlist 2>/dev/null || echo "Artlist folder not found at ~/Downloads/Artlist"
+```
+
+Then install missing tools:
+
+- **FFmpeg:** `brew install ffmpeg` (if missing). Verify it has VideoToolbox (`-hwaccel videotoolbox`) for Apple Silicon acceleration.
+- **HyperFrames CLI:** follow current install instructions from `hyperframes.io` (likely `npm install -g @hyperframes/cli` or similar; confirm on the site).
+- **Python environment:** ensure `uv` is available and can run the service.
+
+### After discovery
+
+1. Save MacBook specs and installed-tool versions to `/app-projects/roll-n-glide/video-styles/.context/macbook-context.md`.
+2. Create the empty project skeleton for the standalone video service under `/app-projects/roll-n-glide/services/video-editor/`.
+3. Update this plan to mark Phase 1 complete and move to Phase 2.
+
+## Phase 2 — Core pipeline (reference workflow)
+
+| Step | Role | Build target |
+| ---- | ---- | -------------- |
+| 7 | Editor | LLM/agent reads style template + brief and coordinates steps. |
+| 8 | Transcriber | Speech → captions and timing. Evaluate Parakeet vs. Whisper vs. ElevenLabs Scribe. |
+| 9 | Animator | HyperFrames renders branded overlays, lower-thirds, titles. |
+| 10 | Researcher | Browser/screenshot tool fetches reference images or stats if script needs them. |
+| 11 | Screen editor | Local folder intake for screen/webcam recordings; Tella optional later. |
+| 12 | Sound designer | Match Artlist tracks by mood/tempo and trim to duration. |
+| 13 | Finisher | FFmpeg assembles clips, overlays, captions, audio mix, and encodes to 9:16 specs. |
+
+For the recap MVP we can initially skip the animator, researcher, and transcriber if there is no speech to caption. The minimum viable pipeline is:
+
+1. **Intake:** read a source footage folder.
+2. **Editor:** apply the recap style rules (shot priority, pacing, structure).
+3. **Sound designer:** pick music from local Artlist library.
+4. **Finisher:** cut clips to music beats, add logo overlay, encode reference render, output EDL.
+
+## Phase 3 — Style engine
+
+- Build a parser that maps the recap style template + available clips + music → EDL JSON.
+- Implement the recap generator:
+  - Select best moments using the 75/25 social-joy/technical-connection rule.
+  - Avoid falls/embarrassment.
+  - Sync cuts to music beats.
+  - Apply default LUT only to log clips.
+  - Add persistent Rolling Glide logo overlay.
+- Output Resolve-compatible EDL + reference MP4 + notes.
+
+## Phase 4 — Validation
+
+- Run test renders on one past Rolling Glide event folder.
+- Milton compares the AI draft to his manual recap.
+- Iterate on the style template and editor rules until the draft is consistently usable.
+
+## Phase 5 — Jarvis wiring
+
+- Expose the video service to Jarvis:
+  - Option A: loadable skill inside Jarvis that calls the service API.
+  - Option B: direct tool call from Jarvis to the service.
+- Add natural-language commands:
+  - “Jarvis, make a Rolling Glide recap from `/path/to/event-folder`.”
+  - “Jarvis, show me the last recap draft.”
+- Track runs, outputs, and owner feedback in session logs.
 
 ## Risks and unknowns
 
-- **Artlist API eligibility**: The personal Artlist subscription likely does not include the Enterprise API (developer.artlist.io appears to require account-manager access). We may be limited to a manually-curated local music library.
-- **MacBook GPU limitations**: Rendering 30–60 second vertical videos with HyperFrames + FFmpeg may be slow on a MacBook without a dedicated GPU. We may need to keep the Windows gaming PC as a remote render target, or accept longer render times.
-- **Two-instance Jarvis sync**: Milton has Jarvis on both MacBook and Windows. The video editing service needs to be reachable from whichever instance he is using, and project state must not get fragmented between the two.
-- **HyperFrames maturity**: HyperFrames is agent-native and promising, but for some graphics we may still need fallback overlays rendered with FFmpeg or ImageMagick.
-- **AI clip judgment**: Community footage has emotional nuance (a great fall, a teachable moment, a group cheer) that an automated selector may miss without explicit rules or examples.
-- **Scope creep**: "Add new styles by describing them" is powerful but can expand quickly. We should lock the first two styles before building the general style-onboarding feature.
+- **Artlist API eligibility:** Personal Artlist subscription likely has no public API. Local library is the fallback.
+- **MacBook GPU limitations:** Rendering on Apple Silicon may be slower than the Windows PC. Accept longer renders or add remote render node later.
+- **HyperFrames maturity:** May need FFmpeg/ImageMagick fallback for some overlays.
+- **AI clip judgment:** Emotional moments in community footage may need explicit rules or examples.
+- **Scope creep:** Lock recap MVP before adding new styles or platforms.
 
 ## Decisions confirmed
 
 - Engine location: **Standalone service called by Jarvis** ✅
-- Infrastructure timing: **Use local MacBook Jarvis instance for the editing workflow; Windows Docker/PC setup remains available but is no longer the primary target** ✅
+- Infrastructure timing: **MacBook as primary host; Windows PC as optional future render target** ✅
 - Music workflow: **Local Artlist library folder** ✅
 - Automation level: **AI-assisted drafts reviewed by Milton before publishing** ✅
 - Style capture: **Interview first + validate against existing videos** ✅
-- Owner accepted Jarvis's recommendations for the remaining architecture and workflow choices ✅
+- First style: **Recap only** ✅ (announcement/B-roll skipped)
 
-## Current warning
+## Files affected
 
-> ⚠️ **This plan is not implemented yet.** No video ingestion, transcoding, or rendering pipeline exists. Jarvis cannot analyze, preview, or edit video files until the build phases below are executed. Phase 0 style discovery is the only active next step.
-
-## Approval requested
-
-- [x] Approve the locked plan and begin Phase 0 (style discovery) — approved 2026-11-10 08:11 AM MST
-- [ ] Approve scheduling the first style-discovery session
-- [ ] Approve adding this project to Rolling Glide's active plans tracker
+- `/app-projects/roll-n-glide/plans/ai-video-editing-system/plan.md`
+- `/app-projects/roll-n-glide/video-styles/recap.md`
+- `/app-projects/roll-n-glide/video-styles/.context/macbook-context.md` (to be created in Phase 1)
+- `/app-projects/roll-n-glide/services/video-editor/` (to be created in Phase 1)
