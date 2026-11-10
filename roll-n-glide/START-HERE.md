@@ -1,57 +1,38 @@
-# Start here on any new Jarvis session for Rolling Glide video editing
+# Start here on any new Jarvis session for Rolling Glide
 
 ## What this project is
 
-Building an AI-assisted video editing system for Rolling Glide, starting with a **recap video** style.
+Rolling Glide community content, operations, and brand assets. The video editing work uses a shared generic engine; only the Rolling Glide-specific style files live here.
 
 ## Current state (updated 2026-11-10)
 
-- ✅ Recap style template captured from interview + existing videos.
-- ✅ Architecture locked: standalone service, hosted on Milton's MacBook, called by Jarvis.
+- ✅ Recap style template written: `/app-projects/roll-n-glide/video-styles/recap.md`.
+- ✅ Generic AI video editor architecture locked.
 - ✅ Repos pushed to GitHub. Pull before working.
-- ⏳ **Next active step:** discover and provision the MacBook.
+- ⏳ **Next active step for video work:** the generic engine is being provisioned on Milton's MacBook. See `/app-projects/video-editor/START-HERE.md`.
 
-## If you are resuming this project
+## If you are resuming Rolling Glide video work
 
 1. Pull latest:
    ```bash
    cd /app && git pull origin main
    cd /app-projects && git pull origin main
    ```
-2. Read the current plan:
-   `/app-projects/roll-n-glide/plans/ai-video-editing-system/plan.md`
-3. Check the progress tracker in that plan.
-4. Do the **next uncompleted step only**. Do not jump ahead.
+2. Read the Rolling Glide recap style:
+   `/app-projects/roll-n-glide/video-styles/recap.md`
+3. Read the generic engine plan:
+   `/app-projects/video-editor/plan.md`
+4. Check the engine's progress tracker and do the **next uncompleted step**.
 
-## Active next step: MacBook discovery and provisioning
+## Active next step
 
-Run these commands on Milton's MacBook and save results:
+The generic video editor engine is being built first. The recap style is the first validation target, but all build work happens in `/app-projects/video-editor/`.
 
-```bash
-system_profiler SPHardwareDataType | head -20
-sw_vers
-which ffmpeg && ffmpeg -version | head -1
-which ffprobe && ffprobe -version | head -1
-which hyperframes && hyperframes --version 2>/dev/null || echo "HyperFrames CLI not found"
-ls -d /Applications/DaVinci\ Resolve/DaVinci\ Resolve.app 2>/dev/null || echo "Resolve not in /Applications"
-which brew && brew --version
-which npm && npm --version
-which node && node --version
-which uv && uv --version
-which python3 && python3 --version
-ls -d ~/Music/Artlist 2>/dev/null || echo "No ~/Music/Artlist"
-ls -d ~/Downloads/Artlist 2>/dev/null || echo "No ~/Downloads/Artlist"
-```
-
-Then:
-
-1. Save the output to `/app-projects/roll-n-glide/video-styles/.context/macbook-context.md`.
-2. Ask Milton to confirm the path to his local Artlist music library if it wasn't auto-detected.
-3. Install anything missing (`brew install ffmpeg`, install HyperFrames CLI, ensure `uv` is available).
-4. Update the plan's progress tracker and commit.
+When the engine reaches Phase 4 (Validation), use Rolling Glide footage to test the recap style and refine `/app-projects/roll-n-glide/video-styles/recap.md`.
 
 ## Important rules
 
-- This is a **build project**, not a working editor. Do not accept video files from Milton expecting to process them until the pipeline is implemented.
-- The only active style is **recap**. The announcement/B-roll style has been skipped.
-- Always commit and push after each session so both Jarvis instances stay in sync.
+- Do not accept video files from Milton expecting to process them until the engine is implemented.
+- The announcement/B-roll style has been skipped for now.
+- Brand-specific styles stay in this folder. The engine stays generic.
+- Always commit and push after each session.
