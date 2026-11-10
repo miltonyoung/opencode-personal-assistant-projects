@@ -113,6 +113,10 @@
 - Style capture: **Interview first + validate against existing videos** ✅
 - Owner accepted Jarvis's recommendations for the remaining architecture and workflow choices ✅
 
+## Current warning
+
+> ⚠️ **This plan is not implemented yet.** No video ingestion, transcoding, or rendering pipeline exists. Jarvis cannot analyze, preview, or edit video files until the build phases below are executed. Phase 0 style discovery is the only active next step.
+
 ## Approval requested
 
 - [x] Approve the locked plan and begin Phase 0 (style discovery) — approved 2026-11-10 08:11 AM MST
